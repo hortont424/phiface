@@ -17,10 +17,14 @@ class Line(object):
         ((x1, y1), (x2, y2)) = (self.a, self.b)
 
         angle = atan2(abs(y2 - y1), abs(x2 - x1))
-        axShift = self.adelta * sin(angle)
-        bxShift = self.bdelta * sin(angle)
-        ayShift = self.adelta * cos(angle)
-        byShift = self.bdelta * cos(angle)
+        axShift = ayShift = bxShift = byShift = 0.0
+
+        if angle > pi / 4.0:
+            axShift = self.adelta
+            bxShift = self.bdelta
+        else:
+            ayShift = self.adelta
+            byShift = self.bdelta
 
         return Polygon(((x1 - axShift, y1 - ayShift), (x2 - bxShift, y2 - byShift),
                         (x2 + bxShift, y2 + byShift), (x1 + axShift, y1 + ayShift)))
