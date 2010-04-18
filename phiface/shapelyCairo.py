@@ -1,4 +1,5 @@
 from cairo import *
+from shapely.geometry import *
 
 class ShapelyCairo(object):
     def __init__(self):
@@ -6,6 +7,10 @@ class ShapelyCairo(object):
 
         self.surface = ImageSurface(FORMAT_ARGB32, 800, 800)
         self.ctx = Context(self.surface)
+
+        self.ctx.set_source_rgba(1.0, 1.0, 1.0, 1.0)
+        self.ctx.rectangle(0, 0, 800, 800)
+        self.ctx.fill()
 
     def drawPolygon(self, poly):
         coords = poly.exterior.coords
@@ -15,6 +20,20 @@ class ShapelyCairo(object):
             self.ctx.line_to(x, y)
 
         self.ctx.close_path()
+
+        self.ctx.set_source_rgba(0.0, 0.0, 0.0, 1.0)
+        self.ctx.fill()
+
+    def draw(self, polys):
+        poly = reduce(lambda x, y: x.union(y), [p.getPolygon() for p in polys])
+
+        if type(poly) is MultiPolygon:
+            for subPoly in poly.geoms:
+                self.drawPolygon(subPoly)
+        else:
+            self.drawPolygon(poly)
+
+
 
     def write(self, filename):
         self.surface.write_to_png(filename)

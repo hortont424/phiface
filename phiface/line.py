@@ -1,12 +1,15 @@
 from shapely.geometry import *
 from shapely.ops import *
 
-def test():
-    a = Polygon(((-1.0, -1.0), (-1.0, 1.0), (1.0, 1.0), (1.0, -1.0)))
-    b = Polygon(((-2.0, -2.0), (-2.0, 0.5), (0.5, 0.5), (0.5, -2.0)))
-    c = a.union(b)
+class Line(object):
+    def __init__(self, a, b, width):
+        super(Line, self).__init__()
+        self.a = a
+        self.b = b
+        self.adelta = self.bdelta = width
 
-    for (x, y) in c.exterior.coords:
-        print x, y
+    def getPolygon(self):
+        ((x1, y1), (x2, y2)) = (self.a, self.b)
 
-    return c
+        return Polygon(((x1 - self.adelta, y1), (x2 - self.bdelta, y2),
+                        (x2 + self.bdelta, y2), (x1 + self.adelta, y1)))
