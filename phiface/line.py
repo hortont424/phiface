@@ -1,5 +1,6 @@
 from shapely.geometry import *
 from shapely.ops import *
+from math import *
 
 class Line(object):
     def __init__(self, a, b, width):
@@ -8,8 +9,18 @@ class Line(object):
         self.b = b
         self.adelta = self.bdelta = width
 
+    def atY(self, val):
+        ((x1, y1), (x2, y2)) = (self.a, self.b)
+        return ((y2 - y1) / (x2 - x1)) * val # this is currently wrong
+
     def getPolygon(self):
         ((x1, y1), (x2, y2)) = (self.a, self.b)
-        # double check ordering of 1 vs. 2
-        return Polygon(((x1 - self.adelta, y1), (x2 - self.bdelta, y2),
-                        (x2 + self.bdelta, y2), (x1 + self.adelta, y1)))
+
+        angle = atan2(abs(y2 - y1), abs(x2 - x1))
+        axShift = self.adelta * sin(angle)
+        bxShift = self.bdelta * sin(angle)
+        ayShift = self.adelta * cos(angle)
+        byShift = self.bdelta * cos(angle)
+
+        return Polygon(((x1 - axShift, y1 - ayShift), (x2 - bxShift, y2 - byShift),
+                        (x2 + bxShift, y2 + byShift), (x1 + axShift, y1 + ayShift)))
