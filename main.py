@@ -1,0 +1,3 @@
+import phiface
+
+phiface.test()
