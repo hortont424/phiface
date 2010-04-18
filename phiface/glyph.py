@@ -70,8 +70,8 @@ class AGlyph(Glyph):
 
 
         midHeight = self.midpointV(xHeight=True)
-        midLeft = self.origin()[0] + leftLine.atY(midHeight)
-        midRight = self.origin()[0] + rightLine.atY(midHeight)
+        midLeft = leftLine.atY(midHeight)
+        midRight = rightLine.atY(midHeight)
         print midLeft, midRight
 
         midLine = Line((midLeft, midHeight), (midRight, midHeight), 3)
