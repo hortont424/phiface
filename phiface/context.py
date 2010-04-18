@@ -1,12 +1,12 @@
-from cairo import *
+import cairo
 from shapely.geometry import *
 
-class ShapelyCairo(object):
+class Context(object):
     def __init__(self):
-        super(ShapelyCairo, self).__init__()
+        super(Context, self).__init__()
 
-        self.surface = ImageSurface(FORMAT_ARGB32, 800, 800)
-        self.ctx = Context(self.surface)
+        self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 800, 800)
+        self.ctx = cairo.Context(self.surface)
 
         self.ctx.set_source_rgba(1.0, 1.0, 1.0, 1.0)
         self.ctx.rectangle(0, 0, 800, 800)
@@ -32,8 +32,6 @@ class ShapelyCairo(object):
                 self.drawPolygon(subPoly)
         else:
             self.drawPolygon(poly)
-
-
 
     def write(self, filename):
         self.surface.write_to_png(filename)
