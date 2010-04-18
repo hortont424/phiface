@@ -12,14 +12,19 @@ class Context(object):
         self.ctx.rectangle(0, 0, 800, 800)
         self.ctx.fill()
 
-    def drawPolygon(self, poly):
-        coords = poly.exterior.coords
+    def _drawCoords(self, coords):
         self.ctx.move_to(*coords[0])
 
         for (x, y) in coords:
             self.ctx.line_to(x, y)
 
         self.ctx.close_path()
+
+    def _drawPolygon(self, poly):
+        self._drawCoords(poly.exterior.coords)
+
+        for hole in poly.interiors:
+            self._drawCoords(hole.coords)
 
         self.ctx.set_source_rgba(0.0, 0.0, 0.0, 1.0)
         self.ctx.fill()
@@ -29,9 +34,9 @@ class Context(object):
 
         if type(poly) is MultiPolygon:
             for subPoly in poly.geoms:
-                self.drawPolygon(subPoly)
+                self._drawPolygon(subPoly)
         else:
-            self.drawPolygon(poly)
+            self._drawPolygon(poly)
 
     def write(self, filename):
         self.surface.write_to_png(filename)

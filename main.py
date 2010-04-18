@@ -4,7 +4,8 @@ import phiface
 
 sc = phiface.Context()
 
-line = phiface.Line((10, 10), (100, 200), 3)
-lineTwo = phiface.Line((0, 30), (100, 100), 5)
-sc.draw([line, lineTwo])
+line = phiface.Line((20, 20), (300, 300), 2)
+lineTwo = phiface.Line((20, 20), (200, 300), 2)
+lineThree = phiface.Line((20, 200), (150, 100), 2)
+sc.draw([line, lineTwo, lineThree])
 sc.write("output.png")
