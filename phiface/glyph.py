@@ -1,8 +1,10 @@
 from line import Line
 
 class Glyph(object):
-    def __init__(self):
+    def __init__(self, x, y):
         super(Glyph, self).__init__()
+        self.x = x
+        self.y = y
 
     def capHeight(self):
         return 100.0
@@ -23,7 +25,7 @@ class Glyph(object):
         return self.capHeight() / 1.618
 
     def origin(self):
-        return (30.0, 30 + self.capHeight())
+        return (self.x, self.y + self.capHeight())
 
     def originPlus(self, (x2, y2)):
         (x, y) = self.origin()
@@ -58,8 +60,8 @@ class Glyph(object):
         return y - (height / 2.0)
 
 class AGlyph(Glyph):
-    def __init__(self):
-        super(AGlyph, self).__init__()
+    def __init__(self, x, y):
+        super(AGlyph, self).__init__(x, y)
 
     def width(self):
         return self.baseWidth()
@@ -68,12 +70,32 @@ class AGlyph(Glyph):
         leftLine = Line(self.origin(), self.midpointH(), 3)
         rightLine = Line(self.midpointH(), self.corner(l=False, b=True), 3)
 
-
         midHeight = self.midpointV(xHeight=True)
         midLeft = leftLine.atY(midHeight)
         midRight = rightLine.atY(midHeight)
-        print midLeft, midRight
 
         midLine = Line((midLeft, midHeight), (midRight, midHeight), 3)
 
         return [leftLine, rightLine, midLine]
+
+class EGlyph(Glyph):
+    def __init__(self, x, y):
+        super(EGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        leftLine = Line(self.origin(), self.corner(l=True, b=False), 3)
+        topLine = Line(self.corner(l=True, b=False),
+                       self.corner(l=False, b=False), 3, shift="down")
+        bottomLine = Line(self.corner(l=True, b=True),
+                          self.corner(l=False, b=True), 3, shift="up")
+
+        midHeight = self.midpointV(xHeight=True)
+        midLeft = leftLine.atY(midHeight)
+
+        midLine = Line((midLeft, midHeight),
+                       (midLeft + self.width() * 0.618, midHeight), 3)
+
+        return [leftLine, topLine, midLine, bottomLine]

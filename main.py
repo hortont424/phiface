@@ -4,12 +4,8 @@ import phiface
 
 sc = phiface.Context()
 
+a = phiface.AGlyph(x=30, y=30)
+e = phiface.EGlyph(x=120, y=30)
 
-line = phiface.Line((10.0, 100.0), (30.9023485785, 100.0), 2)
-lineTwo = phiface.Line((30.9023485785, 100.0), (71.804697157, 200.0), 2)
-lineThree = phiface.Line((20, 200), (150, 100), 2)
-
-a = phiface.AGlyph()
-
-sc.draw([a])
+sc.draw([a, e])
 sc.write("output.png")
