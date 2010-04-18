@@ -11,3 +11,4 @@ Dependencies
 
 * Python
 * PyCairo
+* Shapely, PyShapely
