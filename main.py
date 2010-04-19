@@ -43,7 +43,8 @@ kerningPairs = {
     }
 }
 
-demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
+#demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
+demoStr = "AEFHILMNTVWX"
 metrics = phiface.Glyph(0,0)
 
 for weight in [1, 3, 5, 7]:

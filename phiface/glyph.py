@@ -12,7 +12,7 @@ class Glyph(object):
         line.capHeight = self.capHeight()
 
     def capHeight(self):
-        return 16.0
+        return 50.0
 
     def em(self):
         return self.baseWidth() * PHI * 0.8
@@ -246,6 +246,22 @@ class WGlyph(Glyph):
                          self.weight(), shift="down", serif=3)
         return [leftLine, downCrossLine, upCrossLine, rightLine]
 
+class XGlyph(Glyph):
+    def __init__(self, x, y):
+        super(XGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        downCrossLine = Line(self.p(0.0, 0.0),
+                             self.p(1.0, 1.0),
+                             self.weight())
+        upCrossLine = Line(self.p(0.0, 1.0),
+                           self.p(1.0, 0.0),
+                           self.weight())
+        return [downCrossLine, upCrossLine]
+
 glyphs = {
     "A": AGlyph,
     "E": EGlyph,
@@ -257,5 +273,6 @@ glyphs = {
     "N": NGlyph,
     "T": TGlyph,
     "V": VGlyph,
-    "W": WGlyph
+    "W": WGlyph,
+    "X": XGlyph
 }
