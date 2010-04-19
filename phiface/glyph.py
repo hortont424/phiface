@@ -15,7 +15,7 @@ class Glyph(object):
         return 100.0
 
     def em(self):
-        return self.baseWidth() * PHI
+        return self.baseWidth() * PHI * 0.8
 
     def baseWidth(self):
         return self.capHeight() / PHI
@@ -237,9 +237,9 @@ class WGlyph(Glyph):
         leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
                         self.weight(), shift="down", serif=3)
         downCrossLine = Line(self.p(0.0, 0.0),
-                             self.p(0.5, 0.618 + midHeight),
+                             self.p(0.5, 0.7 + midHeight),
                              self.weight())
-        upCrossLine = Line(self.p(0.5, 0.618 + midHeight),
+        upCrossLine = Line(self.p(0.5, 0.7 + midHeight),
                            self.p(1.0, 0.0),
                            self.weight())
         rightLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0),

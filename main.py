@@ -21,6 +21,9 @@ kerningPairs = {
     "L": {
         "I": 10
     },
+    "M": {
+        "F": 5
+    },
     "T": {
         "V": 25
     },
@@ -58,7 +61,7 @@ for weight in [1, 3, 5, 7]:
         xShift = glyphBounds[2] - glyphBounds[0] + kerning
         if xloc + xShift > sc.width:
             xloc = 20
-            yloc += metrics.capHeight() * 2
+            yloc += metrics.capHeight() + 50
             glyph.x = xloc
             glyph.y = yloc
             xloc += xShift
