@@ -1,9 +1,6 @@
 import cairo
 from shapely.geometry import *
 
-globalWidth = 1200
-globalHeight = 800
-
 # flatten from:
 # http://rightfootin.blogspot.com/2006/09/more-on-python-flatten.html
 def flatten(l, ltypes=(list, tuple)):
@@ -25,12 +22,15 @@ class Context(object):
     def __init__(self):
         super(Context, self).__init__()
 
+        self.width = 1200
+        self.height = 800
+
         self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                                          globalWidth, globalHeight)
+                                          self.width, self.height)
         self.ctx = cairo.Context(self.surface)
 
         self.ctx.set_source_rgba(1.0, 1.0, 1.0, 1.0)
-        self.ctx.rectangle(0, 0, globalWidth, globalHeight)
+        self.ctx.rectangle(0, 0, self.width, self.height)
         self.ctx.fill()
 
     def _drawCoords(self, coords):

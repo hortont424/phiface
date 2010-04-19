@@ -25,7 +25,7 @@ kerningPairs = {
     }
 }
 
-demoStr = "AEFHITVL"
+demoStr = "AEFHITVL HIT I ATE THE TV"
 
 for weight in [1, 3, 5, 7]:
     for i in range(len(demoStr)):
@@ -48,7 +48,15 @@ for weight in [1, 3, 5, 7]:
         glyph = phiface.glyphs[a](x=xloc, y=yloc)
         glyph.w = (weight * (glyph.capHeight() / 100.0))
         glyphBounds = sc.mergeSubPolys([glyph]).bounds
-        xloc += glyphBounds[2] - glyphBounds[0] + kerning
+        xShift = glyphBounds[2] - glyphBounds[0] + kerning
+        if xloc + xShift > sc.width:
+            xloc = 20
+            yloc += 150
+            glyph.x = xloc
+            glyph.y = yloc
+            xloc += xShift
+        else:
+            xloc += xShift
         sc.draw([glyph])
     xloc = 20
     yloc += 150
