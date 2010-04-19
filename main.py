@@ -9,21 +9,23 @@ defaultKerning = 20
 kerningPairs = {
     "A": {
         "E": 5,
-        "T": -10
+        "L": 10,
+        "T": -10,
+        "V": -10,
+        "W": 10
     },
     "H": {
-        "E": 10,
-        "I": 10
+        "default": 10
     },
     "I": {
         "T": 15
     },
     "L": {
-        "F": 10,
-        "I": 10
+        "default": 10,
+        "V": -5
     },
     "M": {
-        "F": 5
+        "default": 5
     },
     "N": {
         "T": 5
@@ -32,15 +34,16 @@ kerningPairs = {
         "V": 25
     },
     "V": {
+        "E": 0,
         "H": 10,
-        "I": 7
+        "I": 5
     },
     "W": {
         "E": 10
     }
 }
 
-demoStr = "HALF WENT VIM"
+demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
 metrics = phiface.Glyph(0,0)
 
 for weight in [1, 3, 5, 7]:
@@ -48,7 +51,7 @@ for weight in [1, 3, 5, 7]:
         a = demoStr[i]
 
         if a == " ":
-            xloc += (metrics.em() / 2)
+            xloc += (metrics.em() / 1.618)
             continue
 
         if i + 1 < len(demoStr):
@@ -58,6 +61,9 @@ for weight in [1, 3, 5, 7]:
 
         kerning = defaultKerning
 
+        if (a in kerningPairs) and ("default" in kerningPairs[a]):
+            kerning = kerningPairs[a]["default"]
+
         if b and (a in kerningPairs) and (b in kerningPairs[a]):
             kerning = kerningPairs[a][b]
 
@@ -66,7 +72,11 @@ for weight in [1, 3, 5, 7]:
 
         kerning *= (glyph.capHeight() / 100.0)
         glyphBounds = sc.mergeSubPolys([glyph]).bounds
-        xShift = glyphBounds[2] - glyphBounds[0] + kerning
+        xShift = glyphBounds[2] - glyphBounds[0]
+
+        if b is not " ":
+            xShift += kerning
+
         if xloc + xShift > sc.width:
             xloc = 20
             yloc += metrics.capHeight() + 50
