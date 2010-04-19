@@ -19,20 +19,28 @@ kerningPairs = {
         "T": 15
     },
     "L": {
+        "F": 10,
         "I": 10
     },
     "M": {
         "F": 5
     },
+    "N": {
+        "T": 5
+    },
     "T": {
         "V": 25
     },
     "V": {
-        "H": 10
+        "H": 10,
+        "I": 7
+    },
+    "W": {
+        "E": 10
     }
 }
 
-demoStr = "AEMFHITVLNW"
+demoStr = "HALF WENT VIM"
 metrics = phiface.Glyph(0,0)
 
 for weight in [1, 3, 5, 7]:
