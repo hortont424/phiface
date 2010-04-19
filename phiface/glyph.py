@@ -1,3 +1,4 @@
+import line
 from line import Line
 
 PHI = 1.618
@@ -8,9 +9,10 @@ class Glyph(object):
         self.x = x
         self.y = y
         self.w = 3
+        line.capHeight = self.capHeight()
 
     def capHeight(self):
-        return 100.0
+        return 30.0
 
     def em(self):
         return self.baseWidth() * 2

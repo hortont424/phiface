@@ -47,6 +47,7 @@ for weight in [1, 3, 5, 7]:
 
         glyph = phiface.glyphs[a](x=xloc, y=yloc)
         glyph.w = (weight * (glyph.capHeight() / 100.0))
+        kerning *= (glyph.capHeight() / 150.0)
         glyphBounds = sc.mergeSubPolys([glyph]).bounds
         xShift = glyphBounds[2] - glyphBounds[0] + kerning
         if xloc + xShift > sc.width:

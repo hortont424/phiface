@@ -3,6 +3,7 @@ from shapely.ops import *
 from math import *
 
 drawSerifs = True
+capHeight = 100 # TODO: completely retarded
 
 class Line(object):
     def __init__(self, a, b, width, shift=None, serif=0):
@@ -51,7 +52,7 @@ class Line(object):
 
         serifPolys = []
         serifWeight = self.adelta * 0.618
-        ss = 7
+        ss = capHeight / 20.0
 
         #TODO: shift 3-serif by some amount relative to the angle of the line
 
