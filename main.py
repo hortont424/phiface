@@ -29,7 +29,7 @@ kerningPairs = {
     }
 }
 
-demoStr = "AEFHITVL I ATE HIT THE LIT TV"
+demoStr = "AEFHITVL"
 metrics = phiface.Glyph(0,0)
 
 for weight in [1, 3, 5, 7]:
@@ -66,6 +66,6 @@ for weight in [1, 3, 5, 7]:
             xloc += xShift
         sc.draw([glyph])
     xloc = 20
-    yloc += metrics.capHeight() * 2
+    yloc += metrics.capHeight() + 50
 
 sc.write("output.png")

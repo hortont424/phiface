@@ -94,22 +94,25 @@ class Line(object):
                                    (x1 + serifWeight, y1 - self.adelta - ss),
                                    serifWeight)]
         elif self.serif == 3:
+            threeShift = cos(angle) * self.adelta
+            if x2 > x1:
+                threeShift *= -1
             if self.shift is "down":
-                serifPolys = [Line((x2 + serifWeight + ss,
+                serifPolys = [Line((x2 + serifWeight + ss + threeShift,
                                     y2 + serifWeight),
-                                   (x2 - serifWeight - ss,
+                                   (x2 - serifWeight - ss + threeShift,
                                     y2 + serifWeight),
                                    serifWeight)]
             elif self.shift is "up":
-                serifPolys = [Line((x2 + serifWeight + ss,
+                serifPolys = [Line((x2 + serifWeight + ss + threeShift,
                                     y2 - serifWeight),
-                                   (x2 - serifWeight - ss,
+                                   (x2 - serifWeight - ss + threeShift,
                                     y2 - serifWeight),
                                    serifWeight)]
             else:
-                serifPolys = [Line((x2 + serifWeight + ss,
+                serifPolys = [Line((x2 + serifWeight + ss + threeShift,
                                     y2 - serifWeight),
-                                   (x2 - serifWeight - ss,
+                                   (x2 - serifWeight - ss + threeShift,
                                     y2 - serifWeight),
                                    serifWeight)]
         elif self.serif == 4:
