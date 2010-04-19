@@ -109,4 +109,38 @@ class Line(object):
                                    (x2 - serifWeight - ss,
                                     y2 - serifWeight),
                                    serifWeight)]
+        elif self.serif == 4:
+            if self.shift is "down":
+                serifPolys = [Line((x2 + serifWeight + ss,
+                                    y2 + serifWeight),
+                                   (x2 - serifWeight - ss,
+                                    y2 + serifWeight),
+                                   serifWeight),
+                              Line((x1 + serifWeight + ss,
+                                    y1 - serifWeight),
+                                   (x1 - serifWeight - ss,
+                                    y1 - serifWeight),
+                                   serifWeight)]
+            elif self.shift is "up":
+                serifPolys = [Line((x2 + serifWeight + ss,
+                                    y2 - serifWeight),
+                                   (x2 - serifWeight - ss,
+                                    y2 - serifWeight),
+                                   serifWeight),
+                              Line((x1 + serifWeight + ss,
+                                    y1 + serifWeight),
+                                   (x1 - serifWeight - ss,
+                                    y1 + serifWeight),
+                                   serifWeight)]
+            else:
+                serifPolys = [Line((x2 + serifWeight + ss,
+                                    y2 - serifWeight),
+                                   (x2 - serifWeight - ss,
+                                    y2 - serifWeight),
+                                   serifWeight),
+                              Line((x1 + serifWeight + ss,
+                                    y1 + serifWeight),
+                                   (x1 - serifWeight - ss,
+                                    y1 + serifWeight),
+                                   serifWeight)]
         return [linePoly, serifPolys]

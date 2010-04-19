@@ -106,6 +106,28 @@ class FGlyph(Glyph):
 
         return [leftLine, topLine, midLine]
 
+class HGlyph(Glyph):
+    def __init__(self, x, y):
+        super(HGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
+                        self.weight(), serif=4)
+        rightLine = Line(self.p(1.0, 1.0), self.p(1.0, 0.0),
+                         self.weight(), serif=4)
+
+        midHeight = self.p(0.0, 0.5, xHeight=True)[1]
+        midLeft = leftLine.atY(midHeight)
+        midRight = rightLine.atY(midHeight)
+
+        midLine = Line((midLeft, midHeight),
+                       (midRight, midHeight), self.weight())
+
+        return [leftLine, rightLine, midLine]
+
 class IGlyph(Glyph):
     def __init__(self, x, y):
         super(IGlyph, self).__init__(x, y)
