@@ -46,8 +46,10 @@ class AGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        leftLine = Line(self.p(0.0, 0.0), self.p(0.5, 1.0), self.weight())
-        rightLine = Line(self.p(0.5, 1.0), self.p(1.0, 0.0), self.weight())
+        leftLine = Line(self.p(0.5, 1.0), self.p(0.0, 0.0),
+                        self.weight(), serif=3)
+        rightLine = Line(self.p(0.5, 1.0), self.p(1.0, 0.0),
+                         self.weight(), serif=3)
 
         midHeight = self.p(0.0, 0.5, xHeight=True)[1]
         midLeft = leftLine.atY(midHeight)
@@ -118,6 +120,8 @@ class VGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        leftLine = Line(self.p(0.0, 1.0), self.p(0.5, 0.0), self.weight())
-        rightLine = Line(self.p(0.5, 0.0), self.p(1.0, 1.0), self.weight())
+        leftLine = Line(self.p(0.5, 0.0), self.p(0.0, 1.0),
+                        self.weight(), shift="down", serif=3)
+        rightLine = Line(self.p(0.5, 0.0), self.p(1.0, 1.0),
+                         self.weight(), shift="down", serif=3)
         return [leftLine, rightLine]

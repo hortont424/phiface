@@ -55,38 +55,57 @@ class Line(object):
 
         if self.serif == 1:
             if self.shift is "down":
-                serifPolys = [Line((x2 - serifWeight, y2 - self.adelta),
+                serifPolys = [Line((x2 - serifWeight, y2 - self.bdelta),
                                    (x2 - serifWeight, y2 + self.bdelta + ss),
                                    serifWeight)]
             elif self.shift is "up":
-                serifPolys = [Line((x2 - serifWeight, y2 + self.adelta),
+                serifPolys = [Line((x2 - serifWeight, y2 + self.bdelta),
                                    (x2 - serifWeight, y2 - self.bdelta - ss),
                                    serifWeight)]
             else:
-                serifPolys = [Line((x2 - serifWeight, y2 + self.adelta + ss/2),
-                                   (x2 - serifWeight, y2 - self.bdelta - ss/2),
+                serifPolys = [Line((x2 - serifWeight, y2 + self.bdelta + ss),
+                                   (x2 - serifWeight, y2 - self.bdelta - ss),
                                    serifWeight)]
         elif self.serif == 2:
             if self.shift is "down":
-                serifPolys = [Line((x2 - serifWeight, y2 - self.adelta),
+                serifPolys = [Line((x2 - serifWeight, y2 - self.bdelta),
                                    (x2 - serifWeight, y2 + self.bdelta + ss),
                                    serifWeight),
                               Line((x1 + serifWeight, y1 - self.adelta),
-                                   (x1 + serifWeight, y1 + self.bdelta + ss),
+                                   (x1 + serifWeight, y1 + self.adelta + ss),
                                    serifWeight)]
             elif self.shift is "up":
-                serifPolys = [Line((x2 - serifWeight, y2 + self.adelta),
+                serifPolys = [Line((x2 - serifWeight, y2 + self.bdelta),
                                    (x2 - serifWeight, y2 - self.bdelta - ss),
                                    serifWeight),
                               Line((x1 + serifWeight, y1 + self.adelta),
-                                   (x1 + serifWeight, y1 - self.bdelta - ss),
+                                   (x1 + serifWeight, y1 - self.adelta - ss),
                                    serifWeight)]
             else:
-                serifPolys = [Line((x2 - serifWeight, y2 + self.adelta + ss/2),
-                                   (x2 - serifWeight, y2 - self.bdelta - ss/2),
+                serifPolys = [Line((x2 - serifWeight, y2 + self.bdelta + ss),
+                                   (x2 - serifWeight, y2 - self.bdelta - ss),
                                    serifWeight),
-                              Line((x2 + serifWeight, y2 + self.adelta + ss/2),
-                                   (x2 + serifWeight, y2 - self.bdelta - ss/2),
+                              Line((x1 + serifWeight, y1 + self.adelta + ss),
+                                   (x1 + serifWeight, y1 - self.adelta - ss),
                                    serifWeight)]
-
+        elif self.serif == 3:
+            if self.shift is "down":
+                serifPolys = [Line((x2 + serifWeight + ss,
+                                    y2 + serifWeight),
+                                   (x2 - serifWeight - ss,
+                                    y2 + serifWeight),
+                                   serifWeight)]
+            elif self.shift is "up":
+                print "broken"
+                serifPolys = [Line((x2 + serifWeight + ss,
+                                    y2 - serifWeight),
+                                   (x2 - serifWeight - ss,
+                                    y2 - serifWeight),
+                                   serifWeight)]
+            else:
+                serifPolys = [Line((x2 + serifWeight + ss,
+                                    y2 - serifWeight),
+                                   (x2 - serifWeight - ss,
+                                    y2 - serifWeight),
+                                   serifWeight)]
         return [linePoly, serifPolys]
