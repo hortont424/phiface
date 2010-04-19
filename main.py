@@ -25,7 +25,7 @@ kerningPairs = {
     }
 }
 
-demoStr = "AEFHITV"
+demoStr = "AEFHITVL"
 
 for weight in [1, 3, 5, 7]:
     for i in range(len(demoStr)):
