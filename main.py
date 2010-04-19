@@ -12,10 +12,14 @@ kerningPairs = {
         "T": -10
     },
     "H": {
+        "E": 10,
         "I": 10
     },
     "I": {
         "T": 15
+    },
+    "L": {
+        "I": 10
     },
     "T": {
         "V": 25
@@ -25,14 +29,15 @@ kerningPairs = {
     }
 }
 
-demoStr = "AEFHITVL HIT I ATE THE TV"
+demoStr = "AEFHITVL I ATE HIT THE LIT TV"
+metrics = phiface.Glyph(0,0)
 
 for weight in [1, 3, 5, 7]:
     for i in range(len(demoStr)):
         a = demoStr[i]
 
         if a == " ":
-            xloc += 30
+            xloc += (metrics.em() / 2)
             continue
 
         if i + 1 < len(demoStr):
@@ -47,12 +52,13 @@ for weight in [1, 3, 5, 7]:
 
         glyph = phiface.glyphs[a](x=xloc, y=yloc)
         glyph.w = (weight * (glyph.capHeight() / 100.0))
-        kerning *= (glyph.capHeight() / 150.0)
+
+        kerning *= (glyph.capHeight() / 100.0)
         glyphBounds = sc.mergeSubPolys([glyph]).bounds
         xShift = glyphBounds[2] - glyphBounds[0] + kerning
         if xloc + xShift > sc.width:
             xloc = 20
-            yloc += 150
+            yloc += metrics.capHeight() * 2
             glyph.x = xloc
             glyph.y = yloc
             xloc += xShift
@@ -60,6 +66,6 @@ for weight in [1, 3, 5, 7]:
             xloc += xShift
         sc.draw([glyph])
     xloc = 20
-    yloc += 150
+    yloc += metrics.capHeight() * 2
 
 sc.write("output.png")
