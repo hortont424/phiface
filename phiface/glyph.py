@@ -1,19 +1,25 @@
 from line import Line
 
+PHI = 1.618
+
 class Glyph(object):
     def __init__(self, x, y):
         super(Glyph, self).__init__()
         self.x = x
         self.y = y
+        self.w = 3
 
     def capHeight(self):
-        return 100.0
+        return 150.0
 
     def baseWidth(self):
-        return self.capHeight() / 1.618
+        return self.capHeight() / PHI
 
     def width(self):
         pass
+
+    def weight(self):
+        return self.w
 
     def descenderDepth(self):
         pass
@@ -22,42 +28,18 @@ class Glyph(object):
         pass
 
     def xHeight(self):
-        return self.capHeight() / 1.618
+        return self.capHeight() / PHI
 
     def origin(self):
         return (self.x, self.y + self.capHeight())
 
-    def originPlus(self, (x2, y2)):
-        (x, y) = self.origin()
-        return (x + x2, y + y2)
-
-    def corner(self, l=False, b=False):
-        (x, y) = self.origin()
-
-        if l and b:
-            return (x, y)
-        elif l and not b:
-            return (x, y - self.capHeight())
-        elif not l and b:
-            return (x + self.width(), y)
-        elif not l and not b:
-            return (x + self.width(), y - self.capHeight())
-
-    def midpointH(self, b=False):
-        (x, y) = self.origin()
-        if not b:
-            return (x + self.width() / 2.0, y - self.capHeight())
-        else:
-            return (x + self.width() / 2.0, y)
-
-    def midpointV(self, xHeight=False):
+    def p(self, ix, iy, xHeight=False):
         (x, y) = self.origin()
         height = self.capHeight()
 
         if xHeight:
             height = self.xHeight()
-
-        return y - (height / 2.0)
+        return (x + (self.width() * ix), y - (height * iy))
 
 class AGlyph(Glyph):
     def __init__(self, x, y):
@@ -67,14 +49,15 @@ class AGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        leftLine = Line(self.origin(), self.midpointH(), 3)
-        rightLine = Line(self.midpointH(), self.corner(l=False, b=True), 3)
+        leftLine = Line(self.p(0.0, 0.0), self.p(0.5, 1.0), self.weight())
+        rightLine = Line(self.p(0.5, 1.0), self.p(1.0, 0.0), self.weight())
 
-        midHeight = self.midpointV(xHeight=True)
+        midHeight = self.p(0.0, 0.5, xHeight=True)[1]
         midLeft = leftLine.atY(midHeight)
         midRight = rightLine.atY(midHeight)
 
-        midLine = Line((midLeft, midHeight), (midRight, midHeight), 3)
+        midLine = Line((midLeft, midHeight),
+                       (midRight, midHeight), self.weight())
 
         return [leftLine, rightLine, midLine]
 
@@ -86,16 +69,32 @@ class EGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        leftLine = Line(self.origin(), self.corner(l=True, b=False), 3)
-        topLine = Line(self.corner(l=True, b=False),
-                       self.corner(l=False, b=False), 3, shift="down")
-        bottomLine = Line(self.corner(l=True, b=True),
-                          self.corner(l=False, b=True), 3, shift="up")
+        leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0), self.weight())
+        topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
+                       self.weight(), shift="down")
+        bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
+                          self.weight(), shift="up")
 
-        midHeight = self.midpointV(xHeight=True)
+        midHeight = self.p(0.0, 0.5, xHeight=True)[1]
         midLeft = leftLine.atY(midHeight)
 
         midLine = Line((midLeft, midHeight),
-                       (midLeft + self.width() * 0.618, midHeight), 3)
+                       (midLeft + self.width() / PHI, midHeight),
+                       self.weight())
 
         return [leftLine, topLine, midLine, bottomLine]
+
+class IGlyph(Glyph):
+    def __init__(self, x, y):
+        super(IGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0), self.weight())
+        topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
+                       self.weight(), shift="down")
+        bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
+                          self.weight(), shift="up")
+        return [mainLine, topLine, bottomLine]
