@@ -10,7 +10,7 @@ class Glyph(object):
         self.w = 3
 
     def capHeight(self):
-        return 150.0
+        return 100.0
 
     def em(self):
         return self.baseWidth() * 2
@@ -169,3 +169,13 @@ class VGlyph(Glyph):
         rightLine = Line(self.p(0.5, 0.0), self.p(1.0, 1.0),
                          self.weight(), shift="down", serif=3)
         return [leftLine, rightLine]
+
+glyphs = {
+    "A": AGlyph,
+    "E": EGlyph,
+    "F": FGlyph,
+    "H": HGlyph,
+    "I": IGlyph,
+    "T": TGlyph,
+    "V": VGlyph
+}

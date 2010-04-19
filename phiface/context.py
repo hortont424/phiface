@@ -1,6 +1,9 @@
 import cairo
 from shapely.geometry import *
 
+globalWidth = 1200
+globalHeight = 800
+
 # flatten from:
 # http://rightfootin.blogspot.com/2006/09/more-on-python-flatten.html
 def flatten(l, ltypes=(list, tuple)):
@@ -22,11 +25,12 @@ class Context(object):
     def __init__(self):
         super(Context, self).__init__()
 
-        self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 800, 800)
+        self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
+                                          globalWidth, globalHeight)
         self.ctx = cairo.Context(self.surface)
 
         self.ctx.set_source_rgba(1.0, 1.0, 1.0, 1.0)
-        self.ctx.rectangle(0, 0, 800, 800)
+        self.ctx.rectangle(0, 0, globalWidth, globalHeight)
         self.ctx.fill()
 
     def _drawCoords(self, coords):
@@ -46,7 +50,7 @@ class Context(object):
         self.ctx.set_source_rgba(0.0, 0.0, 0.0, 1.0)
         self.ctx.fill()
 
-    def draw(self, polygons):
+    def mergeSubPolys(self, polygons):
         def _flattenPolys(polys):
             polyList = []
 
@@ -64,7 +68,10 @@ class Context(object):
                     polyList += flatten([_flattenPolys(p.getPolygon())])
             return polyList
 
-        poly = reduce(lambda x, y: x.union(y), _flattenPolys(polygons))
+        return reduce(lambda x, y: x.union(y), _flattenPolys(polygons))
+
+    def draw(self, polygons):
+        poly = self.mergeSubPolys(polygons)
 
         if type(poly) is MultiPolygon:
             for subPoly in poly.geoms:

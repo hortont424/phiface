@@ -4,34 +4,43 @@ import phiface
 
 sc = phiface.Context()
 
-yloc = 30
+xloc = yloc = 20
+defaultKerning = 20
+kerningPairs = {
+    "A": {
+        "T": -10
+    },
+    "V": {
+        "H": 10
+    }
+}
+
+demoStr = "I ATE THE TV"
 
 for weight in [1, 3, 5, 7]:
-    xloc = 30
-    A = phiface.AGlyph(x=xloc, y=yloc)
+    for i in range(len(demoStr)):
+        a = demoStr[i]
 
-    xloc += A.width() + 40
-    E = phiface.EGlyph(x=xloc, y=yloc)
+        if a == " ":
+            xloc += 30
+            continue
 
-    xloc += E.width() + 20
-    I = phiface.IGlyph(x=xloc, y=yloc)
+        if i + 1 < len(demoStr):
+            b = demoStr[i + 1]
+        else:
+            b = None
 
-    xloc += I.width() + 20
-    T = phiface.TGlyph(x=xloc, y=yloc)
+        kerning = defaultKerning
 
-    xloc += T.width() + 20
-    V = phiface.VGlyph(x=xloc, y=yloc)
+        if b and (a in kerningPairs) and (b in kerningPairs[a]):
+            kerning = kerningPairs[a][b]
 
-    #xloc += V.width() + 20
-    #F = phiface.FGlyph(x=xloc, y=yloc)
-
-    xloc += V.width() + 30
-    H = phiface.HGlyph(x=xloc, y=yloc)
-
-    A.w = E.w = I.w = T.w = V.w = H.w = (weight * (A.capHeight() / 150.0))
-
-    sc.draw([A, E, I, T, V, H])
-
-    yloc += A.capHeight() + 20
+        glyph = phiface.glyphs[a](x=xloc, y=yloc)
+        glyph.w = (weight * (glyph.capHeight() / 100.0))
+        glyphBounds = sc.mergeSubPolys([glyph]).bounds
+        xloc += glyphBounds[2] - glyphBounds[0] + kerning
+        sc.draw([glyph])
+    xloc = 20
+    yloc += 150
 
 sc.write("output.png")
