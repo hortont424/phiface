@@ -8,7 +8,17 @@ xloc = yloc = 20
 defaultKerning = 20
 kerningPairs = {
     "A": {
+        "E": 5,
         "T": -10
+    },
+    "H": {
+        "I": 10
+    },
+    "I": {
+        "T": 15
+    },
+    "T": {
+        "V": 25
     },
     "V": {
         "H": 10
