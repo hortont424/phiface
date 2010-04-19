@@ -167,7 +167,7 @@ class MGlyph(Glyph):
         return self.em()
 
     def getPolygon(self):
-        midHeight = (self.weight()) / self.capHeight() #BORKEN
+        midHeight = (self.weight()) / self.xHeight()
 
         leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
                         self.weight(), shift="up", serif=3)
@@ -232,7 +232,7 @@ class WGlyph(Glyph):
         return self.em()
 
     def getPolygon(self):
-        midHeight = (self.weight()) / self.capHeight() #BORKEN
+        midHeight = (self.weight()) / self.capHeight()
 
         leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
                         self.weight(), shift="down", serif=3)
@@ -268,7 +268,7 @@ class YGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-
+        # Try with xHeight off, too
         leftLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.0, 1.0),
                         self.weight(), shift="down", serif=3)
         rightLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(1.0, 1.0),
@@ -276,6 +276,24 @@ class YGlyph(Glyph):
         downLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.5, 0.0),
                         self.weight(), shift="up", serif=3)
         return [leftLine, rightLine, downLine]
+
+class ZGlyph(Glyph):
+    def __init__(self, x, y):
+        super(ZGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth()
+
+    # TODO: beveled line endings to fix this horribleness at large weights
+
+    def getPolygon(self):
+        topLine = Line(self.p(0.9, 1.0), self.p(0.1, 1.0),
+                        self.weight(), shift="down", serif=1)
+        slashLine = Line(self.p(0.9, 1.0), self.p(0.0, 0.0),
+                         self.weight(), shift="down")
+        bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
+                        self.weight(), shift="up", serif=1)
+        return [topLine, slashLine, bottomLine]
 
 class xGlyph(Glyph):
     def __init__(self, x, y):
@@ -307,5 +325,6 @@ glyphs = {
     "W": WGlyph,
     "X": XGlyph,
     "Y": YGlyph,
+    "Z": ZGlyph,
     "x": xGlyph
 }
