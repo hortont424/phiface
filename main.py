@@ -90,4 +90,4 @@ for weight in [1, 3, 5, 7]:
     xloc = 20
     yloc += metrics.capHeight() + 50
 
-sc.write("output.png")
+sc.write()
