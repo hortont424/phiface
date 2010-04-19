@@ -54,8 +54,6 @@ class Line(object):
         serifWeight = self.adelta * 0.618
         ss = capHeight / 20.0
 
-        #TODO: shift 3-serif by some amount relative to the angle of the line
-
         #TODO: this is an epic disaster...
 
         if self.serif == 1:
