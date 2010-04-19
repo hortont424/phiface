@@ -19,9 +19,12 @@ for weight in [1, 3, 6, 10]:
     xloc += I.width() + 20
     T = phiface.TGlyph(x=xloc, y=yloc)
 
-    A.w = E.w = I.w = T.w = (weight * (A.capHeight() / 150.0))
+    xloc += T.width() + 20
+    V = phiface.VGlyph(x=xloc, y=yloc)
 
-    sc.draw([A, E, I, T])
+    A.w = E.w = I.w = T.w = V.w = (weight * (A.capHeight() / 150.0))
+
+    sc.draw([A, E, I, T, V])
 
     yloc += A.capHeight() + 20
 

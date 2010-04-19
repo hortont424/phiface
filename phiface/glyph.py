@@ -12,6 +12,9 @@ class Glyph(object):
     def capHeight(self):
         return 150.0
 
+    def em(self):
+        return self.baseWidth() * 2
+
     def baseWidth(self):
         return self.capHeight() / PHI
 
@@ -20,12 +23,6 @@ class Glyph(object):
 
     def weight(self):
         return self.w
-
-    def descenderDepth(self):
-        pass
-
-    def ascenderHeight(self):
-        pass
 
     def xHeight(self):
         return self.capHeight() / PHI
@@ -72,16 +69,16 @@ class EGlyph(Glyph):
         leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
                         self.weight(), shift="right")
         topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
-                       self.weight(), shift="down")
+                       self.weight(), shift="down", serif=1)
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
-                          self.weight(), shift="up")
+                          self.weight(), shift="up", serif=1)
 
         midHeight = self.p(0.0, 0.5, xHeight=True)[1]
         midLeft = leftLine.atY(midHeight)
 
         midLine = Line((midLeft, midHeight),
                        (midLeft + self.width() / PHI, midHeight),
-                       self.weight())
+                       self.weight(), serif=1)
 
         return [leftLine, topLine, midLine, bottomLine]
 
@@ -95,9 +92,9 @@ class IGlyph(Glyph):
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0), self.weight())
         topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
-                       self.weight(), shift="down")
+                       self.weight(), shift="down", serif=2)
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
-                          self.weight(), shift="up")
+                          self.weight(), shift="up", serif=2)
         return [mainLine, topLine, bottomLine]
 
 class TGlyph(Glyph):
@@ -110,5 +107,17 @@ class TGlyph(Glyph):
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0), self.weight())
         topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
-                       self.weight(), shift="down")
+                       self.weight(), shift="down", serif=2)
         return [mainLine, topLine]
+
+class VGlyph(Glyph):
+    def __init__(self, x, y):
+        super(VGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        leftLine = Line(self.p(0.0, 1.0), self.p(0.5, 0.0), self.weight())
+        rightLine = Line(self.p(0.5, 0.0), self.p(1.0, 1.0), self.weight())
+        return [leftLine, rightLine]

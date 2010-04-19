@@ -54,6 +54,8 @@ class Context(object):
                 return polys
 
             for p in polys:
+                if not p:
+                    continue
                 if type(p) is list:
                     polyList += _flattenPolys(p)
                 elif type(p) is Polygon or type(p) is MultiPolygon:
