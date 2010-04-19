@@ -15,7 +15,7 @@ class Glyph(object):
         return 100.0
 
     def em(self):
-        return self.baseWidth() * 2
+        return self.baseWidth() * PHI
 
     def baseWidth(self):
         return self.capHeight() / PHI
@@ -159,6 +159,28 @@ class LGlyph(Glyph):
                           self.weight(), shift="up", serif=1)
         return [mainLine, bottomLine]
 
+class MGlyph(Glyph):
+    def __init__(self, x, y):
+        super(MGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        midHeight = (self.weight()) / self.capHeight() #BORKEN
+
+        leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
+                        self.weight(), shift="up", serif=3)
+        downCrossLine = Line(self.p(0.0, 1.0),
+                             self.p(0.5, 0.5 - midHeight, xHeight=True),
+                             self.weight())
+        upCrossLine = Line(self.p(0.5, 0.5 - midHeight, xHeight=True),
+                           self.p(1.0, 1.0),
+                           self.weight())
+        rightLine = Line(self.p(1.0, 1.0), self.p(1.0, 0.0),
+                         self.weight(), shift="up", serif=3)
+        return [leftLine, downCrossLine, upCrossLine, rightLine]
+
 class NGlyph(Glyph):
     def __init__(self, x, y):
         super(NGlyph, self).__init__(x, y)
@@ -202,6 +224,28 @@ class VGlyph(Glyph):
                          self.weight(), shift="down", serif=3)
         return [leftLine, rightLine]
 
+class WGlyph(Glyph):
+    def __init__(self, x, y):
+        super(WGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        midHeight = (self.weight()) / self.capHeight() #BORKEN
+
+        leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
+                        self.weight(), shift="down", serif=3)
+        downCrossLine = Line(self.p(0.0, 0.0),
+                             self.p(0.5, 0.618 + midHeight),
+                             self.weight())
+        upCrossLine = Line(self.p(0.5, 0.618 + midHeight),
+                           self.p(1.0, 0.0),
+                           self.weight())
+        rightLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0),
+                         self.weight(), shift="down", serif=3)
+        return [leftLine, downCrossLine, upCrossLine, rightLine]
+
 glyphs = {
     "A": AGlyph,
     "E": EGlyph,
@@ -209,7 +253,9 @@ glyphs = {
     "H": HGlyph,
     "I": IGlyph,
     "L": LGlyph,
+    "M": MGlyph,
     "N": NGlyph,
     "T": TGlyph,
-    "V": VGlyph
+    "V": VGlyph,
+    "W": WGlyph
 }
