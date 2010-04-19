@@ -237,9 +237,9 @@ class WGlyph(Glyph):
         leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
                         self.weight(), shift="down", serif=3)
         downCrossLine = Line(self.p(0.0, 0.0),
-                             self.p(0.5, 0.7 + midHeight),
+                             self.p(0.5, 0.6 + midHeight),
                              self.weight())
-        upCrossLine = Line(self.p(0.5, 0.7 + midHeight),
+        upCrossLine = Line(self.p(0.5, 0.6 + midHeight),
                            self.p(1.0, 0.0),
                            self.weight())
         rightLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0),
@@ -254,12 +254,28 @@ class XGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        AS = -(self.weight() / 7.0)
         upCrossLine = Line(self.p(0.0, 0.0), self.p(1.0, 1.0),
-                           self.weight(), shift="down", serif=4, angleShift=AS)
+                           self.weight(), shift="down", serif=4)
         downCrossLine = Line(self.p(0.0, 1.0), self.p(1.0, 0.0),
-                             self.weight(), shift="up", serif=4, angleShift=AS)
+                             self.weight(), shift="up", serif=4)
         return [upCrossLine, downCrossLine]
+
+class YGlyph(Glyph):
+    def __init__(self, x, y):
+        super(YGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+
+        leftLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.0, 1.0),
+                        self.weight(), shift="down", serif=3)
+        rightLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(1.0, 1.0),
+                         self.weight(), shift="down", serif=3)
+        downLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.5, 0.0),
+                        self.weight(), shift="up", serif=3)
+        return [leftLine, rightLine, downLine]
 
 glyphs = {
     "A": AGlyph,
@@ -273,5 +289,6 @@ glyphs = {
     "T": TGlyph,
     "V": VGlyph,
     "W": WGlyph,
-    "X": XGlyph
+    "X": XGlyph,
+    "Y": YGlyph
 }
