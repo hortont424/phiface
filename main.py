@@ -4,24 +4,25 @@ import phiface
 
 sc = phiface.Context()
 
-A = phiface.AGlyph(x=30, y=30)
-E = phiface.EGlyph(x=30 + A.width() + 40, y=30)
-I = phiface.IGlyph(x=30 + A.width() + 40 + E.width() + 20, y=30)
+yloc = 30
 
-sc.draw([A, E, I])
+for weight in [1, 3, 6, 10]:
+    xloc = 30
+    A = phiface.AGlyph(x=xloc, y=yloc)
 
-A = phiface.AGlyph(x=30, y=215)
-E = phiface.EGlyph(x=30 + A.width() + 40, y=215)
-I = phiface.IGlyph(x=30 + A.width() + 40 + E.width() + 20, y=215)
-A.w = E.w = I.w = 10
+    xloc += A.width() + 40
+    E = phiface.EGlyph(x=xloc, y=yloc)
 
-sc.draw([A, E, I])
+    xloc += E.width() + 20
+    I = phiface.IGlyph(x=xloc, y=yloc)
 
-A = phiface.AGlyph(x=30, y=400)
-E = phiface.EGlyph(x=30 + A.width() + 40, y=400)
-I = phiface.IGlyph(x=30 + A.width() + 40 + E.width() + 20, y=400)
-A.w = E.w = I.w = 1
+    xloc += I.width() + 20
+    T = phiface.TGlyph(x=xloc, y=yloc)
 
-sc.draw([A, E, I])
+    A.w = E.w = I.w = T.w = weight
+
+    sc.draw([A, E, I, T])
+
+    yloc += A.capHeight() + 20
 
 sc.write("output.png")

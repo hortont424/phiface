@@ -69,7 +69,8 @@ class EGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0), self.weight())
+        leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
+                        self.weight(), shift="right")
         topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
                        self.weight(), shift="down")
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
@@ -98,3 +99,16 @@ class IGlyph(Glyph):
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
                           self.weight(), shift="up")
         return [mainLine, topLine, bottomLine]
+
+class TGlyph(Glyph):
+    def __init__(self, x, y):
+        super(TGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0), self.weight())
+        topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
+                       self.weight(), shift="down")
+        return [mainLine, topLine]
