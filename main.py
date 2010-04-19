@@ -22,9 +22,12 @@ for weight in [1, 3, 5, 7]:
     xloc += T.width() + 20
     V = phiface.VGlyph(x=xloc, y=yloc)
 
-    A.w = E.w = I.w = T.w = V.w = (weight * (A.capHeight() / 150.0))
+    xloc += V.width() + 20
+    F = phiface.FGlyph(x=xloc, y=yloc)
 
-    sc.draw([A, E, I, T, V])
+    A.w = E.w = I.w = T.w = V.w = F.w = (weight * (A.capHeight() / 150.0))
+
+    sc.draw([A, E, I, T, V, F])
 
     yloc += A.capHeight() + 20
 

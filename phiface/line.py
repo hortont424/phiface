@@ -53,6 +53,8 @@ class Line(object):
         serifWeight = self.adelta * 0.618
         ss = 7
 
+        #TODO: shift 3-serif by some amount relative to the angle of the line
+
         if self.serif == 1:
             if self.shift is "down":
                 serifPolys = [Line((x2 - serifWeight, y2 - self.bdelta),
@@ -96,7 +98,6 @@ class Line(object):
                                     y2 + serifWeight),
                                    serifWeight)]
             elif self.shift is "up":
-                print "broken"
                 serifPolys = [Line((x2 + serifWeight + ss,
                                     y2 - serifWeight),
                                    (x2 - serifWeight - ss,

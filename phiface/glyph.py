@@ -84,6 +84,28 @@ class EGlyph(Glyph):
 
         return [leftLine, topLine, midLine, bottomLine]
 
+class FGlyph(Glyph):
+    def __init__(self, x, y):
+        super(FGlyph, self).__init__(x, y)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=3)
+        topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
+                       self.weight(), shift="down", serif=1)
+
+        midHeight = self.p(0.0, 0.5, xHeight=True)[1]
+        midLeft = leftLine.atY(midHeight)
+
+        midLine = Line((midLeft, midHeight),
+                       (midLeft + self.width() / PHI, midHeight),
+                       self.weight())
+
+        return [leftLine, topLine, midLine]
+
 class IGlyph(Glyph):
     def __init__(self, x, y):
         super(IGlyph, self).__init__(x, y)
