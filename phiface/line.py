@@ -56,6 +56,8 @@ class Line(object):
 
         #TODO: shift 3-serif by some amount relative to the angle of the line
 
+        #TODO: this is an epic disaster...
+
         if self.serif == 1:
             if self.shift is "down":
                 serifPolys = [Line((x2 - serifWeight, y2 - self.bdelta),
