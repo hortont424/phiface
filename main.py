@@ -15,7 +15,7 @@ kerningPairs = {
     }
 }
 
-demoStr = "I ATE THE TV"
+demoStr = "AEFHITV"
 
 for weight in [1, 3, 5, 7]:
     for i in range(len(demoStr)):
