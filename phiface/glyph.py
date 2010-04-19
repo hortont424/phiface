@@ -78,7 +78,7 @@ class EGlyph(Glyph):
 
         midLine = Line((midLeft, midHeight),
                        (midLeft + self.width() / PHI, midHeight),
-                       self.weight(), serif=1)
+                       self.weight())
 
         return [leftLine, topLine, midLine, bottomLine]
 
@@ -92,9 +92,9 @@ class IGlyph(Glyph):
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0), self.weight())
         topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
-                       self.weight(), shift="down", serif=2)
+                       self.weight(), shift="down")
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
-                          self.weight(), shift="up", serif=2)
+                          self.weight(), shift="up")
         return [mainLine, topLine, bottomLine]
 
 class TGlyph(Glyph):

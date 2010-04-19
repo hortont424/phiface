@@ -51,7 +51,7 @@ class Line(object):
 
         serifPolys = []
         serifWeight = self.adelta * 0.618
-        ss = 5
+        ss = 7
 
         if self.serif == 1:
             if self.shift is "down":

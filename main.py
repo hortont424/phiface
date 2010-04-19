@@ -6,7 +6,7 @@ sc = phiface.Context()
 
 yloc = 30
 
-for weight in [1, 3, 6, 10]:
+for weight in [1, 3, 5, 7]:
     xloc = 30
     A = phiface.AGlyph(x=xloc, y=yloc)
 
