@@ -29,7 +29,7 @@ kerningPairs = {
     }
 }
 
-demoStr = "AEFHITVL"
+demoStr = "AEFHITVLN"
 metrics = phiface.Glyph(0,0)
 
 for weight in [1, 3, 5, 7]:
