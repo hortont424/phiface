@@ -13,6 +13,7 @@ kerningOverrides = {
     },
     "I": {
         "L": 20,
+        "K": 30,
         "M": 20
     },
     "T": {

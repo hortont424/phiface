@@ -53,6 +53,8 @@ class AGlyph(Glyph):
                         self.weight(), serif=3)
         rightLine = Line(self.p(0.5, 1.0), self.p(1.0, 0.0),
                          self.weight(), serif=3)
+        fillLine = Line(self.p(0.5, 1.01), self.p(0.5, 1.0),
+                        self.weight())
 
         midHeight = self.p(0.0, 0.5, xHeight=True)[1]
         midLeft = leftLine.atY(midHeight)
@@ -61,7 +63,7 @@ class AGlyph(Glyph):
         midLine = Line((midLeft, midHeight),
                        (midRight, midHeight), self.weight())
 
-        return [leftLine, rightLine, midLine]
+        return [leftLine, rightLine, midLine]#, fillLine]
 
 class EGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -139,12 +141,28 @@ class IGlyph(Glyph):
         return self.baseWidth() / PHI
 
     def getPolygon(self):
-        mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0), self.weight())
+        mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0),
+                        self.weight(), serif=4)
         topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
                        self.weight(), shift="down")
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
                           self.weight(), shift="up")
-        return [mainLine, topLine, bottomLine]
+        return [mainLine]
+
+class KGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(KGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0), self.weight())
+        topLine = Line(self.p(0.0, 0.5, xHeight=True), self.p(1.0, 1.0),
+                       self.weight(), shift="down")
+        bottomLine = Line(self.p(0.0, 0.5, xHeight=True), self.p(1.0, 0.0),
+                          self.weight(), shift="up")
+        return [topLine, bottomLine, mainLine]
 
 class LGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -271,11 +289,11 @@ class YGlyph(Glyph):
     def getPolygon(self):
         # Try with xHeight off, too
         leftLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.0, 1.0),
-                        self.weight(), shift="down", serif=3)
+                        self.weight(), serif=3)
         rightLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(1.0, 1.0),
-                         self.weight(), shift="down", serif=3)
+                         self.weight(), serif=3)
         downLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.5, 0.0),
-                        self.weight(), shift="up", serif=3)
+                        self.weight(), serif=3)
         return [leftLine, rightLine, downLine]
 
 class ZGlyph(Glyph):
@@ -337,6 +355,7 @@ glyphs = {
     "F": FGlyph,
     "H": HGlyph,
     "I": IGlyph,
+    "K": KGlyph,
     "L": LGlyph,
     "M": MGlyph,
     "N": NGlyph,
