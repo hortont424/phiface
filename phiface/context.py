@@ -57,28 +57,8 @@ class Context(object):
         self.ctx.set_source_rgba(0.0, 0.0, 0.0, 1.0)
         self.ctx.fill()
 
-    def mergeSubPolys(self, polygons):
-        def _flattenPolys(polys):
-            polyList = []
-
-            if type(polys) is Polygon or type(polys) is MultiPolygon:
-                return polys
-
-            for p in polys:
-                if not p:
-                    continue
-                if type(p) is list:
-                    polyList += _flattenPolys(p)
-                elif type(p) is Polygon or type(p) is MultiPolygon:
-                    polyList.append(p)
-                else:
-                    polyList += flatten([_flattenPolys(p.getPolygon())])
-            return polyList
-
-        return reduce(lambda x, y: x.union(y), _flattenPolys(polygons))
-
     def draw(self, polygons):
-        poly = self.mergeSubPolys(polygons)
+        poly = mergeSubPolys(polygons)
 
         if type(poly) is MultiPolygon:
             for subPoly in poly.geoms:
@@ -89,3 +69,23 @@ class Context(object):
     def write(self):
         if not PDFOutput:
             self.surface.write_to_png("output.png")
+
+def mergeSubPolys(polygons):
+    def _flattenPolys(polys):
+        polyList = []
+
+        if type(polys) is Polygon or type(polys) is MultiPolygon:
+            return polys
+
+        for p in polys:
+            if not p:
+                continue
+            if type(p) is list:
+                polyList += _flattenPolys(p)
+            elif type(p) is Polygon or type(p) is MultiPolygon:
+                polyList.append(p)
+            else:
+                polyList += flatten([_flattenPolys(p.getPolygon())])
+        return polyList
+
+    return reduce(lambda x, y: x.union(y), _flattenPolys(polygons))
