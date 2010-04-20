@@ -5,9 +5,9 @@ import phiface
 sc = phiface.Context()
 
 #demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
-demoStr = "lotvwxz"# AEFHIKLMNTVWXYZ
+demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
 tracking = 0
-capHeight = 70
+capHeight = 100
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0,0,capHeight=capHeight)
@@ -16,7 +16,7 @@ for weight in [0.5, 1, 3, 5, 7]:
         a = demoStr[i]
 
         if a == " ":
-            xloc += (metrics.em() / 1.618)
+            xloc += metrics.em() + tracking
             continue
 
         if i + 1 < len(demoStr):
@@ -31,8 +31,8 @@ for weight in [0.5, 1, 3, 5, 7]:
         xShift = glyphBounds[2] - glyphBounds[0]
 
         if b is not " ":
-            xShift += (phiface.kernGlyphs(a, b, weight, capHeight=capHeight) *
-                (glyph.capHeight() / 100.0)) + tracking
+            xShift += (phiface.kernGlyphs(a, b, weight, capHeight=capHeight) +
+                       tracking)
 
         if xloc + xShift > sc.width:
             xloc = 20

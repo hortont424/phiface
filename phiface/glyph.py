@@ -316,6 +316,38 @@ class ZGlyph(Glyph):
                           self.weight(), shift="up", serif=1)
         return [topLine, slashLine, bottomLine]
 
+class bGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(bGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        circX = 0.8
+        mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
+                        self.weight(), shift="down", serif=3)
+        circ = Circle(self.p(circX, 0.5, xHeight=True),
+                      self.p(circX, 1.0, xHeight=True),
+                      self.weight())
+        return [circ, mainLine]
+
+class dGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(dGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        circX = 0.2
+        mainLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0),
+                        self.weight(), shift="down", serif=3)
+        circ = Circle(self.p(circX, 0.5, xHeight=True),
+                      self.p(circX, 1.0, xHeight=True),
+                      self.weight())
+        return [circ, mainLine]
+
 class lGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(lGlyph, self).__init__(x, y, capHeight)
@@ -443,6 +475,8 @@ glyphs = {
     "X": XGlyph,
     "Y": YGlyph,
     "Z": ZGlyph,
+    "b": bGlyph,
+    "d": dGlyph,
     "l": lGlyph,
     "o": oGlyph,
     "t": tGlyph,
