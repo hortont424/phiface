@@ -8,11 +8,11 @@ xloc = yloc = 20
 defaultKerning = 20
 kerningPairs = {
     "A": {
+        "default": 10,
         "E": 5,
-        "L": 10,
         "T": -10,
         "V": -10,
-        "W": 10
+        "Y": -5
     },
     "H": {
         "default": 10
@@ -25,7 +25,8 @@ kerningPairs = {
         "V": -5
     },
     "M": {
-        "default": 5
+        "default": 5,
+        "N": 15
     },
     "N": {
         "T": 5
@@ -36,9 +37,16 @@ kerningPairs = {
     "V": {
         "E": 0,
         "H": 10,
-        "I": 5
+        "I": 5,
+        "Y": 5
     },
     "W": {
+        "E": 10
+    },
+    "Y": {
+        "default": 10
+    },
+    "Z": {
         "E": 10
     }
 }
@@ -47,7 +55,7 @@ kerningPairs = {
 demoStr = "AEFHILMNTVWXYZx"
 metrics = phiface.Glyph(0,0)
 
-for weight in [1, 3, 5, 7]:
+for weight in [0.5, 1, 3, 5, 7]:
     for i in range(len(demoStr)):
         a = demoStr[i]
 

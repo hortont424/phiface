@@ -12,7 +12,7 @@ class Glyph(object):
         line.capHeight = self.capHeight()
 
     def capHeight(self):
-        return 70.0
+        return 50.0
 
     def em(self):
         return self.baseWidth() * PHI * 0.8
