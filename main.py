@@ -9,15 +9,20 @@ xloc = yloc = 20
 defaultKerning = 10
 kerningPairs = {
     "A": {
+        "T": -10,
         "V": -10
     },
+    "E": {
+        "M": 15
+    },
     "I": {
-        "L": 20
+        "L": 20,
+        "M": 20
     }
 }
 
-#demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
-demoStr = "AVEFHILMNTVWXYZx"
+demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
+#demoStr = "AVEFHILMNTVWXYZx"
 metrics = phiface.Glyph(0,0)
 
 def autoKern(a, b, weight):
