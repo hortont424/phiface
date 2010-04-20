@@ -289,11 +289,11 @@ class ZGlyph(Glyph):
 
     def getPolygon(self):
         topLine = Line(self.p(0.9, 1.0), self.p(0.1, 1.0),
-                        self.weight(), shift="down", serif=1)
+                       self.weight(), shift="down", serif=1)
         slashLine = Line(self.p(0.9, 1.0), self.p(0.0, 0.0),
                          self.weight(), shift="down")
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
-                        self.weight(), shift="up", serif=1)
+                          self.weight(), shift="up", serif=1)
         return [topLine, slashLine, bottomLine]
 
 class xGlyph(Glyph):
@@ -312,6 +312,25 @@ class xGlyph(Glyph):
                              self.weight(), shift="up", serif=4)
         return [upCrossLine, downCrossLine]
 
+class zGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(zGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        topLine = Line(self.p(0.9, 1.0, xHeight=True),
+                       self.p(0.1, 1.0, xHeight=True),
+                       self.weight(), shift="down", serif=1)
+        slashLine = Line(self.p(0.9, 1.0, xHeight=True),
+                         self.p(0.0, 0.0, xHeight=True),
+                         self.weight(), shift="down")
+        bottomLine = Line(self.p(0.0, 0.0, xHeight=True),
+                          self.p(1.0, 0.0, xHeight=True),
+                          self.weight(), shift="up", serif=1)
+        return [topLine, slashLine, bottomLine]
+
 glyphs = {
     "A": AGlyph,
     "E": EGlyph,
@@ -327,5 +346,6 @@ glyphs = {
     "X": XGlyph,
     "Y": YGlyph,
     "Z": ZGlyph,
-    "x": xGlyph
+    "x": xGlyph,
+    "z": zGlyph
 }

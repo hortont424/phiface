@@ -14,6 +14,9 @@ kerningOverrides = {
     "I": {
         "L": 20,
         "M": 20
+    },
+    "T": {
+        "V": 15
     }
 }
 
@@ -28,7 +31,7 @@ def autoKern(a, b, weight, capHeight):
     aGlyph = glyphs[a](x=0, y=0, capHeight=capHeight)
     aBounds = mergeSubPolys([aGlyph]).bounds
 
-    for i in range(2, -1000, -1):
+    for i in range(0, -1000, -1):
         advance = (aBounds[2] - aBounds[0]) + i
         bGlyph = glyphs[b](x=advance, y=0, capHeight=capHeight)
         if type(mergeSubPolys([aGlyph, bGlyph])) is Polygon:
