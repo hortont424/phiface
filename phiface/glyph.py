@@ -4,15 +4,16 @@ from line import Line
 PHI = 1.618
 
 class Glyph(object):
-    def __init__(self, x, y):
+    def __init__(self, x, y, capHeight=50):
         super(Glyph, self).__init__()
         self.x = x
         self.y = y
         self.w = 3
+        self.pointSize = capHeight
         line.capHeight = self.capHeight()
 
     def capHeight(self):
-        return 30.0
+        return self.pointSize
 
     def em(self):
         return self.baseWidth() * PHI * 0.8
@@ -41,8 +42,8 @@ class Glyph(object):
         return (x + (self.width() * ix), y - (height * iy))
 
 class AGlyph(Glyph):
-    def __init__(self, x, y):
-        super(AGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(AGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -63,8 +64,8 @@ class AGlyph(Glyph):
         return [leftLine, rightLine, midLine]
 
 class EGlyph(Glyph):
-    def __init__(self, x, y):
-        super(EGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(EGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -87,8 +88,8 @@ class EGlyph(Glyph):
         return [leftLine, topLine, midLine, bottomLine]
 
 class FGlyph(Glyph):
-    def __init__(self, x, y):
-        super(FGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(FGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -109,8 +110,8 @@ class FGlyph(Glyph):
         return [leftLine, topLine, midLine]
 
 class HGlyph(Glyph):
-    def __init__(self, x, y):
-        super(HGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(HGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -131,8 +132,8 @@ class HGlyph(Glyph):
         return [leftLine, rightLine, midLine]
 
 class IGlyph(Glyph):
-    def __init__(self, x, y):
-        super(IGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(IGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth() / PHI
@@ -146,8 +147,8 @@ class IGlyph(Glyph):
         return [mainLine, topLine, bottomLine]
 
 class LGlyph(Glyph):
-    def __init__(self, x, y):
-        super(LGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(LGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth() / PHI
@@ -160,8 +161,8 @@ class LGlyph(Glyph):
         return [mainLine, bottomLine]
 
 class MGlyph(Glyph):
-    def __init__(self, x, y):
-        super(MGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(MGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.em()
@@ -182,8 +183,8 @@ class MGlyph(Glyph):
         return [leftLine, downCrossLine, upCrossLine, rightLine]
 
 class NGlyph(Glyph):
-    def __init__(self, x, y):
-        super(NGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(NGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -198,8 +199,8 @@ class NGlyph(Glyph):
         return [leftLine, crossLine, rightLine]
 
 class TGlyph(Glyph):
-    def __init__(self, x, y):
-        super(TGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(TGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -211,8 +212,8 @@ class TGlyph(Glyph):
         return [mainLine, topLine]
 
 class VGlyph(Glyph):
-    def __init__(self, x, y):
-        super(VGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(VGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -225,8 +226,8 @@ class VGlyph(Glyph):
         return [leftLine, rightLine]
 
 class WGlyph(Glyph):
-    def __init__(self, x, y):
-        super(WGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(WGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.em()
@@ -247,8 +248,8 @@ class WGlyph(Glyph):
         return [leftLine, downCrossLine, upCrossLine, rightLine]
 
 class XGlyph(Glyph):
-    def __init__(self, x, y):
-        super(XGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(XGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -261,8 +262,8 @@ class XGlyph(Glyph):
         return [upCrossLine, downCrossLine]
 
 class YGlyph(Glyph):
-    def __init__(self, x, y):
-        super(YGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(YGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -278,8 +279,8 @@ class YGlyph(Glyph):
         return [leftLine, rightLine, downLine]
 
 class ZGlyph(Glyph):
-    def __init__(self, x, y):
-        super(ZGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(ZGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth()
@@ -296,8 +297,8 @@ class ZGlyph(Glyph):
         return [topLine, slashLine, bottomLine]
 
 class xGlyph(Glyph):
-    def __init__(self, x, y):
-        super(xGlyph, self).__init__(x, y)
+    def __init__(self, x, y, capHeight):
+        super(xGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
         return self.baseWidth() / PHI
