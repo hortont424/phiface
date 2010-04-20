@@ -6,14 +6,13 @@ drawSerifs = True
 capHeight = 100 # TODO: completely retarded
 
 class Line(object):
-    def __init__(self, a, b, width, shift=None, serif=0, snapEnd=False):
+    def __init__(self, a, b, width, shift=None, serif=0):
         super(Line, self).__init__()
         self.a = a
         self.b = b
         self.delta = width
         self.shift = shift
         self.serif = serif
-        self.snapEnd = snapEnd
 
     def atY(self, val):
         ((x1, y1), (x2, y2)) = (self.a, self.b)
@@ -57,19 +56,15 @@ class Line(object):
         rx4 = x2 - (self.delta)*dy
         ry4 = y2 + (self.delta)*dx
 
-        #if self.snapEnd:
-        #    if endDirection:
-        #        ry4 = ry3 = y2
-        #        ry2 = ry1 = y1
-        #    else:
-        #        rx4 = rx3 = x2
-        #        rx2 = rx1 = x1
-
         linePoly = Polygon(((rx1, ry1), (rx2, ry2),
                             (rx4, ry4), (rx3, ry3)))
 
-        xInf = 200
-        yInf = 0
+        xInf = yInf = 0
+        if endDirection:
+            xInf = 200
+        else:
+            yInf = 200
+
         clipPoly = Polygon(((x1 - xInf, y1 - yInf),
                             (x1 - xInf, y2 + yInf),
                             (x2 + xInf, y2 + yInf),
@@ -87,14 +82,6 @@ class Line(object):
         serifPolys = []
         serifWeight = self.delta * 0.618
         ss = capHeight / 20.0
-        angleShift = 0.0 #cos(angle) * (self.delta * 0.7)
-        if x2 > x1:
-            angleShift *= -1
-
-        #x1 = rx1
-        #x2 = rx4
-        #y1 = ry1
-        #y2 = ry4
 
         if self.serif == 1 or self.serif == 2:
             if self.shift is "down":
@@ -124,40 +111,40 @@ class Line(object):
                                     serifWeight)]
         if self.serif == 3 or self.serif == 4:
             if self.shift is "down":
-                serifPolys = [Line((x2 + serifWeight + ss + angleShift,
+                serifPolys = [Line((x2 + serifWeight + ss,
                                     y2 + serifWeight),
-                                   (x2 - serifWeight - ss + angleShift,
+                                   (x2 - serifWeight - ss,
                                     y2 + serifWeight),
                                    serifWeight)]
             elif self.shift is "up":
-                serifPolys = [Line((x2 + serifWeight + ss + angleShift,
+                serifPolys = [Line((x2 + serifWeight + ss,
                                     y2 - serifWeight),
-                                   (x2 - serifWeight - ss + angleShift,
+                                   (x2 - serifWeight - ss,
                                     y2 - serifWeight),
                                    serifWeight)]
             else:
-                serifPolys = [Line((x2 + serifWeight + ss + angleShift,
+                serifPolys = [Line((x2 + serifWeight + ss,
                                     y2 - serifWeight),
-                                   (x2 - serifWeight - ss + angleShift,
+                                   (x2 - serifWeight - ss,
                                     y2 - serifWeight),
                                    serifWeight)]
         if self.serif == 4:
             if self.shift is "down":
-                serifPolys += [Line((x1 + serifWeight + ss - angleShift,
+                serifPolys += [Line((x1 + serifWeight + ss,
                                      y1 - serifWeight),
-                                    (x1 - serifWeight - ss - angleShift,
+                                    (x1 - serifWeight - ss,
                                      y1 - serifWeight),
                                     serifWeight)]
             elif self.shift is "up":
-                serifPolys += [Line((x1 + serifWeight + ss - angleShift,
+                serifPolys += [Line((x1 + serifWeight + ss,
                                      y1 + serifWeight),
-                                    (x1 - serifWeight - ss - angleShift,
+                                    (x1 - serifWeight - ss,
                                      y1 + serifWeight),
                                     serifWeight)]
             else:
-                serifPolys += [Line((x1 + serifWeight + ss - angleShift,
+                serifPolys += [Line((x1 + serifWeight + ss,
                                      y1 + serifWeight),
-                                    (x1 - serifWeight - ss - angleShift,
+                                    (x1 - serifWeight - ss,
                                      y1 + serifWeight),
                                     serifWeight)]
         return [linePoly, serifPolys]
