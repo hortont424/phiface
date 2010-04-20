@@ -142,12 +142,12 @@ class IGlyph(Glyph):
 
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0),
-                        self.weight(), serif=4)
+                        self.weight())
         topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
                        self.weight(), shift="down")
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
                           self.weight(), shift="up")
-        return [mainLine]
+        return [mainLine, topLine, bottomLine]
 
 class KGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -289,9 +289,9 @@ class YGlyph(Glyph):
     def getPolygon(self):
         # Try with xHeight off, too
         leftLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.0, 1.0),
-                        self.weight(), serif=3)
+                        self.weight(), shift="down", serif=3)
         rightLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(1.0, 1.0),
-                         self.weight(), serif=3)
+                         self.weight(), shift="down", serif=3)
         downLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.5, 0.0),
                         self.weight(), serif=3)
         return [leftLine, rightLine, downLine]
