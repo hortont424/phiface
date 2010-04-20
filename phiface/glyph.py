@@ -327,6 +327,21 @@ class lGlyph(Glyph):
                         self.weight(), serif=5)
         return [mainLine]
 
+class tGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(tGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        mainLine = Line(self.p(0.5, 1.0), self.p(0.5, 0.0),
+                        self.weight(), shift="up", serif=3)
+        topLine = Line(self.p(0.0, 1.0, xHeight=True),
+                       self.p(1.0, 1.0, xHeight=True),
+                       self.weight(), shift="down")
+        return [mainLine, topLine]
+
 class xGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(xGlyph, self).__init__(x, y, capHeight)
@@ -379,6 +394,7 @@ glyphs = {
     "Y": YGlyph,
     "Z": ZGlyph,
     "l": lGlyph,
+    "t": tGlyph,
     "x": xGlyph,
     "z": zGlyph
 }
