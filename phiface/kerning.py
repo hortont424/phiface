@@ -18,6 +18,13 @@ kerningOverrides = {
     },
     "T": {
         "V": 15
+    },
+    "l": {
+        "default": 15,
+        "o": 25
+    },
+    "o": {
+        "t": -10
     }
 }
 
@@ -44,7 +51,12 @@ def kernGlyphs(a, b, weight, capHeight):
     if (a in kerningPairs) and (b in kerningPairs[a]):
         return kerningPairs[a][b]
 
-    kerning = autoKern(a, b, weight, capHeight) + defaultKerning
+    kerning = autoKern(a, b, weight, capHeight)
+
+    if (a in kerningOverrides) and ("default" in kerningOverrides[a]):
+        kerning += kerningOverrides[a]["default"]
+    else:
+        kerning += defaultKerning
 
     if b and (a in kerningOverrides) and (b in kerningOverrides[a]):
         kerning = kerningOverrides[a][b]

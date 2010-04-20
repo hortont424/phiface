@@ -1,5 +1,6 @@
 import line
 from line import Line
+from circle import Circle
 
 PHI = 1.618
 
@@ -327,6 +328,19 @@ class lGlyph(Glyph):
                         self.weight(), serif=5)
         return [mainLine]
 
+class oGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(oGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        circ = Circle(self.p(0.5, 0.5, xHeight=True),
+                      self.p(0.5, 1.0, xHeight=True),
+                      self.weight())
+        return [circ]
+
 class tGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(tGlyph, self).__init__(x, y, capHeight)
@@ -430,6 +444,7 @@ glyphs = {
     "Y": YGlyph,
     "Z": ZGlyph,
     "l": lGlyph,
+    "o": oGlyph,
     "t": tGlyph,
     "v": vGlyph,
     "w": wGlyph,
