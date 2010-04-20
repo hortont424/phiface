@@ -144,9 +144,9 @@ class IGlyph(Glyph):
         mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0),
                         self.weight())
         topLine = Line(self.p(0.0, 1.0), self.p(1.0, 1.0),
-                       self.weight(), shift="down")
+                       self.weight() / PHI, shift="down")
         bottomLine = Line(self.p(0.0, 0.0), self.p(1.0, 0.0),
-                          self.weight(), shift="up")
+                          self.weight() / PHI, shift="up")
         return [mainLine, topLine, bottomLine]
 
 class KGlyph(Glyph):
@@ -154,14 +154,15 @@ class KGlyph(Glyph):
         super(KGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.baseWidth() * 0.8
 
     def getPolygon(self):
-        mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0), self.weight())
-        topLine = Line(self.p(0.0, 0.5, xHeight=True), self.p(1.0, 1.0),
-                       self.weight(), shift="down")
-        bottomLine = Line(self.p(0.0, 0.5, xHeight=True), self.p(1.0, 0.0),
-                          self.weight(), shift="up")
+        mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
+                        self.weight(), shift="down", serif=4)
+        topLine = Line(self.p(0.0, 0.5), self.p(1.0, 1.0),
+                       self.weight(), shift="down", serif=3)
+        bottomLine = Line(self.p(0.0, 0.5), self.p(1.0, 0.0),
+                          self.weight(), shift="up", serif=3)
         return [topLine, bottomLine, mainLine]
 
 class LGlyph(Glyph):
