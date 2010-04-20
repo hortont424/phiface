@@ -342,6 +342,42 @@ class tGlyph(Glyph):
                        self.weight(), shift="down")
         return [mainLine, topLine]
 
+class vGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(vGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        leftLine = Line(self.p(0.5, 0.0), self.p(0.0, 1.0, xHeight=True),
+                        self.weight(), shift="down", serif=3)
+        rightLine = Line(self.p(0.5, 0.0), self.p(1.0, 1.0, xHeight=True),
+                         self.weight(), shift="down", serif=3)
+        return [leftLine, rightLine]
+
+class wGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(wGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() * 0.8
+
+    def getPolygon(self):
+        midHeight = (self.weight()) / self.xHeight()
+
+        leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0, xHeight=True),
+                        self.weight(), shift="down", serif=3)
+        downCrossLine = Line(self.p(0.0, 0.0),
+                             self.p(0.5, 0.6 + midHeight, xHeight=True),
+                             self.weight())
+        upCrossLine = Line(self.p(0.5, 0.6 + midHeight, xHeight=True),
+                           self.p(1.0, 0.0),
+                           self.weight())
+        rightLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0, xHeight=True),
+                         self.weight(), shift="down", serif=3)
+        return [leftLine, downCrossLine, upCrossLine, rightLine]
+
 class xGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(xGlyph, self).__init__(x, y, capHeight)
@@ -395,6 +431,8 @@ glyphs = {
     "Z": ZGlyph,
     "l": lGlyph,
     "t": tGlyph,
+    "v": vGlyph,
+    "w": wGlyph,
     "x": xGlyph,
     "z": zGlyph
 }

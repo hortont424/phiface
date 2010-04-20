@@ -5,7 +5,7 @@ import phiface
 sc = phiface.Context()
 
 #demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
-demoStr = "AEFHIKLMNTVWXYZxzlt"
+demoStr = "AEFHIKLMNTVWXYZxzltvw"
 tracking = 0
 capHeight = 70
 
