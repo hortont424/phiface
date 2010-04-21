@@ -249,6 +249,21 @@ class OGlyph(Glyph):
                       self.weight())
         return [circ]
 
+@glyph('Q')
+class QGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(QGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        circ = Circle(self.p(0.5, 0.5),
+                      self.p(0.5, 1.0),
+                      self.weight())
+        crossLine = Line(self.p(0.7, 0.3), self.p(1.0, 0.0), self.weight())
+        return [circ, crossLine]
+
 @glyph('T')
 class TGlyph(Glyph):
     def __init__(self, x, y, capHeight):
