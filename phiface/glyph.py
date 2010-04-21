@@ -89,9 +89,8 @@ class CGlyph(Glyph):
         circ = Circle(self.p(0.5, 0.5),
                       self.p(0.5, 1.0),
                       self.weight(),
-                      semiA=self.p(1.0, 1.0),
-                      semiB=self.p(1.0, 0.0),
-                      serif=2)
+                      semiA=self.p(1.0, 0.8),
+                      semiB=self.p(1.0, 0.2))
         return [circ]
 
 @glyph('E')
@@ -435,9 +434,8 @@ class cGlyph(Glyph):
         circ = Circle(self.p(0.5, 0.5, xHeight=True),
                       self.p(0.5, 1.0, xHeight=True),
                       self.weight(),
-                      semiA=self.p(1.0, 1.0, xHeight=True),
-                      semiB=self.p(1.0, 0.0, xHeight=True),
-                      serif=1)
+                      semiA=self.p(1.0, 0.8, xHeight=True),
+                      semiB=self.p(1.0, 0.2, xHeight=True))
         return [circ]
 
 @glyph('d')
