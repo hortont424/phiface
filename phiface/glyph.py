@@ -1,4 +1,5 @@
 import line
+import circle
 from line import Line
 from circle import Circle
 
@@ -19,7 +20,7 @@ class Glyph(object):
         self.y = y
         self.w = 3
         self.pointSize = capHeight
-        line.capHeight = self.capHeight()
+        circle.capHeight = line.capHeight = self.capHeight()
 
     def capHeight(self):
         return self.pointSize
@@ -401,6 +402,23 @@ class bGlyph(Glyph):
                       self.p(circX, 1.0, xHeight=True),
                       self.weight())
         return [circ, mainLine]
+
+@glyph('c')
+class cGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(cGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        circ = Circle(self.p(0.5, 0.5, xHeight=True),
+                      self.p(0.5, 1.0, xHeight=True),
+                      self.weight(),
+                      semiA=self.p(1.0, 1.0, xHeight=True),
+                      semiB=self.p(1.0, 0.0, xHeight=True),
+                      serif=1)
+        return [circ]
 
 @glyph('d')
 class dGlyph(Glyph):
