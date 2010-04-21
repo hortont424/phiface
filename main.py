@@ -4,12 +4,14 @@ import phiface
 
 sc = phiface.Context()
 
+demoStr = [a for a in phiface.glyphs.keys()]
+
 #demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
-demoStr = "abdlokKpqi"
+#demoStr = "abdlokKpqi"
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
 tracking = 0
-capHeight = 100
+capHeight = 40
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0,0,capHeight=capHeight)
