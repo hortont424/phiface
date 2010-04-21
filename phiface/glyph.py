@@ -392,6 +392,23 @@ class iGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+class kGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(kGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
+                        self.weight(), shift="down", serif=4)
+        topLine = Line(self.p(0.0, 0.5, xHeight=True),
+                       self.p(1.0, 1.0, xHeight=True),
+                       self.weight(), shift="down", serif=3, swapAngle=True)
+        bottomLine = Line(self.p(0.0, 0.5, xHeight=True), self.p(1.0, 0.0),
+                          self.weight(), shift="up", serif=3, swapAngle=True)
+        return [topLine, bottomLine, mainLine]
+
 class lGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(lGlyph, self).__init__(x, y, capHeight)
@@ -558,6 +575,7 @@ glyphs = {
     "b": bGlyph,
     "d": dGlyph,
     "i": iGlyph,
+    "k": kGlyph,
     "l": lGlyph,
     "o": oGlyph,
     "p": pGlyph,

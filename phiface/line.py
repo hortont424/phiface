@@ -6,7 +6,8 @@ drawSerifs = True
 capHeight = 100 # TODO: completely retarded
 
 class Line(object):
-    def __init__(self, a, b, width, shift=None, serif=0, noclip=False):
+    def __init__(self, a, b, width, shift=None, serif=0, noclip=False,
+                 swapAngle=False):
         super(Line, self).__init__()
         self.a = a
         self.b = b
@@ -14,6 +15,7 @@ class Line(object):
         self.shift = shift
         self.serif = serif
         self.noclip = noclip
+        self.swapAngle = swapAngle
 
     def atY(self, val):
         ((x1, y1), (x2, y2)) = (self.a, self.b)
@@ -27,6 +29,9 @@ class Line(object):
         xOff = yOff = 0.0
 
         endDirection = angle > pi / 4.0
+
+        if self.swapAngle:
+            endDirection = not endDirection
 
         if endDirection:
             if self.shift is "left":
