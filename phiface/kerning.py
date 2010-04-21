@@ -31,10 +31,10 @@ def autoKern(a, b, weight, capHeight, metrics):
     bGlyph.w = (weight * (metrics.capHeight() / 100.0))
 
     if mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])):
-        direction = 1
+        direction = 0.1
         wantType = False
     else:
-        direction = -1
+        direction = -0.1
         wantType = True
 
     minRange = 1000 * direction
