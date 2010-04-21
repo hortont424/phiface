@@ -2,6 +2,7 @@ import line
 import circle
 from line import Line
 from circle import Circle
+from context import mergeSubPolys
 
 PHI = 1.618
 
@@ -465,15 +466,22 @@ class eGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
+        rightShift = self.weight() / self.xHeight() * 0.025
+        leftShift = self.weight() / self.xHeight() / 2
         circ = Circle(self.p(0.5, 0.5, xHeight=True),
                       self.p(0.5, 1.0, xHeight=True),
                       self.weight(),
                       semiA=self.p(1.0, 0.5, xHeight=True),
                       semiB=self.p(1.0, 0.2, xHeight=True),
                       serif=0)
+        clipCirc = Circle(self.p(0.5, 0.5, xHeight=True),
+                          self.p(0.5, 1.0, xHeight=True),
+                          -1.0)
         midLine = Line(self.p(0.0, 0.5, xHeight=True),
                        self.p(1.0, 0.5, xHeight=True),
                        self.weight() / PHI)
+        midLine = mergeSubPolys([midLine]).intersection(
+                mergeSubPolys([clipCirc]))
         return [circ, midLine]
 
 @glyph('i')
