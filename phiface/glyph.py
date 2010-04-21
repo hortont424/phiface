@@ -4,6 +4,14 @@ from circle import Circle
 
 PHI = 1.618
 
+glyphs = {}
+
+def glyph(g):
+    def wrap(cls):
+        glyphs[g] = cls
+        return cls
+    return wrap
+
 class Glyph(object):
     def __init__(self, x, y, capHeight=50):
         super(Glyph, self).__init__()
@@ -42,6 +50,7 @@ class Glyph(object):
             height = self.xHeight()
         return (x + (self.width() * ix), y - (height * iy))
 
+@glyph('A')
 class AGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(AGlyph, self).__init__(x, y, capHeight)
@@ -66,6 +75,7 @@ class AGlyph(Glyph):
 
         return [leftLine, rightLine, midLine]#, fillLine]
 
+@glyph('E')
 class EGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(EGlyph, self).__init__(x, y, capHeight)
@@ -90,6 +100,7 @@ class EGlyph(Glyph):
 
         return [leftLine, topLine, midLine, bottomLine]
 
+@glyph('F')
 class FGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(FGlyph, self).__init__(x, y, capHeight)
@@ -112,6 +123,7 @@ class FGlyph(Glyph):
 
         return [leftLine, topLine, midLine]
 
+@glyph('H')
 class HGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(HGlyph, self).__init__(x, y, capHeight)
@@ -134,6 +146,7 @@ class HGlyph(Glyph):
 
         return [leftLine, rightLine, midLine]
 
+@glyph('I')
 class IGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(IGlyph, self).__init__(x, y, capHeight)
@@ -150,6 +163,7 @@ class IGlyph(Glyph):
                           self.weight() / PHI, shift="up")
         return [mainLine, topLine, bottomLine]
 
+@glyph('K')
 class KGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(KGlyph, self).__init__(x, y, capHeight)
@@ -166,6 +180,7 @@ class KGlyph(Glyph):
                           self.weight(), shift="up", serif=3)
         return [topLine, bottomLine, mainLine]
 
+@glyph('L')
 class LGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(LGlyph, self).__init__(x, y, capHeight)
@@ -180,6 +195,7 @@ class LGlyph(Glyph):
                           self.weight(), shift="up", serif=1)
         return [mainLine, bottomLine]
 
+@glyph('M')
 class MGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(MGlyph, self).__init__(x, y, capHeight)
@@ -202,6 +218,7 @@ class MGlyph(Glyph):
                          self.weight(), shift="up", serif=3)
         return [leftLine, downCrossLine, upCrossLine, rightLine]
 
+@glyph('N')
 class NGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(NGlyph, self).__init__(x, y, capHeight)
@@ -218,6 +235,7 @@ class NGlyph(Glyph):
                          self.weight(), shift="down", serif=3)
         return [leftLine, crossLine, rightLine]
 
+@glyph('O')
 class OGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(OGlyph, self).__init__(x, y, capHeight)
@@ -231,6 +249,7 @@ class OGlyph(Glyph):
                       self.weight())
         return [circ]
 
+@glyph('T')
 class TGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(TGlyph, self).__init__(x, y, capHeight)
@@ -244,6 +263,7 @@ class TGlyph(Glyph):
                        self.weight(), shift="down", serif=2)
         return [mainLine, topLine]
 
+@glyph('V')
 class VGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(VGlyph, self).__init__(x, y, capHeight)
@@ -258,6 +278,7 @@ class VGlyph(Glyph):
                          self.weight(), shift="down", serif=3)
         return [leftLine, rightLine]
 
+@glyph('W')
 class WGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(WGlyph, self).__init__(x, y, capHeight)
@@ -280,6 +301,7 @@ class WGlyph(Glyph):
                          self.weight(), shift="down", serif=3)
         return [leftLine, downCrossLine, upCrossLine, rightLine]
 
+@glyph('X')
 class XGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(XGlyph, self).__init__(x, y, capHeight)
@@ -294,6 +316,7 @@ class XGlyph(Glyph):
                              self.weight(), shift="up", serif=4)
         return [upCrossLine, downCrossLine]
 
+@glyph('Y')
 class YGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(YGlyph, self).__init__(x, y, capHeight)
@@ -311,6 +334,7 @@ class YGlyph(Glyph):
                         self.weight(), serif=3)
         return [leftLine, rightLine, downLine]
 
+@glyph('Z')
 class ZGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(ZGlyph, self).__init__(x, y, capHeight)
@@ -329,6 +353,7 @@ class ZGlyph(Glyph):
                           self.weight(), shift="up", serif=1)
         return [topLine, slashLine, bottomLine]
 
+@glyph('a')
 class aGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(aGlyph, self).__init__(x, y, capHeight)
@@ -345,6 +370,7 @@ class aGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+@glyph('b')
 class bGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(bGlyph, self).__init__(x, y, capHeight)
@@ -361,6 +387,7 @@ class bGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+@glyph('d')
 class dGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(dGlyph, self).__init__(x, y, capHeight)
@@ -377,6 +404,7 @@ class dGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+@glyph('i')
 class iGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(iGlyph, self).__init__(x, y, capHeight)
@@ -392,6 +420,7 @@ class iGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+@glyph('k')
 class kGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(kGlyph, self).__init__(x, y, capHeight)
@@ -409,6 +438,7 @@ class kGlyph(Glyph):
                           self.weight(), shift="up", serif=3, swapAngle=True)
         return [topLine, bottomLine, mainLine]
 
+@glyph('l')
 class lGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(lGlyph, self).__init__(x, y, capHeight)
@@ -421,6 +451,7 @@ class lGlyph(Glyph):
                         self.weight(), serif=5)
         return [mainLine]
 
+@glyph('o')
 class oGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(oGlyph, self).__init__(x, y, capHeight)
@@ -434,6 +465,7 @@ class oGlyph(Glyph):
                       self.weight())
         return [circ]
 
+@glyph('p')
 class pGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(pGlyph, self).__init__(x, y, capHeight)
@@ -451,6 +483,7 @@ class pGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+@glyph('q')
 class qGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(qGlyph, self).__init__(x, y, capHeight)
@@ -468,6 +501,7 @@ class qGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+@glyph('t')
 class tGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(tGlyph, self).__init__(x, y, capHeight)
@@ -483,6 +517,7 @@ class tGlyph(Glyph):
                        self.weight(), shift="down")
         return [mainLine, topLine]
 
+@glyph('v')
 class vGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(vGlyph, self).__init__(x, y, capHeight)
@@ -497,6 +532,7 @@ class vGlyph(Glyph):
                          self.weight(), shift="down", serif=3)
         return [leftLine, rightLine]
 
+@glyph('w')
 class wGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(wGlyph, self).__init__(x, y, capHeight)
@@ -519,6 +555,7 @@ class wGlyph(Glyph):
                          self.weight(), shift="down", serif=3)
         return [leftLine, downCrossLine, upCrossLine, rightLine]
 
+@glyph('x')
 class xGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(xGlyph, self).__init__(x, y, capHeight)
@@ -535,6 +572,7 @@ class xGlyph(Glyph):
                              self.weight(), shift="up", serif=4)
         return [upCrossLine, downCrossLine]
 
+@glyph('z')
 class zGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(zGlyph, self).__init__(x, y, capHeight)
@@ -553,36 +591,3 @@ class zGlyph(Glyph):
                           self.p(1.0, 0.0, xHeight=True),
                           self.weight(), shift="up", serif=1)
         return [topLine, slashLine, bottomLine]
-
-glyphs = {
-    "A": AGlyph,
-    "E": EGlyph,
-    "F": FGlyph,
-    "H": HGlyph,
-    "I": IGlyph,
-    "K": KGlyph,
-    "L": LGlyph,
-    "M": MGlyph,
-    "N": NGlyph,
-    "O": OGlyph,
-    "T": TGlyph,
-    "V": VGlyph,
-    "W": WGlyph,
-    "X": XGlyph,
-    "Y": YGlyph,
-    "Z": ZGlyph,
-    "a": aGlyph,
-    "b": bGlyph,
-    "d": dGlyph,
-    "i": iGlyph,
-    "k": kGlyph,
-    "l": lGlyph,
-    "o": oGlyph,
-    "p": pGlyph,
-    "q": qGlyph,
-    "t": tGlyph,
-    "v": vGlyph,
-    "w": wGlyph,
-    "x": xGlyph,
-    "z": zGlyph
-}
