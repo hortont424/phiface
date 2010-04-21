@@ -5,14 +5,16 @@ import phiface
 sc = phiface.Context()
 
 #demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
-demoStr = "abdlopqtvwxz" #"AEFHIKLMNTVWXYZ abdlopqtvwxz"#
+#demoStr = "abdlopq  i"
+#demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
+demoStr = "a"
 tracking = 0
-capHeight = 70
+capHeight = 200
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0,0,capHeight=capHeight)
-for weight in [1, 3, 5, 7]:
+for weight in [2, 4, 7]:
     for i in range(len(demoStr)):
         a = demoStr[i]
 
