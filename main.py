@@ -10,9 +10,9 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "abdlokKpqi"
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
-demoStr = "clodCQqe"
+demoStr = "Feet TextMate"
 tracking = 0
-capHeight = 180
+capHeight = 40
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0,0,capHeight=capHeight)

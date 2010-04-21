@@ -465,14 +465,13 @@ class eGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        shift = (self.weight() / 20.0) / (self.capHeight() / 40.0)
         circ = Circle(self.p(0.5, 0.5, xHeight=True),
                       self.p(0.5, 1.0, xHeight=True),
                       self.weight(),
                       semiA=self.p(1.0, 0.5, xHeight=True),
                       semiB=self.p(1.0, 0.2, xHeight=True),
                       serif=0)
-        midLine = Line(self.p(0.3 + shift, 0.5, xHeight=True),
+        midLine = Line(self.p(0.0, 0.5, xHeight=True),
                        self.p(1.0, 0.5, xHeight=True),
                        self.weight() / PHI)
         return [circ, midLine]
