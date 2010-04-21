@@ -17,7 +17,7 @@ def autoKern(a, b, weight, capHeight, metrics):
     aGlyph = glyphs[a](x=0, y=0, capHeight=capHeight)
     aGlyph.w = (weight * (metrics.capHeight() / 100.0))
     aBounds = mergeSubPolys([aGlyph]).bounds
-    i = minRange = direction = 0
+    i = direction = 0
     wantType = MultiPolygon
 
     bGlyph = glyphs[b](x=(aBounds[2] - aBounds[0]), y=0, capHeight=capHeight)
@@ -25,12 +25,12 @@ def autoKern(a, b, weight, capHeight, metrics):
 
     if type(mergeSubPolys([aGlyph, bGlyph])) is Polygon:
         direction = 1
-        minRange = 1000
         wantType = MultiPolygon
     else:
         direction = -1
-        minRange = -1000
         wantType = Polygon
+
+    minRange = 1000 * direction
 
     while True:
         bGlyph.x = (aBounds[2] - aBounds[0]) + i
@@ -39,8 +39,6 @@ def autoKern(a, b, weight, capHeight, metrics):
             return i
 
         i += direction
-
-#TODO: CACHE IS BROKEN WHEN CAPHEIGHT CHANGES!
 
 def kernGlyphs(a, b, weight, capHeight):
     metrics = Glyph(0, 0, capHeight=capHeight)
