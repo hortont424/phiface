@@ -5,7 +5,14 @@ from shapely.geometry import *
 
 defaultKerning = 10
 kerningOverrides = {
-
+    "b": {
+        "d": -5,
+        "q": -5
+    },
+    "p": {
+        "d": -5,
+        "q": -5
+    }
 }
 
 kerningPairs = {}
@@ -60,7 +67,7 @@ def kernGlyphs(a, b, weight, capHeight):
         kerning += defaultKerning * (metrics.capHeight() / 100.0)
 
     if b and (a in kerningOverrides) and (b in kerningOverrides[a]):
-        kerning = kerningOverrides[a][b] * (metrics.capHeight() / 100.0)
+        kerning += kerningOverrides[a][b] * (metrics.capHeight() / 100.0)
 
     kerningPairs[memoString] = kerning
 
