@@ -37,8 +37,8 @@ class Circle(object):
             return [circ]
 
         serifPolys = []
-        serifWeight = self.weight * 0.618
-        ss = capHeight / 15.0
+        serifWeight = self.weight * 0.618 + max((capHeight / 90.0) - 1.0, 0.0)
+        ss = capHeight / 15.0 + (self.weight * capHeight / 200.0)
 
         topAngle = atan2(by - y1, bx - x1)
         bottomAngle = atan2(ay - y1, ax - x1)
@@ -46,18 +46,18 @@ class Circle(object):
         if self.serif == 1 or self.serif == 2:
             serifPolys = [Line((x1 + (width-self.weight)*cos(topAngle),
                                 y1 - (width-self.weight)*sin(topAngle) + ss +
-                                    self.weight / 2),
+                                    self.weight / 2.0),
                                (x1 + (width-self.weight)*cos(topAngle),
                                 y1 - (width-self.weight)*sin(topAngle) - ss +
-                                    self.weight / 2),
+                                    self.weight / 2.0),
                                serifWeight)]
         if self.serif == 2:
             serifPolys += [Line((x1 + (width-self.weight)*cos(bottomAngle),
                                  y1 - (width-self.weight)*sin(bottomAngle) +
-                                     ss - self.weight / 2),
+                                     ss - self.weight / 2.0),
                                 (x1 + (width-self.weight)*cos(bottomAngle),
                                  y1 - (width-self.weight)*sin(bottomAngle) -
-                                     ss - self.weight / 2),
+                                     ss - self.weight / 2.0),
                                 serifWeight)]
 
         return [circ, serifPolys]

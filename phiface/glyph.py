@@ -276,7 +276,7 @@ class QGlyph(Glyph):
         return self.capHeight()
 
     def getPolygon(self):
-        shift = self.weight() / 20
+        shift = (self.weight() / 20.0) / (self.capHeight() / 40.0)
         circ = Circle(self.p(0.5, 0.5),
                       self.p(0.5, 1.0),
                       self.weight())
@@ -455,6 +455,27 @@ class dGlyph(Glyph):
                       self.p(circX, 1.0, xHeight=True),
                       self.weight())
         return [circ, mainLine]
+
+@glyph('e')
+class eGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(eGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        shift = (self.weight() / 20.0) / (self.capHeight() / 40.0)
+        circ = Circle(self.p(0.5, 0.5, xHeight=True),
+                      self.p(0.5, 1.0, xHeight=True),
+                      self.weight(),
+                      semiA=self.p(1.0, 0.5, xHeight=True),
+                      semiB=self.p(1.0, 0.2, xHeight=True),
+                      serif=0)
+        midLine = Line(self.p(0.3 + shift, 0.5, xHeight=True),
+                       self.p(1.0, 0.5, xHeight=True),
+                       self.weight() / PHI)
+        return [circ, midLine]
 
 @glyph('i')
 class iGlyph(Glyph):
