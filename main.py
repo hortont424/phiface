@@ -4,7 +4,7 @@ import phiface
 
 sc = phiface.Context()
 
-demoStr = [a for a in phiface.glyphs.keys()]
+demoStr = [a for a in sorted(phiface.glyphs.keys())]
 
 #demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
 #demoStr = "abdlokKpqi"
