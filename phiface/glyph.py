@@ -386,7 +386,7 @@ class iGlyph(Glyph):
 
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 1.0, xHeight=True), self.p(0.5, 0.0),
-                        self.weight(), shift="up", serif=3)
+                        self.weight(), shift="up", serif=5)
         circ = Circle(self.p(0.5, 0.8),
                       self.p(0.7, 0.8),
                       self.weight())
