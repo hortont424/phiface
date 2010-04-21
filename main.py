@@ -15,7 +15,7 @@ capHeight = 40
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0,0,capHeight=capHeight)
-for weight in [0.5, 2, 4, 7]:
+for weight in [2, 4, 7]:
     for i in range(len(demoStr)):
         a = demoStr[i]
 
