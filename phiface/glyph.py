@@ -26,7 +26,7 @@ class Glyph(object):
         return self.pointSize
 
     def em(self):
-        return self.baseWidth() * PHI * 0.8
+        return self.baseWidth() * PHI * 0.618
 
     def baseWidth(self):
         return self.capHeight() / PHI
