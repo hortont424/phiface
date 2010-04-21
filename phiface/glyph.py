@@ -406,6 +406,23 @@ class pGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+class qGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(qGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        circX = 0.2
+        mainLine = Line(self.p(1.0, 1.0, xHeight=True),
+                        self.p(1.0, -0.4, xHeight=True),
+                        self.weight(), shift="down", serif=3)
+        circ = Circle(self.p(circX, 0.5, xHeight=True),
+                      self.p(circX, 1.0, xHeight=True),
+                      self.weight())
+        return [circ, mainLine]
+
 class tGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(tGlyph, self).__init__(x, y, capHeight)
@@ -514,6 +531,7 @@ glyphs = {
     "l": lGlyph,
     "o": oGlyph,
     "p": pGlyph,
+    "q": qGlyph,
     "t": tGlyph,
     "v": vGlyph,
     "w": wGlyph,
