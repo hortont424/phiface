@@ -5,12 +5,11 @@ import phiface
 sc = phiface.Context()
 
 #demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
-#demoStr = "abdlopq  i"
+demoStr = "abdlopq  i"
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
-demoStr = "a"
 tracking = 0
-capHeight = 200
+capHeight = 100
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0,0,capHeight=capHeight)

@@ -334,10 +334,10 @@ class aGlyph(Glyph):
         super(aGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.baseWidth()
 
     def getPolygon(self):
-        circX = 0.2
+        circX = 0.5
         mainLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0, xHeight=True),
                         self.weight(), shift="down")
         circ = Circle(self.p(circX, 0.5, xHeight=True),
@@ -350,10 +350,10 @@ class bGlyph(Glyph):
         super(bGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.baseWidth()
 
     def getPolygon(self):
-        circX = 0.8
+        circX = 0.5
         mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
                         self.weight(), shift="down", serif=3)
         circ = Circle(self.p(circX, 0.5, xHeight=True),
@@ -366,10 +366,10 @@ class dGlyph(Glyph):
         super(dGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.baseWidth()
 
     def getPolygon(self):
-        circX = 0.2
+        circX = 0.5
         mainLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0),
                         self.weight(), shift="down", serif=3)
         circ = Circle(self.p(circX, 0.5, xHeight=True),
@@ -409,7 +409,7 @@ class oGlyph(Glyph):
         super(oGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.baseWidth()
 
     def getPolygon(self):
         circ = Circle(self.p(0.5, 0.5, xHeight=True),
@@ -422,10 +422,10 @@ class pGlyph(Glyph):
         super(pGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.baseWidth()
 
     def getPolygon(self):
-        circX = 0.8
+        circX = 0.5
         mainLine = Line(self.p(0.0, 1.0, xHeight=True),
                         self.p(0.0, -0.4, xHeight=True),
                         self.weight(), shift="down", serif=3)
@@ -439,10 +439,10 @@ class qGlyph(Glyph):
         super(qGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.baseWidth()
 
     def getPolygon(self):
-        circX = 0.2
+        circX = 0.5
         mainLine = Line(self.p(1.0, 1.0, xHeight=True),
                         self.p(1.0, -0.4, xHeight=True),
                         self.weight(), shift="down", serif=3)
