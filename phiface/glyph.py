@@ -76,6 +76,23 @@ class AGlyph(Glyph):
 
         return [leftLine, rightLine, midLine]#, fillLine]
 
+@glyph('C')
+class CGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(CGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.capHeight()
+
+    def getPolygon(self):
+        circ = Circle(self.p(0.5, 0.5),
+                      self.p(0.5, 1.0),
+                      self.weight(),
+                      semiA=self.p(1.0, 1.0),
+                      semiB=self.p(1.0, 0.0),
+                      serif=2)
+        return [circ]
+
 @glyph('E')
 class EGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -242,7 +259,7 @@ class OGlyph(Glyph):
         super(OGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.capHeight()
 
     def getPolygon(self):
         circ = Circle(self.p(0.5, 0.5),
@@ -256,13 +273,15 @@ class QGlyph(Glyph):
         super(QGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.capHeight()
 
     def getPolygon(self):
+        shift = self.weight() / 20
         circ = Circle(self.p(0.5, 0.5),
                       self.p(0.5, 1.0),
                       self.weight())
-        crossLine = Line(self.p(0.7, 0.3), self.p(1.0, 0.0), self.weight())
+        crossLine = Line(self.p(0.75 - shift, 0.25 + shift),
+                         self.p(1.0, 0.0), self.weight(), noclip=True)
         return [circ, crossLine]
 
 @glyph('T')
