@@ -589,7 +589,7 @@ class tGlyph(Glyph):
                         self.weight(), shift="up", serif=3)
         topLine = Line(self.p(0.0, 1.0, xHeight=True),
                        self.p(1.0, 1.0, xHeight=True),
-                       self.weight(), shift="down")
+                       self.weight() / PHI, shift="down")
         return [mainLine, topLine]
 
 @glyph('v')
