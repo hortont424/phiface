@@ -54,7 +54,8 @@ def kernGlyphs(a, b, weight, capHeight):
     kerning = autoKern(a, b, weight, capHeight, metrics)
 
     if (a in kerningOverrides) and ("default" in kerningOverrides[a]):
-        kerning += kerningOverrides[a]["default"] * (metrics.capHeight() / 100.0)
+        kerning += (kerningOverrides[a]["default"] *
+            (metrics.capHeight() / 100.0))
     else:
         kerning += defaultKerning * (metrics.capHeight() / 100.0)
 
