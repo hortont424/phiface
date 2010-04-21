@@ -8,52 +8,61 @@ kerningOverrides = {
 
 }
 
-metrics = Glyph(0,0)
-
 kerningPairs = {}
 
-def autoKern(a, b, weight, capHeight):
+def autoKern(a, b, weight, capHeight, metrics):
     if not (a in glyphs and b in glyphs):
         return metrics.em() / 1.618
 
     aGlyph = glyphs[a](x=0, y=0, capHeight=capHeight)
     aGlyph.w = (weight * (metrics.capHeight() / 100.0))
     aBounds = mergeSubPolys([aGlyph]).bounds
-    maxRange = 15
+    i = minRange = direction = 0
+    wantType = MultiPolygon
 
-    for i in range(maxRange, -1000, -1):
-        advance = (aBounds[2] - aBounds[0]) + i
-        bGlyph = glyphs[b](x=advance, y=0, capHeight=capHeight)
-        bGlyph.w = (weight * (metrics.capHeight() / 100.0))
-        bBounds = mergeSubPolys([bGlyph]).bounds
-        if type(mergeSubPolys([aGlyph, bGlyph])) is Polygon:
-            if i == maxRange:
-                print "Autokern max range failure for glyphs:", a, b
-                return 0
+    bGlyph = glyphs[b](x=(aBounds[2] - aBounds[0]), y=0, capHeight=capHeight)
+    bGlyph.w = (weight * (metrics.capHeight() / 100.0))
+
+    if type(mergeSubPolys([aGlyph, bGlyph])) is Polygon:
+        direction = 1
+        minRange = 1000
+        wantType = MultiPolygon
+    else:
+        direction = -1
+        minRange = -1000
+        wantType = Polygon
+
+    while True:
+        bGlyph.x = (aBounds[2] - aBounds[0]) + i
+
+        if type(mergeSubPolys([aGlyph, bGlyph])) is wantType:
             return i
-    print "Autokern failed for glyphs:", a, b
-    return 0
+
+        i += direction
 
 #TODO: CACHE IS BROKEN WHEN CAPHEIGHT CHANGES!
 
 def kernGlyphs(a, b, weight, capHeight):
-    #if (a in kerningPairs) and (b in kerningPairs[a]):
-    #    return kerningPairs[a][b]
+    metrics = Glyph(0, 0, capHeight=capHeight)
 
-    kerning = autoKern(a, b, weight, capHeight)
+    if b:
+        memoString = a + "~" + b + "~" + str(weight) + "~" + str(capHeight)
+    else:
+        memoString = a + "~" + str(weight) + "~" + str(capHeight)
+
+    if (memoString in kerningPairs):
+        return kerningPairs[memoString]
+
+    kerning = autoKern(a, b, weight, capHeight, metrics)
 
     if (a in kerningOverrides) and ("default" in kerningOverrides[a]):
         kerning += kerningOverrides[a]["default"] * (metrics.capHeight() / 100.0)
     else:
         kerning += defaultKerning * (metrics.capHeight() / 100.0)
 
-    #if b and (a in kerningOverrides) and (b in kerningOverrides[a]):
-    #    kerning = kerningOverrides[a][b] * (metrics.capHeight() / 100.0)
+    if b and (a in kerningOverrides) and (b in kerningOverrides[a]):
+        kerning = kerningOverrides[a][b] * (metrics.capHeight() / 100.0)
 
-    #if not (a in kerningPairs):
-    #    kerningPairs[a] = {}
-    #
-    #if not (b in kerningPairs[a]):
-    #    kerningPairs[a][b] = kerning
+    kerningPairs[memoString] = kerning
 
     return kerning
