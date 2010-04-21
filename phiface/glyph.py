@@ -485,11 +485,13 @@ class iGlyph(Glyph):
         return self.baseWidth() / PHI
 
     def getPolygon(self):
-        circY = 0.8 - (0.01 / (self.weight() / 5))
+        circY = (0.8 - (0.01 / (self.weight() / 5)))
+        circSize = 0.5 + ((0.6 * (self.weight() / 7)) /
+                            (self.capHeight() / 40.0))
         mainLine = Line(self.p(0.5, 1.0, xHeight=True), self.p(0.5, 0.0),
                         self.weight(), shift="up", serif=5)
         circ = Circle(self.p(0.5, circY),
-                      self.p(0.5 + (0.6 * (self.weight() / 7)), circY),
+                      self.p(circSize, circY),
                       self.weight())
         return [circ, mainLine]
 
