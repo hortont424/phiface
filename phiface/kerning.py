@@ -30,19 +30,20 @@ def autoKern(a, b, weight, capHeight, metrics):
     bGlyph = glyphs[b](x=(aBounds[2] - aBounds[0]), y=0, capHeight=capHeight)
     bGlyph.w = (weight * (metrics.capHeight() / 100.0))
 
-    if type(mergeSubPolys([aGlyph, bGlyph])) is Polygon:
+    if mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])):
         direction = 1
-        wantType = MultiPolygon
+        wantType = False
     else:
         direction = -1
-        wantType = Polygon
+        wantType = True
 
     minRange = 1000 * direction
 
     while True:
         bGlyph.x = (aBounds[2] - aBounds[0]) + i
 
-        if type(mergeSubPolys([aGlyph, bGlyph])) is wantType:
+        if (mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])) ==
+            wantType):
             return i
 
         i += direction
