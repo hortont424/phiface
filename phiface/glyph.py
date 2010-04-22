@@ -717,13 +717,16 @@ class threeGlyph(Glyph):
                        self.p(0.5, topYY),
                        self.weight())
 
-        clipPoly = Polygon((self.p(0.5, 0.0), self.p(0.5, 1.0), self.p(1.5, 1.0), self.p(1.5, 0.0)))
+        clipPoly = Polygon((self.p(0.5, 0.0), self.p(0.5, 1.0),
+                            self.p(1.5, 1.0), self.p(1.5, 0.0)))
 
         threePoly = mergeSubPolys([circa, circb]).intersection(
             mergeSubPolys([clipPoly]))
 
-        topLine = Line(self.p(0.26, 1.0), self.p(0.5, 1.0), self.weight(), shift="down")
-        bottomLine = Line(self.p(0.26, 0.0), self.p(0.5, 0.0), self.weight(), shift="up")
+        topLine = Line(self.p(0.15, 1.0), self.p(0.5, 1.0),
+                       self.weight(), shift="down")
+        bottomLine = Line(self.p(0.15, 0.0), self.p(0.5, 0.0),
+                          self.weight(), shift="up")
 
         return [threePoly, topLine, bottomLine]
 
