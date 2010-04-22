@@ -72,11 +72,19 @@ class Line(object):
         else:
             yInf = 200
 
-        if not self.noclip:
-            clipPoly = Polygon(((x1 - xInf, y1 - yInf),
-                                (x1 - xInf, y2 + yInf),
-                                (x2 + xInf, y2 + yInf),
-                                (x2 + xInf, y1 - yInf)))
+        if (not self.noclip) or (self.noclip == 2):
+            clipPoly = None
+
+            if self.noclip == 2:
+                clipPoly = Polygon(((x1 - xInf, y1 - yInf),
+                                    (x1 - xInf, y2 + 200),
+                                    (x2 + 200, y2 + 200),
+                                    (x2 + 200, y1 - yInf)))
+            else:
+                clipPoly = Polygon(((x1 - xInf, y1 - yInf),
+                                    (x1 - xInf, y2 + yInf),
+                                    (x2 + xInf, y2 + yInf),
+                                    (x2 + xInf, y1 - yInf)))
 
             clipPoly = linePoly.intersection(clipPoly)
 

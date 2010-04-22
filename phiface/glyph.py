@@ -672,3 +672,39 @@ class zGlyph(Glyph):
                           self.p(1.0, 0.0, xHeight=True),
                           self.weight(), shift="up", serif=1)
         return [topLine, slashLine, bottomLine]
+
+@glyph('1')
+class oneGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(oneGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() * 0.8
+
+    def getPolygon(self):
+        shift = (self.weight() / 2.0) / self.width()
+        mainLine = Line(self.p(0.5, 1.0), self.p(0.5, 0.0),
+                        self.weight(), serif=3)
+        overLine = Line(self.p(0.5 - shift, 1.0), self.p(0.0, 0.7),
+                        self.weight(), shift="down", noclip=2)
+        return [mainLine, overLine]
+
+@glyph('4')
+class fourGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(fourGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        shift = (self.weight() / 2.0) / self.width()
+        mainLine = Line(self.p(0.7, 1.0), self.p(0.7, 0.0),
+                        self.weight(), serif=3)
+        overLine = Line(self.p(0.7 - shift, 1.0),
+                        self.p(0.0, 0.5, xHeight=True),
+                        self.weight(), shift="down")
+        backLine = Line(self.p(1.0, 0.5, xHeight=True),
+                        self.p(0.0, 0.5, xHeight=True),
+                        self.weight(), shift="up")
+        return [mainLine, overLine, backLine]
