@@ -708,3 +708,20 @@ class fourGlyph(Glyph):
                         self.p(0.0, 0.5, xHeight=True),
                         self.weight(), shift="up")
         return [mainLine, overLine, backLine]
+
+@glyph('7')
+class sevenGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(sevenGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        shift = (self.weight() / 2.0) / self.width()
+        mainLine = Line(self.p(1.0, 1.0), self.p(0.3, 0.0),
+                        self.weight(), serif=0)
+        overLine = Line(self.p(0.0, 1.0),
+                        self.p(1.0, 1.0),
+                        self.weight(), shift="down")
+        return [mainLine, overLine]
