@@ -281,6 +281,28 @@ class IGlyph(Glyph):
                           self.weight() / PHI, shift="up")
         return [mainLine, topLine, bottomLine]
 
+@glyph('J')
+class JGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(JGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        mainLine = Line(self.p(1.0, 1.0), self.p(1.0, 0.0),
+                        self.weight(), shift="left", serif=6)
+        circ = Circle(self.p(0.5, 0.0),
+                      self.p(1.0, 0.0),
+                      self.weight())
+        clipPoly = Polygon((self.p(0.5, 0.0), self.p(1.0, 0.0),
+                            self.p(1.0, -1.0), self.p(0.5, -1.0)))
+
+        circ = mergeSubPolys([circ]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        return [mainLine, circ]
+
 @glyph('K')
 class KGlyph(Glyph):
     def __init__(self, x, y, capHeight):

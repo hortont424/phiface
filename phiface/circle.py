@@ -6,7 +6,8 @@ from line import Line
 capHeight = 100
 
 class Circle(object):
-    def __init__(self, a, b, weight, semiA=None, semiB=None, serif=0):
+    def __init__(self, a, b, weight, semiA=None, semiB=None, serif=0,
+                 swapClip=False):
         super(Circle, self).__init__()
         self.a = a
         self.b = b
@@ -14,6 +15,7 @@ class Circle(object):
         self.semiA = semiA
         self.semiB = semiB
         self.serif = serif
+        self.swapClip = swapClip
 
     def getPolygon(self):
         (x1, y1), (x2, y2) = self.a, self.b
@@ -33,7 +35,10 @@ class Circle(object):
                                 (ax, ay),
                                 (bx, by)))
 
-            circ = circ.difference(clipPoly)
+            if self.swapClip:
+                circ = circ.intersection(clipPoly)
+            else:
+                circ = circ.difference(clipPoly)
 
         # Done, if we don't want serifs
         if self.serif == 0 or not (self.semiA and self.semiB):

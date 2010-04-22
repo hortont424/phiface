@@ -164,7 +164,7 @@ class Line(object):
                                     (x1 - serifWeight - ss - angleShift,
                                      y1 + serifWeight),
                                     serifWeight)]
-        if self.serif == 5:
+        if self.serif == 5 or self.serif == 6:
             if self.shift is "down":
                 serifPolys += [Line((x1,
                                      y1 - serifWeight),
