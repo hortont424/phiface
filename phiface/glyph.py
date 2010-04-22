@@ -219,6 +219,28 @@ class FGlyph(Glyph):
 
         return [leftLine, topLine, midLine]
 
+@glyph('G')
+class GGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(GGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.capHeight()
+
+    def getPolygon(self):
+        leftShift = self.weight() / self.capHeight() / 2
+
+        circ = Circle(self.p(0.5, 0.5),
+                      self.p(0.5, 1.0),
+                      self.weight(),
+                      semiA=self.p(1.0, 0.8),
+                      semiB=self.p(1.0, 0.5))
+
+        midLine = Line(self.p(1.0 - leftShift, 0.5), self.p(0.5, 0.5),
+                       self.weight(), shift="down")
+
+        return [circ, midLine]
+
 @glyph('H')
 class HGlyph(Glyph):
     def __init__(self, x, y, capHeight):

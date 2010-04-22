@@ -11,7 +11,7 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
 #demoStr = "TextMate Mail"
-demoStr = "13478MABCD"
+demoStr = "13478MABCDEFG"
 tracking = 0
 capHeight = 50
 
