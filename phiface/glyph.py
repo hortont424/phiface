@@ -66,8 +66,6 @@ class AGlyph(Glyph):
                         self.weight(), serif=3)
         rightLine = Line(self.p(0.5, 1.0), self.p(1.0, 0.0),
                          self.weight(), serif=3)
-        fillLine = Line(self.p(0.5, 1.01), self.p(0.5, 1.0),
-                        self.weight())
 
         midHeight = self.p(0.0, 0.5, xHeight=True)[1]
         midLeft = leftLine.atY(midHeight)
@@ -76,7 +74,55 @@ class AGlyph(Glyph):
         midLine = Line((midLeft, midHeight),
                        (midRight, midHeight), self.weight())
 
-        return [leftLine, rightLine, midLine]#, fillLine]
+        return [leftLine, rightLine, midLine]
+
+@glyph('B')
+class BGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(BGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.5
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        bottomYY += shift / 2.0
+        bottomY += shift / 4.0
+
+        topYY -= shift / 2.0
+        topY -= shift / 4.0
+
+        circa = Circle(self.p(0.5, bottomY),
+                       self.p(0.5, bottomYY),
+                       self.weight())
+        circb = Circle(self.p(0.5, topY),
+                       self.p(0.5, topYY),
+                       self.weight())
+
+        clipPoly = Polygon((self.p(0.5, 0.0), self.p(0.5, 1.0),
+                            self.p(1.5, 1.0), self.p(1.5, 0.0)))
+
+        threePoly = mergeSubPolys([circa, circb]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        topLine = Line(self.p(0.0, 1.0), self.p(0.5, 1.0),
+                       self.weight(), shift="down")
+        bottomLine = Line(self.p(0.0, 0.0), self.p(0.5, 0.0),
+                          self.weight(), shift="up")
+        midLine = Line(self.p(0.0, 0.5), self.p(0.5, 0.5),
+                       self.weight())
+
+        leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
+                        self.weight(), shift="right")
+
+        return [threePoly, topLine, bottomLine, leftLine, midLine]
 
 @glyph('C')
 class CGlyph(Glyph):
@@ -699,16 +745,19 @@ class threeGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        shift = ((self.weight() / 2.0) / self.capHeight()) * 3
-        bottomHeight = 0.5
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.5 #0.618
         bottomY = bottomHeight / 2.0
         bottomYY = bottomY + (bottomHeight / 2.0)
         topHeight = 1.0 - bottomHeight
         topY = bottomYY + (topHeight / 2.0)
         topYY = bottomYY
 
-        bottomYY += shift
-        bottomY += shift / 2.0
+        bottomYY += shift / 2.0
+        bottomY += shift / 4.0
+
+        topYY -= shift / 2.0
+        topY -= shift / 4.0
 
         circa = Circle(self.p(0.5, bottomY),
                        self.p(0.5, bottomYY),
