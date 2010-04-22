@@ -7,7 +7,7 @@ sc = phiface.Context()
 demoStr = [a for a in sorted(phiface.glyphs.keys())]
 
 #demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
-#demoStr = "abdlokKpqi"
+demoStr = "abdlojk"
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
 #demoStr = "TextMate Mail"

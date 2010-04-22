@@ -743,6 +743,36 @@ class iGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+@glyph('j')
+class jGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(jGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() / PHI
+
+    def getPolygon(self):
+        #dotX = 1.0 - ((self.weight() / 10.0) / (self.capHeight() / 40.0)) + 0.05
+        dotX = 1.0 - (self.weight() / self.capHeight()) * 3.0
+        dotY = (0.8 - (0.01 / (self.weight() / 5) * (self.capHeight() / 40.0)))
+        dotSize = ((0.6 * (self.weight() / 7)) /
+                            (self.capHeight() / 40.0))
+        dot = Circle(self.p(dotX, dotY),
+                      self.p(dotX + dotSize, dotY),
+                      self.weight())
+        mainLine = Line(self.p(1.0, 1.0, xHeight=True), self.p(1.0, 0.0),
+                        self.weight(), shift="left", serif=6)
+        circ = Circle(self.p(0.5, 0.0),
+                      self.p(1.0, 0.0),
+                      self.weight())
+        clipPoly = Polygon((self.p(0.5, 0.0), self.p(1.0, 0.0),
+                            self.p(1.0, -1.0), self.p(0.5, -1.0)))
+
+        circ = mergeSubPolys([circ]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        return [mainLine, circ, dot]
+
 @glyph('k')
 class kGlyph(Glyph):
     def __init__(self, x, y, capHeight):
