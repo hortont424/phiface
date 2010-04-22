@@ -967,10 +967,10 @@ class threeGlyph(Glyph):
         threePoly = mergeSubPolys([circa, circb]).intersection(
             mergeSubPolys([clipPoly]))
 
-        topLine = Line(self.p(0.15, 1.0), self.p(0.5, 1.0),
-                       self.weight(), shift="down")
-        bottomLine = Line(self.p(0.15, 0.0), self.p(0.5, 0.0),
-                          self.weight(), shift="up")
+        topLine = Line(self.p(0.5, 1.0), self.p(0.15, 1.0),
+                       self.weight(), shift="down")#, serif=1)
+        bottomLine = Line(self.p(0.5, 0.0), self.p(0.15, 0.0),
+                          self.weight(), shift="up")#, serif=1)
 
         return [threePoly, topLine, bottomLine]
 
@@ -1006,9 +1006,9 @@ class sevenGlyph(Glyph):
         shift = (self.weight() / 2.0) / self.width()
         mainLine = Line(self.p(1.0, 1.0), self.p(0.3, 0.0),
                         self.weight(), serif=0)
-        overLine = Line(self.p(0.0, 1.0),
-                        self.p(1.0, 1.0),
-                        self.weight(), shift="down")
+        overLine = Line(self.p(1.0, 1.0),
+                        self.p(0.1, 1.0),
+                        self.weight(), shift="down", serif=1)
         return [mainLine, overLine]
 
 @glyph('8')
