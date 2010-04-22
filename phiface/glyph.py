@@ -389,6 +389,46 @@ class OGlyph(Glyph):
                       self.weight())
         return [circ]
 
+@glyph('P')
+class PGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(PGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.5
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        topYY -= shift / 2.0
+        topY -= shift / 4.0
+
+        circa = Circle(self.p(0.5, topY),
+                       self.p(0.5, topYY),
+                       self.weight())
+
+        clipPoly = Polygon((self.p(0.5, 0.0), self.p(0.5, 1.0),
+                            self.p(1.5, 1.0), self.p(1.5, 0.0)))
+
+        threePoly = mergeSubPolys([circa]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        topLine = Line(self.p(0.0, 1.0), self.p(0.5, 1.0),
+                       self.weight(), shift="down")
+        midLine = Line(self.p(0.0, 0.5), self.p(0.5, 0.5),
+                       self.weight())
+
+        leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=4)
+
+        return [threePoly, topLine, leftLine, midLine]
+
 @glyph('Q')
 class QGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -405,6 +445,52 @@ class QGlyph(Glyph):
         crossLine = Line(self.p(0.75 - shift, 0.25 + shift),
                          self.p(1.0, 0.0), self.weight(), noclip=True)
         return [circ, crossLine]
+
+@glyph('R')
+class RGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(RGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.5
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        topYY -= shift / 2.0
+        topY -= shift / 4.0
+
+        dy = topY - topYY
+
+        circa = Circle(self.p(0.5, topY),
+                       self.p(0.5, topYY),
+                       self.weight())
+
+        clipPoly = Polygon((self.p(0.5, 0.0), self.p(0.5, 1.0),
+                            self.p(1.5, 1.0), self.p(1.5, 0.0)))
+
+        threePoly = mergeSubPolys([circa]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        topLine = Line(self.p(0.0, 1.0), self.p(0.5, 1.0),
+                       self.weight(), shift="down")
+        midLine = Line(self.p(0.0, 0.5), self.p(0.5, 0.5),
+                       self.weight())
+
+        leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=4)
+
+        downLine = Line(self.p(0.5, 0.5), self.p(1.0, 0.0),
+                        self.weight(), shift="up", serif=3)
+
+        return [threePoly, topLine, leftLine, midLine, downLine]
+
 
 @glyph('T')
 class TGlyph(Glyph):
