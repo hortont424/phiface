@@ -840,6 +840,46 @@ class tGlyph(Glyph):
                        self.weight() / PHI, shift="down")
         return [mainLine, topLine]
 
+@glyph('u')
+class uGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(uGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth() * 0.8
+
+    def getPolygon(self):
+        rad = 0.4
+        shift = (self.p(0.5, rad, xHeight=True)[0] -
+                 self.p(0.0, 0.0, xHeight=True)[0])
+        shift -= (self.p(0.5, 0.0, xHeight=True)[1] -
+                  self.p(0.5, rad, xHeight=True)[1])
+        shift /= self.capHeight()
+
+        circ = Circle(self.p(0.5, rad, xHeight=True),
+                       self.p(0.5, 0.0, xHeight=True),
+                       self.weight())
+
+        clipPoly = Polygon((self.p(0.0, rad, xHeight=True),
+                            self.p(1.0, rad, xHeight=True),
+                            self.p(1.0, -1.0, xHeight=True),
+                            self.p(0.0, -1.0, xHeight=True)))
+
+        circ = mergeSubPolys([circ]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        s = self.weight() * 1.25 / self.xHeight()
+
+        leftLine = Line(self.p(0.0 + shift, rad, xHeight=True),
+                        self.p(0.0 + shift, 1.0 - s, xHeight=True),
+                        self.weight(), shift="right", serif=3)
+
+        rightLine = Line(self.p(1.0 - shift, rad, xHeight=True),
+                         self.p(1.0 - shift, 1.0 - s, xHeight=True),
+                         self.weight(), shift="left", serif=3)
+
+        return [circ, leftLine, rightLine]
+
 @glyph('v')
 class vGlyph(Glyph):
     def __init__(self, x, y, capHeight):
