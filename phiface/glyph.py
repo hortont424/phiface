@@ -119,8 +119,8 @@ class BGlyph(Glyph):
         midLine = Line(self.p(0.0, 0.5), self.p(0.5, 0.5),
                        self.weight())
 
-        leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
-                        self.weight(), shift="right")
+        leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=4)
 
         return [threePoly, topLine, bottomLine, leftLine, midLine]
 
@@ -139,6 +139,37 @@ class CGlyph(Glyph):
                       semiA=self.p(1.0, 0.8),
                       semiB=self.p(1.0, 0.2))
         return [circ]
+
+@glyph('D')
+class DGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(DGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.capHeight()
+
+    def getPolygon(self):
+        circ = Circle(self.p(0.5, 0.5),
+                      self.p(0.5, 1.0),
+                      self.weight(),
+                      semiA=self.p(0.0, 0.8),
+                      semiB=self.p(0.0, 0.2))
+
+        clipPoly = Polygon((self.p(0.5, 0.0), self.p(0.5, 1.0),
+                            self.p(1.5, 1.0), self.p(1.5, 0.0)))
+
+        circ = mergeSubPolys([circ]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        dWidth = 0.2
+        leftLine = Line(self.p(dWidth, 1.0), self.p(dWidth, 0.0),
+                        self.weight(), shift="right", serif=4)
+        topLine = Line(self.p(dWidth, 1.0), self.p(0.5, 1.0),
+                       self.weight(), shift="down")
+        bottomLine = Line(self.p(dWidth, 0.0), self.p(0.5, 0.0),
+                          self.weight(), shift="up")
+
+        return [circ, leftLine, topLine, bottomLine]
 
 @glyph('E')
 class EGlyph(Glyph):
