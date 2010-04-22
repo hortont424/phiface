@@ -725,3 +725,31 @@ class sevenGlyph(Glyph):
                         self.p(1.0, 1.0),
                         self.weight(), shift="down")
         return [mainLine, overLine]
+
+@glyph('8')
+class eightGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(eightGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        shift = (self.weight() / 2.0) / self.capHeight()
+        bottomHeight = 0.55
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        bottomYY += shift
+        bottomY += shift / 2.0
+
+        circa = Circle(self.p(0.5, bottomY),
+                       self.p(0.5, bottomYY),
+                       self.weight())
+        circb = Circle(self.p(0.5, topY),
+                       self.p(0.5, topYY),
+                       self.weight())
+        return [circa, circb]
