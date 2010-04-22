@@ -506,6 +506,38 @@ class TGlyph(Glyph):
                        self.weight(), shift="down", serif=2)
         return [mainLine, topLine]
 
+@glyph('U')
+class UGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(UGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        rad = 0.309
+        shift = self.p(0.5, rad)[0] - self.p(0.0, 0.0)[0]
+        shift -= self.p(0.5, 0.0)[1] - self.p(0.5, rad)[1]
+        shift /= self.capHeight()
+
+        circ = Circle(self.p(0.5, rad),
+                       self.p(0.5, 0.0),
+                       self.weight())
+
+        clipPoly = Polygon((self.p(0.0, rad), self.p(1.0, rad),
+                            self.p(1.0, -1.0), self.p(0.0, -1.0)))
+
+        circ = mergeSubPolys([circ]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        leftLine = Line(self.p(0.0 + shift, 1.0), self.p(0.0 + shift, rad),
+                        self.weight(), shift="right")
+
+        rightLine = Line(self.p(1.0 - shift, 1.0), self.p(1.0 - shift, rad),
+                         self.weight(), shift="left")
+
+        return [circ, leftLine, rightLine]
+
 @glyph('V')
 class VGlyph(Glyph):
     def __init__(self, x, y, capHeight):
