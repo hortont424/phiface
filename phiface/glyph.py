@@ -530,11 +530,13 @@ class UGlyph(Glyph):
         circ = mergeSubPolys([circ]).intersection(
             mergeSubPolys([clipPoly]))
 
-        leftLine = Line(self.p(0.0 + shift, 1.0), self.p(0.0 + shift, rad),
-                        self.weight(), shift="right")
+        s = self.weight() * 1.25 / self.capHeight()
 
-        rightLine = Line(self.p(1.0 - shift, 1.0), self.p(1.0 - shift, rad),
-                         self.weight(), shift="left")
+        leftLine = Line(self.p(0.0 + shift, rad), self.p(0.0 + shift, 1.0 - s),
+                        self.weight(), shift="right", serif=3)
+
+        rightLine = Line(self.p(1.0 - shift, rad), self.p(1.0 - shift, 1.0 - s),
+                         self.weight(), shift="left", serif=3)
 
         return [circ, leftLine, rightLine]
 
