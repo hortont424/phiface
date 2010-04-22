@@ -3,6 +3,7 @@ import circle
 from line import Line
 from circle import Circle
 from context import mergeSubPolys
+from shapely.geometry import *
 
 PHI = 1.618
 
@@ -689,6 +690,43 @@ class oneGlyph(Glyph):
                         self.weight(), shift="down", noclip=2)
         return [mainLine, overLine]
 
+@glyph('3')
+class threeGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(threeGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 3
+        bottomHeight = 0.5
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        bottomYY += shift
+        bottomY += shift / 2.0
+
+        circa = Circle(self.p(0.5, bottomY),
+                       self.p(0.5, bottomYY),
+                       self.weight())
+        circb = Circle(self.p(0.5, topY),
+                       self.p(0.5, topYY),
+                       self.weight())
+
+        clipPoly = Polygon((self.p(0.5, 0.0), self.p(0.5, 1.0), self.p(1.5, 1.0), self.p(1.5, 0.0)))
+
+        threePoly = mergeSubPolys([circa, circb]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        topLine = Line(self.p(0.26, 1.0), self.p(0.5, 1.0), self.weight(), shift="down")
+        bottomLine = Line(self.p(0.26, 0.0), self.p(0.5, 0.0), self.weight(), shift="up")
+
+        return [threePoly, topLine, bottomLine]
+
 @glyph('4')
 class fourGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -735,7 +773,7 @@ class eightGlyph(Glyph):
         return self.baseWidth()
 
     def getPolygon(self):
-        shift = (self.weight() / 2.0) / self.capHeight()
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 3
         bottomHeight = 0.55
         bottomY = bottomHeight / 2.0
         bottomYY = bottomY + (bottomHeight / 2.0)
