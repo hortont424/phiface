@@ -1108,3 +1108,21 @@ class eightGlyph(Glyph):
                        self.p(0.5, topYY),
                        self.weight())
         return [circa, circb]
+
+@glyph('9')
+class nineGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(nineGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.baseWidth()
+
+    def getPolygon(self):
+        circX = 0.5
+        mainLine = Line(self.p(1.0, 1.0),
+                        self.p(1.0, 0.0),
+                        self.weight(), shift="down")
+        circ = Circle(self.p(0.618, 0.75),
+                      self.p(0.618, 1.0),
+                      self.weight())
+        return [circ, mainLine]
