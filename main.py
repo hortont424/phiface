@@ -15,8 +15,9 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "a; bcd. ef, ij!"
 #demoStr = "New York"
 #demoStr = "Phiface"
+#demoStr = "defghi"
 tracking = 0
-capHeight = 150
+capHeight = 30
 phiface.line.drawSerifs = phiface.circle.drawSerifs = True
 
 xloc = yloc = 20

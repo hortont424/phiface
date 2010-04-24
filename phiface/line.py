@@ -34,17 +34,17 @@ class Line(object):
             endDirection = not endDirection
 
         if endDirection:
-            if self.shift is "left":
+            if self.shift and "left" in self.shift:
                 x1 -= self.delta
                 x2 -= self.delta
-            elif self.shift is "right":
+            elif self.shift and "right" in self.shift:
                 x1 += self.delta
                 x2 += self.delta
         else:
-            if self.shift is "up":
+            if self.shift and "up" in self.shift:
                 y1 -= self.delta
                 y2 -= self.delta
-            elif self.shift is "down":
+            elif self.shift and "down" in self.shift:
                 y1 += self.delta
                 y2 += self.delta
 
@@ -101,11 +101,11 @@ class Line(object):
         angleShift = cos(realAngle) * (self.delta * -1.2)
 
         if self.serif == 1 or self.serif == 2:
-            if self.shift is "down":
+            if self.shift and "down" in self.shift:
                 serifPolys = [Line((x2 - serifWeight, y2 - self.delta),
                                    (x2 - serifWeight, y2 + self.delta + ss),
                                    serifWeight)]
-            elif self.shift is "up":
+            elif self.shift and "up" in self.shift:
                 serifPolys = [Line((x2 - serifWeight, y2 + self.delta),
                                    (x2 - serifWeight, y2 - self.delta - ss),
                                    serifWeight)]
@@ -114,11 +114,11 @@ class Line(object):
                                    (x2 - serifWeight, y2 - self.delta - ss),
                                    serifWeight)]
         if self.serif == 2:
-            if self.shift is "down":
+            if self.shift and "down" in self.shift:
                 serifPolys += [Line((x1 + serifWeight, y1 - self.delta),
                                     (x1 + serifWeight, y1 + self.delta + ss),
                                     serifWeight)]
-            elif self.shift is "up":
+            elif self.shift and "up" in self.shift:
                 serifPolys += [Line((x1 + serifWeight, y1 + self.delta),
                                     (x1 + serifWeight, y1 - self.delta - ss),
                                     serifWeight)]
@@ -127,13 +127,13 @@ class Line(object):
                                     (x1 + serifWeight, y1 - self.delta - ss),
                                     serifWeight)]
         if self.serif == 3 or self.serif == 4 or self.serif == 5:
-            if self.shift is "down":
+            if self.shift and "down" in self.shift:
                 serifPolys = [Line((x2 + serifWeight + ss + angleShift,
                                     y2 + serifWeight),
                                    (x2 - serifWeight - ss + angleShift,
                                     y2 + serifWeight),
                                    serifWeight)]
-            elif self.shift is "up":
+            elif self.shift and "up" in self.shift:
                 serifPolys = [Line((x2 + serifWeight + ss + angleShift,
                                     y2 - serifWeight),
                                    (x2 - serifWeight - ss + angleShift,
@@ -146,13 +146,13 @@ class Line(object):
                                     y2 - serifWeight),
                                    serifWeight)]
         if self.serif == 4:
-            if self.shift is "down":
+            if self.shift and "down" in self.shift:
                 serifPolys += [Line((x1 + serifWeight + ss - angleShift,
                                      y1 - serifWeight),
                                     (x1 - serifWeight - ss - angleShift,
                                      y1 - serifWeight),
                                     serifWeight)]
-            elif self.shift is "up":
+            elif self.shift and "up" in self.shift:
                 serifPolys += [Line((x1 + serifWeight + ss - angleShift,
                                      y1 + serifWeight),
                                     (x1 - serifWeight - ss - angleShift,
@@ -165,13 +165,13 @@ class Line(object):
                                      y1 + serifWeight),
                                     serifWeight)]
         if self.serif == 5 or self.serif == 6:
-            if self.shift is "down":
+            if self.shift and "down" in self.shift:
                 serifPolys += [Line((x1,
                                      y1 - serifWeight),
                                     (x1 - serifWeight - ss - angleShift,
                                      y1 - serifWeight),
                                     serifWeight)]
-            elif self.shift is "up":
+            elif self.shift and "up" in self.shift:
                 serifPolys += [Line((x1,
                                      y1 + serifWeight),
                                     (x1 - serifWeight - ss - angleShift,

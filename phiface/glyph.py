@@ -711,7 +711,7 @@ class bGlyph(Glyph):
 
         circX = 0.5
         mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
-                        self.weight(), shift="down", serif=3)
+                        self.weight(), shift="rightdown", serif=3)
         circ = Circle(self.p(circX, 0.5, xHeight=True),
                       self.p(circX, 1.0, xHeight=True),
                       self.weight())
@@ -748,7 +748,7 @@ class dGlyph(Glyph):
 
         circX = 0.5
         mainLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0),
-                        self.weight(), shift="down", serif=3)
+                        self.weight(), shift="leftdown", serif=3)
         circ = Circle(self.p(circX, 0.5, xHeight=True),
                       self.p(circX, 1.0, xHeight=True),
                       self.weight())
@@ -815,6 +815,36 @@ class fGlyph(Glyph):
                        self.weight() / PHI, shift="down")
 
         return [circ, mainLine, topLine]
+
+@glyph('g')
+class gGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(gGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(gGlyph, self).setupDrawing()
+
+        circX = 0.5
+        mainLine = Line(self.p(1.0, 1.0, xHeight=True),
+                        self.p(1.0, 0.0, xHeight=True),
+                        self.weight(), shift="left")
+        circ = Circle(self.p(circX, 0.5, xHeight=True),
+                      self.p(circX, 1.0, xHeight=True),
+                      self.weight())
+
+        bcirc = Circle(self.p(0.5, 0.0),
+                       self.p(1.0, 0.0),
+                       self.weight())
+        bclipPoly = Polygon((self.p(0.5, 0.0), self.p(1.0, 0.0),
+                             self.p(1.0, -1.0), self.p(0.5, -1.0)))
+
+        bcirc = mergeSubPolys([bcirc]).intersection(
+            mergeSubPolys([bclipPoly]))
+
+        return [circ, mainLine, bcirc]
 
 @glyph('h')
 class hGlyph(Glyph):
@@ -1034,7 +1064,7 @@ class pGlyph(Glyph):
         circX = 0.5
         mainLine = Line(self.p(0.0, 1.0, xHeight=True),
                         self.p(0.0, -0.4, xHeight=True),
-                        self.weight(), shift="down", serif=3)
+                        self.weight(), shift="rightdown", serif=3)
         circ = Circle(self.p(circX, 0.5, xHeight=True),
                       self.p(circX, 1.0, xHeight=True),
                       self.weight())
@@ -1054,7 +1084,7 @@ class qGlyph(Glyph):
         circX = 0.5
         mainLine = Line(self.p(1.0, 1.0, xHeight=True),
                         self.p(1.0, -0.4, xHeight=True),
-                        self.weight(), shift="down", serif=3)
+                        self.weight(), shift="leftdown", serif=3)
         circ = Circle(self.p(circX, 0.5, xHeight=True),
                       self.p(circX, 1.0, xHeight=True),
                       self.weight())
