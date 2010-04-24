@@ -816,6 +816,37 @@ class fGlyph(Glyph):
 
         return [circ, mainLine, topLine]
 
+@glyph('h')
+class hGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(hGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(hGlyph, self).setupDrawing()
+
+        mWidth = 0.4
+
+        mainLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=5)
+        midLine = Line(self.p(mWidth * 2.0, (1.0 - mWidth), xHeight=True),
+                       self.p(mWidth * 2.0, 0.0),
+                       self.weight(), shift="left", serif=3)
+        circ = Circle(self.p(mWidth, (1.0 - mWidth), xHeight=True),
+                      self.p(mWidth, 1.0, xHeight=True),
+                      self.weight())
+        clipPoly = Polygon((self.p(0.0, (1.0 - mWidth), xHeight=True),
+                            self.p(1.0, (1.0 - mWidth), xHeight=True),
+                            self.p(1.0, 0.0, xHeight=True),
+                            self.p(0.0, 0.0)))
+
+        circ = mergeSubPolys([circ]).difference(
+            mergeSubPolys([clipPoly]))
+
+        return [circ, mainLine, midLine]
+
 @glyph('i')
 class iGlyph(Glyph):
     def __init__(self, x, y, capHeight):

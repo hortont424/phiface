@@ -13,7 +13,6 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "Dolor"
 #demoStr = "ftp://www.rpi.edu"
 #demoStr = "a; bcd. ef, ij!"
-demoStr = "klmnop"
 tracking = 0
 capHeight = 50
 
