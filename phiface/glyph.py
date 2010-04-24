@@ -1343,8 +1343,64 @@ class periodGlyph(Glyph):
         circY = (circSize - 0.5) / 3.0
         circ = Circle(self.p(0.5, circY),
                       self.p(circSize, circY),
-                      self.weight())
+                      -1.0)
         return [circ]
+
+@glyph(',')
+class commaGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(commaGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(commaGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(0.5, 0.1), self.p(0.4, -0.1), self.weight())
+        return [mainLine]
+
+@glyph(';')
+class semicolonGlyph(commaGlyph):
+    def __init__(self, x, y, capHeight):
+        super(semicolonGlyph, self).__init__(x, y, capHeight)
+
+    def getPolygon(self):
+        super(semicolonGlyph, self).setupDrawing()
+        parentPoly = super(semicolonGlyph, self).getPolygon()
+
+        circSize = 0.5 + ((0.6 * (self.weight() / 7)) /
+                            (self.capHeight() / 40.0))
+
+        circY = (circSize - 0.5) / 3.0
+        circ = Circle(self.p(0.5, 0.8 - circY),
+                      self.p(circSize, 0.8 - circY),
+                      -1.0)
+
+        return [parentPoly, circ]
+
+@glyph(':')
+class colonGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(colonGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(colonGlyph, self).setupDrawing()
+
+        circSize = 0.5 + ((0.6 * (self.weight() / 7)) /
+                            (self.capHeight() / 40.0))
+
+        circY = (circSize - 0.5) / 3.0
+        circ = Circle(self.p(0.5, circY),
+                      self.p(circSize, circY),
+                      -1.0)
+        topcirc = Circle(self.p(0.5, 0.8 - circY),
+                         self.p(circSize, 0.8 - circY),
+                         -1.0)
+        return [circ, topcirc]
 
 @glyph('!')
 class exclamationGlyph(Glyph):
@@ -1363,7 +1419,7 @@ class exclamationGlyph(Glyph):
         circY = (circSize - 0.5) / 3.0
         circ = Circle(self.p(0.5, circY),
                       self.p(circSize, circY),
-                      self.weight())
+                      -1.0)
 
         mainLine = Line(self.p(0.5, 1.0),
                         self.p(0.5, circY * 2 + 0.15), self.weight())
@@ -1381,7 +1437,133 @@ class fwSlashGlyph(Glyph):
     def getPolygon(self):
         super(fwSlashGlyph, self).setupDrawing()
 
-        mainLine = Line(self.p(0.0, 0.0),
-                        self.p(1.0, 1.0), self.weight())
+        mainLine = Line(self.p(0.0, -0.1),
+                        self.p(1.0, 0.9), self.weight(), noclip=True)
 
         return [mainLine]
+
+@glyph('\\')
+class bkSlashGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(bkSlashGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI / PHI
+
+    def getPolygon(self):
+        super(bkSlashGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(1.0, -0.1),
+                        self.p(0.0, 0.9), self.weight(), noclip=True)
+
+        return [mainLine]
+
+@glyph('|')
+class pipeGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(pipeGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI / PHI
+
+    def getPolygon(self):
+        super(pipeGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(0.0, 0.0),
+                        self.p(0.0, 1.0), self.weight())
+
+        return [mainLine]
+
+@glyph('[')
+class openSquareBracketGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(openSquareBracketGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(openSquareBracketGlyph, self).setupDrawing()
+
+        width = (self.weight() / self.capHeight()) * 10.0
+
+        mainLine = Line(self.p(0.0, 0.0),
+                        self.p(0.0, 1.0), self.weight(), shift="right")
+        topLine = Line(self.p(0.0, 1.0),
+                       self.p(width, 1.0), self.weight(), shift="down")
+        bottomLine = Line(self.p(0.0, 0.0),
+                          self.p(width, 0.0), self.weight(), shift="up")
+
+        return [mainLine, topLine, bottomLine]
+
+@glyph(']')
+class closeSquareBracketGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(closeSquareBracketGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI / PHI
+
+    def getPolygon(self):
+        super(closeSquareBracketGlyph, self).setupDrawing()
+
+        width = (self.weight() / self.capHeight()) * 10.0
+
+        mainLine = Line(self.p(1.0, 0.0),
+                        self.p(1.0, 1.0), self.weight(), shift="right")
+        topLine = Line(self.p(1.0, 1.0),
+                       self.p(1.0 - width, 1.0), self.weight(), shift="down")
+        bottomLine = Line(self.p(1.0, 0.0),
+                          self.p(1.0 - width, 0.0), self.weight(), shift="up")
+
+        return [mainLine, topLine, bottomLine]
+
+@glyph('(')
+class openParenGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(openParenGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(openParenGlyph, self).setupDrawing()
+
+        circSize = 3.0
+
+        circ = Circle(self.p(circSize, 0.5),
+                      self.p(circSize * 2.0, 0.5),
+                      self.weight())
+
+        clipPoly = Polygon((self.p(0.0, 0.0), self.p(1.0, 0.0),
+                            self.p(1.0, 1.0), self.p(0.0, 1.0)))
+
+        circ = mergeSubPolys([circ]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        return [circ]
+
+@glyph(')')
+class closeParenGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(closeParenGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(closeParenGlyph, self).setupDrawing()
+
+        circSize = 3.0
+
+        circ = Circle(self.p(-circSize + 1.0, 0.5),
+                      self.p(-circSize * 2.0 + 1.0, 0.5),
+                      self.weight())
+
+        clipPoly = Polygon((self.p(0.0, 0.0), self.p(1.0, 0.0),
+                            self.p(1.0, 1.0), self.p(0.0, 1.0)))
+
+        circ = mergeSubPolys([circ]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        return [circ]
