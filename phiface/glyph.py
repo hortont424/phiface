@@ -28,9 +28,6 @@ class Glyph(object):
         return self.pointSize
 
     def em(self):
-        return self.baseWidth() * PHI * 0.618
-
-    def baseWidth(self):
         return self.capHeight() / PHI
 
     def width(self):
@@ -59,7 +56,7 @@ class AGlyph(Glyph):
         super(AGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         leftLine = Line(self.p(0.5, 1.0), self.p(0.0, 0.0),
@@ -82,7 +79,7 @@ class BGlyph(Glyph):
         super(BGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         shift = ((self.weight() / 2.0) / self.capHeight()) * 4
@@ -177,7 +174,7 @@ class EGlyph(Glyph):
         super(EGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         leftLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
@@ -202,7 +199,7 @@ class FGlyph(Glyph):
         super(FGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
@@ -247,7 +244,7 @@ class HGlyph(Glyph):
         super(HGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
@@ -270,7 +267,7 @@ class IGlyph(Glyph):
         super(IGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0),
@@ -287,7 +284,7 @@ class JGlyph(Glyph):
         super(JGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         mainLine = Line(self.p(1.0, 1.0), self.p(1.0, 0.0),
@@ -309,7 +306,7 @@ class KGlyph(Glyph):
         super(KGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() * 0.8
+        return self.em() * 0.8
 
     def getPolygon(self):
         mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
@@ -326,7 +323,7 @@ class LGlyph(Glyph):
         super(LGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
@@ -364,7 +361,7 @@ class NGlyph(Glyph):
         super(NGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         leftLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
@@ -395,7 +392,7 @@ class PGlyph(Glyph):
         super(PGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         shift = ((self.weight() / 2.0) / self.capHeight()) * 4
@@ -452,7 +449,7 @@ class RGlyph(Glyph):
         super(RGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         shift = ((self.weight() / 2.0) / self.capHeight()) * 4
@@ -498,7 +495,7 @@ class TGlyph(Glyph):
         super(TGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 0.0), self.p(0.5, 1.0), self.weight())
@@ -512,7 +509,7 @@ class UGlyph(Glyph):
         super(UGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         rad = 0.309
@@ -546,7 +543,7 @@ class VGlyph(Glyph):
         super(VGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         leftLine = Line(self.p(0.5, 0.0), self.p(0.0, 1.0),
@@ -584,7 +581,7 @@ class XGlyph(Glyph):
         super(XGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         upCrossLine = Line(self.p(0.0, 0.0), self.p(1.0, 1.0),
@@ -599,7 +596,7 @@ class YGlyph(Glyph):
         super(YGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         # Try with xHeight off, too
@@ -617,7 +614,7 @@ class ZGlyph(Glyph):
         super(ZGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     # TODO: beveled line endings to fix this horribleness at large weights
 
@@ -636,7 +633,7 @@ class aGlyph(Glyph):
         super(aGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         circX = 0.5
@@ -653,7 +650,7 @@ class bGlyph(Glyph):
         super(bGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         circX = 0.5
@@ -670,7 +667,7 @@ class cGlyph(Glyph):
         super(cGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         circ = Circle(self.p(0.5, 0.5, xHeight=True),
@@ -686,7 +683,7 @@ class dGlyph(Glyph):
         super(dGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         circX = 0.5
@@ -703,7 +700,7 @@ class eGlyph(Glyph):
         super(eGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         rightShift = self.weight() / self.xHeight() * 0.025
@@ -730,7 +727,7 @@ class iGlyph(Glyph):
         super(iGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         circY = (0.8 - (0.01 / (self.weight() / 5) * (self.capHeight() / 40.0)))
@@ -749,7 +746,7 @@ class jGlyph(Glyph):
         super(jGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         #dotX = 1.0 - ((self.weight() / 10.0) / (self.capHeight() / 40.0)) + 0.05
@@ -779,7 +776,7 @@ class kGlyph(Glyph):
         super(kGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         mainLine = Line(self.p(0.0, 0.0), self.p(0.0, 1.0),
@@ -797,7 +794,7 @@ class lGlyph(Glyph):
         super(lGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 1.0), self.p(0.5, 0.0),
@@ -810,7 +807,7 @@ class oGlyph(Glyph):
         super(oGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         circ = Circle(self.p(0.5, 0.5, xHeight=True),
@@ -824,7 +821,7 @@ class pGlyph(Glyph):
         super(pGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         circX = 0.5
@@ -842,7 +839,7 @@ class qGlyph(Glyph):
         super(qGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         circX = 0.5
@@ -860,7 +857,7 @@ class tGlyph(Glyph):
         super(tGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         mainLine = Line(self.p(0.5, 1.0), self.p(0.5, 0.0),
@@ -876,7 +873,7 @@ class uGlyph(Glyph):
         super(uGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() * 0.8
+        return self.em() * 0.8
 
     def getPolygon(self):
         rad = 0.4
@@ -916,7 +913,7 @@ class vGlyph(Glyph):
         super(vGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         leftLine = Line(self.p(0.5, 0.0), self.p(0.0, 1.0, xHeight=True),
@@ -931,7 +928,7 @@ class wGlyph(Glyph):
         super(wGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() * 0.8
+        return self.em() * 0.8
 
     def getPolygon(self):
         midHeight = (self.weight()) / self.xHeight()
@@ -954,7 +951,7 @@ class xGlyph(Glyph):
         super(xGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         upCrossLine = Line(self.p(0.0, 0.0, xHeight=True),
@@ -971,7 +968,7 @@ class zGlyph(Glyph):
         super(zGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() / PHI
+        return self.em() / PHI
 
     def getPolygon(self):
         topLine = Line(self.p(0.9, 1.0, xHeight=True),
@@ -991,7 +988,7 @@ class oneGlyph(Glyph):
         super(oneGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth() * 0.8
+        return self.em() * 0.8
 
     def getPolygon(self):
         shift = (self.weight() / 2.0) / self.width()
@@ -1007,7 +1004,7 @@ class threeGlyph(Glyph):
         super(threeGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         shift = ((self.weight() / 2.0) / self.capHeight()) * 4
@@ -1050,7 +1047,7 @@ class fourGlyph(Glyph):
         super(fourGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         shift = (self.weight() / 2.0) / self.width()
@@ -1070,7 +1067,7 @@ class sevenGlyph(Glyph):
         super(sevenGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         shift = (self.weight() / 2.0) / self.width()
@@ -1087,7 +1084,7 @@ class eightGlyph(Glyph):
         super(eightGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         shift = ((self.weight() / 2.0) / self.capHeight()) * 3
@@ -1115,7 +1112,7 @@ class nineGlyph(Glyph):
         super(nineGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.baseWidth()
+        return self.em()
 
     def getPolygon(self):
         circX = 0.5
