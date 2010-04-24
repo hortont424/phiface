@@ -1198,3 +1198,21 @@ class nineGlyph(Glyph):
                       self.p(0.618, 1.0),
                       self.weight())
         return [circ, mainLine]
+
+@glyph('.')
+class periodGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(periodGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        circSize = 0.5 + ((0.6 * (self.weight() / 7)) /
+                            (self.capHeight() / 40.0))
+
+        circY = (circSize - 0.5) / 3.0
+        circ = Circle(self.p(0.5, circY),
+                      self.p(circSize, circY),
+                      self.weight())
+        return [circ]
