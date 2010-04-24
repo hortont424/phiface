@@ -11,12 +11,13 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
 tracking = 0
-capHeight = 50
+capHeight = 10
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0,0,capHeight=capHeight)
-for weight in [2, 4, 7]:
+for weight in [4]:#[2, 4, 7]:
     for i in range(len(demoStr)):
+        capHeight += 1
         a = demoStr[i]
 
         if a == " ":
