@@ -721,6 +721,37 @@ class eGlyph(Glyph):
                 mergeSubPolys([clipCirc]))
         return [circ, midLine]
 
+@glyph('f')
+class fGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(fGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        height = 0.691
+        mainLine = Line(self.p(0.0, height), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=3)
+        circ = Circle(self.p(0.5, height),
+                      self.p(0.5, 1.0),
+                      self.weight())
+        clipPoly = Polygon((self.p(0.0, height),
+                            self.p(0.618, height),
+                            self.p(0.618, 1.0),
+                            self.p(1.0, 1.0),
+                            self.p(1.0, 0.0),
+                            self.p(0.0, 0.0)))
+
+        circ = mergeSubPolys([circ]).difference(
+            mergeSubPolys([clipPoly]))
+
+        topLine = Line(self.p(-0.25, 1.0, xHeight=True),
+                       self.p(0.5, 1.0, xHeight=True),
+                       self.weight() / PHI, shift="down")
+
+        return [circ, mainLine, topLine]
+
 @glyph('i')
 class iGlyph(Glyph):
     def __init__(self, x, y, capHeight):
