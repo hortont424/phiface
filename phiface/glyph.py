@@ -1234,6 +1234,7 @@ class exclamationGlyph(Glyph):
                       self.p(circSize, circY),
                       self.weight())
 
-        mainLine = Line(self.p(0.5, 1.0), self.p(0.5, circY * 2 + 0.15), self.weight())
+        mainLine = Line(self.p(0.5, 1.0),
+                        self.p(0.5, circY * 2 + 0.15), self.weight())
 
         return [circ, mainLine]
