@@ -1216,3 +1216,24 @@ class periodGlyph(Glyph):
                       self.p(circSize, circY),
                       self.weight())
         return [circ]
+
+@glyph('!')
+class exclamationGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(exclamationGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        circSize = 0.5 + ((0.6 * (self.weight() / 7)) /
+                            (self.capHeight() / 40.0))
+
+        circY = (circSize - 0.5) / 3.0
+        circ = Circle(self.p(0.5, circY),
+                      self.p(circSize, circY),
+                      self.weight())
+
+        mainLine = Line(self.p(0.5, 1.0), self.p(0.5, circY * 2 + 0.15), self.weight())
+
+        return [circ, mainLine]
