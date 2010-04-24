@@ -830,7 +830,7 @@ class hGlyph(Glyph):
         mWidth = 0.4
 
         mainLine = Line(self.p(0.0, 1.0), self.p(0.0, 0.0),
-                        self.weight(), shift="right", serif=5)
+                        self.weight(), shift="right", serif=4)
         midLine = Line(self.p(mWidth * 2.0, (1.0 - mWidth), xHeight=True),
                        self.p(mWidth * 2.0, 0.0),
                        self.weight(), shift="left", serif=3)
