@@ -10,7 +10,7 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "abdlojk"
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
-demoStr = "default"
+demoStr = "wxyz"
 tracking = 0
 capHeight = 50
 

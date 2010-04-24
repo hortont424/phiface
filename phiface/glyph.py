@@ -1019,6 +1019,24 @@ class xGlyph(Glyph):
                              self.weight(), shift="up", serif=4)
         return [upCrossLine, downCrossLine]
 
+@glyph('y')
+class yGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(yGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        leftLine = Line(self.p(0.5, 0.0), self.p(0.0, 1.0, xHeight=True),
+                        self.weight(), shift="down", serif=3)
+        rightLine = Line(self.p(0.5, 0.0), self.p(1.0, 1.0, xHeight=True),
+                         self.weight(), shift="down", serif=3)
+        downLine = Line(self.p(1.0, 1.0, xHeight=True),
+                        self.p(0.25, -0.5, xHeight=True),
+                        self.weight(), shift="up", serif=3)
+        return [leftLine, rightLine, downLine]
+
 @glyph('z')
 class zGlyph(Glyph):
     def __init__(self, x, y, capHeight):
