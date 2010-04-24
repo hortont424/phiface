@@ -57,6 +57,13 @@ class Context(object):
         self.ctx.set_source_rgba(0.0, 0.0, 0.0, 1.0)
         self.ctx.fill()
 
+        #(bx1, by1, bx2, by2) = poly.exterior.bounds
+        #
+        #self._drawCoords([(bx1, by1), (bx1, by2), (bx2, by2), (bx2, by1)])
+        #self.ctx.set_source_rgba(1.0, 0.0, 0.0, 0.5)
+        #self.ctx.set_line_width(1.0)
+        #self.ctx.stroke()
+
     def draw(self, polygons):
         poly = mergeSubPolys(polygons)
 

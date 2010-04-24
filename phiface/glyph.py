@@ -650,6 +650,8 @@ class YGlyph(Glyph):
         super(YGlyph, self).setupDrawing()
 
         # Try with xHeight off, too
+        # TODO: Something is wrong with how this attaches at large weights
+
         leftLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(0.0, 1.0),
                         self.weight(), shift="down", serif=3)
         rightLine = Line(self.p(0.5, 0.5, xHeight=True), self.p(1.0, 1.0),
@@ -665,8 +667,6 @@ class ZGlyph(Glyph):
 
     def width(self):
         return self.em()
-
-    # TODO: beveled line endings to fix this horribleness at large weights
 
     def getPolygon(self):
         super(ZGlyph, self).setupDrawing()
