@@ -1151,6 +1151,27 @@ class zGlyph(Glyph):
                           self.weight(), shift="up", serif=1)
         return [topLine, slashLine, bottomLine]
 
+@glyph('0')
+class zeroGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(zeroGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.capHeight()
+
+    def getPolygon(self):
+        super(zeroGlyph, self).setupDrawing()
+
+        dotSize = (self.weight() / self.capHeight()) * 2.0
+        dot = Circle(self.p(0.5, 0.5),
+                      self.p(0.5, 0.5 + dotSize),
+                      -1.0)
+        circ = Circle(self.p(0.5, 0.5),
+                      self.p(0.5, 1.0),
+                      self.weight())
+
+        return [circ, dot]
+
 @glyph('1')
 class oneGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -1348,3 +1369,19 @@ class exclamationGlyph(Glyph):
                         self.p(0.5, circY * 2 + 0.15), self.weight())
 
         return [circ, mainLine]
+
+@glyph('/')
+class fwSlashGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(fwSlashGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI / PHI
+
+    def getPolygon(self):
+        super(fwSlashGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(0.0, 0.0),
+                        self.p(1.0, 1.0), self.weight())
+
+        return [mainLine]

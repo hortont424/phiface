@@ -10,15 +10,16 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "abdlojk"
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
+#demoStr = "Dolor"
 tracking = 0
-capHeight = 10
+capHeight = 50
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0,0,capHeight=capHeight)
-for weight in [4]:#[2, 4, 7]:
+for weight in [2, 4, 7]:
     for i in range(len(demoStr)):
-        capHeight += 1
         a = demoStr[i]
+        print a
 
         if a == " ":
             xloc += metrics.em() + tracking
@@ -30,7 +31,7 @@ for weight in [4]:#[2, 4, 7]:
             b = None
 
         glyph = phiface.glyphs[a](x=xloc, y=yloc, capHeight=capHeight)
-        glyph.w = (weight * (glyph.capHeight() / 100.0))
+        glyph.w = (weight * (capHeight / 100.0))
 
         glyphBounds = phiface.mergeSubPolys([glyph]).bounds
         xShift = glyphBounds[2] - glyphBounds[0]

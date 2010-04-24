@@ -12,6 +12,9 @@ kerningOverrides = {
     "p": {
         "d": -5,
         "q": -5
+    },
+    "x": {
+        "t": -5
     }
 }
 
@@ -22,29 +25,39 @@ def autoKern(a, b, weight, capHeight, metrics):
         return metrics.em() / 1.618
 
     aGlyph = glyphs[a](x=0, y=0, capHeight=capHeight)
-    aGlyph.w = (weight * (metrics.capHeight() / 100.0))
+    aGlyph.w = (weight * (capHeight / 100.0))
     aBounds = mergeSubPolys([aGlyph]).bounds
     i = direction = 0
     wantType = MultiPolygon
+    startX = aBounds[2]
 
-    bGlyph = glyphs[b](x=(aBounds[2] - aBounds[0]), y=0, capHeight=capHeight)
-    bGlyph.w = (weight * (metrics.capHeight() / 100.0))
+    bGlyph = glyphs[b](x=startX, y=0, capHeight=capHeight)
+    bGlyph.w = (weight * (capHeight / 100.0))
 
     if mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])):
-        direction = min(capHeight / 50.0, 1.0)
+        direction = capHeight / 10.0
         wantType = False
     else:
-        direction = -min(capHeight / 50.0, 1.0)
+        direction = - capHeight / 10.0
         wantType = True
 
-    minRange = 1000 * direction
+    minRange = capHeight * direction
 
     while True:
-        bGlyph.x = (aBounds[2] - aBounds[0]) + i
+        bGlyph.x = startX + i
 
         if (mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])) ==
             wantType):
-            return i
+            if abs(direction) < 0.1:
+                return i + aBounds[0]
+            else:
+                minRange = -minRange * 2.0
+                direction = -direction * 0.5
+                wantType = not wantType
+
+        if i == minRange:
+            minRange = -minRange * 2.0
+            direction = -direction * 0.5
 
         i += direction
 
