@@ -904,6 +904,75 @@ class lGlyph(Glyph):
                         self.weight(), serif=5)
         return [mainLine]
 
+@glyph('m')
+class mGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(mGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(mGlyph, self).setupDrawing()
+
+        mWidth = 0.4
+        sh = self.weight() / self.width() * 2.0
+
+        mainLine = Line(self.p(0.0, 1.0, xHeight=True), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=5)
+        midLine = Line(self.p(mWidth * 2.0, (1.0 - mWidth), xHeight=True),
+                       self.p(mWidth * 2.0, 0.0),
+                       self.weight(), shift="left", serif=3)
+        rightLine = Line(self.p(mWidth * 4.0 - sh, 1.0 - mWidth, xHeight=True),
+                         self.p(mWidth * 4.0 - sh, 0.0),
+                         self.weight(), shift="left", serif=3)
+        circa = Circle(self.p(mWidth, (1.0 - mWidth), xHeight=True),
+                       self.p(mWidth, 1.0, xHeight=True),
+                       self.weight())
+        circb = Circle(self.p(mWidth * 3.0 - sh, (1.0 - mWidth), xHeight=True),
+                       self.p(mWidth * 3.0 - sh, 1.0, xHeight=True),
+                       self.weight())
+        clipPoly = Polygon((self.p(0.0, (1.0 - mWidth), xHeight=True),
+                            self.p(2.0, (1.0 - mWidth), xHeight=True),
+                            self.p(2.0, 0.0, xHeight=True),
+                            self.p(0.0, 0.0)))
+
+        circ = mergeSubPolys([circa, circb]).difference(
+            mergeSubPolys([clipPoly]))
+
+        return [circ, mainLine, midLine, rightLine]
+
+@glyph('n')
+class nGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(nGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(nGlyph, self).setupDrawing()
+
+        mWidth = 0.4
+
+        mainLine = Line(self.p(0.0, 1.0, xHeight=True), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=5)
+        midLine = Line(self.p(mWidth * 2.0, (1.0 - mWidth), xHeight=True),
+                       self.p(mWidth * 2.0, 0.0),
+                       self.weight(), shift="left", serif=3)
+        circ = Circle(self.p(mWidth, (1.0 - mWidth), xHeight=True),
+                      self.p(mWidth, 1.0, xHeight=True),
+                      self.weight())
+        clipPoly = Polygon((self.p(0.0, (1.0 - mWidth), xHeight=True),
+                            self.p(1.0, (1.0 - mWidth), xHeight=True),
+                            self.p(1.0, 0.0, xHeight=True),
+                            self.p(0.0, 0.0)))
+
+        circ = mergeSubPolys([circ]).difference(
+            mergeSubPolys([clipPoly]))
+
+        return [circ, mainLine, midLine]
+
 @glyph('o')
 class oGlyph(Glyph):
     def __init__(self, x, y, capHeight):
