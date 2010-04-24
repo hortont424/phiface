@@ -1671,10 +1671,13 @@ class pipeGlyph(Glyph):
     def getPolygon(self):
         super(pipeGlyph, self).setupDrawing()
 
-        mainLine = Line(self.p(0.0, 0.0),
+        bottomLine = Line(self.p(0.0, 0.0),
+                        self.p(0.0, 0.45), self.weight())
+
+        topLine = Line(self.p(0.0, 0.55),
                         self.p(0.0, 1.0), self.weight())
 
-        return [mainLine]
+        return [topLine, bottomLine]
 
 @glyph('[')
 class openSquareBracketGlyph(Glyph):
