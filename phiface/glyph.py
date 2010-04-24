@@ -24,6 +24,8 @@ class Glyph(object):
         self.y = y
         self.w = 3
         self.pointSize = capHeight
+        self.slanted = False
+        self.outlined = False
 
     def capHeight(self):
         return self.pointSize

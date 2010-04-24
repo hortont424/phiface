@@ -48,14 +48,18 @@ class Context(object):
 
         self.ctx.close_path()
 
-    def _drawPolygon(self, poly):
+    def _drawPolygon(self, poly, outline=False):
         self._drawCoords(poly.exterior.coords)
 
         for hole in poly.interiors:
             self._drawCoords(hole.coords)
 
         self.ctx.set_source_rgba(0.0, 0.0, 0.0, 1.0)
-        self.ctx.fill()
+
+        if outline:
+            self.ctx.stroke()
+        else:
+            self.ctx.fill()
 
         #(bx1, by1, bx2, by2) = poly.exterior.bounds
         #
@@ -64,14 +68,24 @@ class Context(object):
         #self.ctx.set_line_width(1.0)
         #self.ctx.stroke()
 
-    def draw(self, polygons):
-        poly = mergeSubPolys(polygons)
+    def draw(self, glyphs):
+        from glyph import Glyph
+        for glyph in glyphs:
+            if not isinstance(glyph, Glyph):
+                print "draw() should be given a list of Glyphs"
 
-        if type(poly) is MultiPolygon:
-            for subPoly in poly.geoms:
-                self._drawPolygon(subPoly)
-        else:
-            self._drawPolygon(poly)
+            self.ctx.identity_matrix()
+
+            if glyph.slanted:
+                self.ctx.set_matrix(cairo.Matrix(xy = -0.1, x0 = glyph.y * 0.1))
+
+            poly = mergeSubPolys(glyphs)
+
+            if type(poly) is MultiPolygon:
+                for subPoly in poly.geoms:
+                    self._drawPolygon(subPoly, outline=glyph.outlined)
+            else:
+                self._drawPolygon(poly, outline=glyph.outlined)
 
     def write(self):
         if not PDFOutput:

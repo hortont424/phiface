@@ -14,17 +14,17 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "Dolor"
 #demoStr = "http://www.hortont.com/phiface"
 #demoStr = "a; bcd. ef, ij!"
-#demoStr = "New York"
+demoStr = "New York"
 #demoStr = "Phiface"
 #demoStr = "defghi"
 tracking = 0
-capHeight = 30
+capHeight = 100
 phiface.line.drawSerifs = phiface.circle.drawSerifs = True
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0, 0, capHeight=capHeight)
 
-for weight in [2, 4, 7]:
+for weight in [0.5, 2, 4, 7]:
     for i in range(len(demoStr)):
         a = demoStr[i]
         print a
@@ -40,6 +40,12 @@ for weight in [2, 4, 7]:
 
         glyph = phiface.glyphs[a](x=0, y=0, capHeight=capHeight)
         glyph.w = (weight * (capHeight / 100.0))
+
+        if weight == 2:
+            glyph.slanted = True
+
+        if weight == 4:
+            glyph.outlined = True
 
         glyphBounds = phiface.mergeSubPolys([glyph]).bounds
         glyph.x = xloc
