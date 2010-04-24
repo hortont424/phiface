@@ -11,11 +11,12 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "AEFHIKLMNOTVWXYZ"
 #demoStr = "lotvwdxzb dot blow wow lot voltz"# AEFHIKLMNTVWXYZ
 #demoStr = "Dolor"
-#demoStr = "ftp://www.rpi.edu"
+#demoStr = "http://www.hortont.com/phiface"
 #demoStr = "a; bcd. ef, ij!"
 #demoStr = "New York"
+#demoStr = "Phiface"
 tracking = 0
-capHeight = 20
+capHeight = 150
 phiface.line.drawSerifs = phiface.circle.drawSerifs = True
 
 xloc = yloc = 20
