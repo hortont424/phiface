@@ -851,6 +851,32 @@ class qGlyph(Glyph):
                       self.weight())
         return [circ, mainLine]
 
+@glyph('r')
+class rGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(rGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        mainLine = Line(self.p(0.0, 1.0, xHeight=True), self.p(0.0, 0.0),
+                        self.weight(), shift="right", serif=5)
+        circ = Circle(self.p(0.5, 0.5, xHeight=True),
+                      self.p(0.5, 1.0, xHeight=True),
+                      self.weight())
+        clipPoly = Polygon((self.p(0.0, 0.5, xHeight=True),
+                            self.p(0.618, 0.5, xHeight=True),
+                            self.p(0.618, 1.0, xHeight=True),
+                            self.p(1.0, 1.0, xHeight=True),
+                            self.p(1.0, 0.0, xHeight=True),
+                            self.p(0.0, 0.0)))
+
+        circ = mergeSubPolys([circ]).difference(
+            mergeSubPolys([clipPoly]))
+
+        return [circ, mainLine]
+
 @glyph('t')
 class tGlyph(Glyph):
     def __init__(self, x, y, capHeight):
