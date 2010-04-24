@@ -1556,6 +1556,42 @@ class exclamationGlyph(Glyph):
 
         return [circ, mainLine]
 
+@glyph('?')
+class questionGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(questionGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(questionGlyph, self).setupDrawing()
+
+        circSize = 0.5 + ((0.6 * (self.weight() / 7)) /
+                            (self.capHeight() / 40.0))
+
+        circY = (circSize - 0.5) / 3.0
+        circ = Circle(self.p(0.5, circY),
+                      self.p(circSize, circY),
+                      -1.0)
+
+        topCirc = Circle(self.p(0.5, 0.75),
+                         self.p(0.5, 1.0),
+                         self.weight())
+
+        clipPoly = Polygon((self.p(0.5, 0.75), self.p(-1.0, 0.75),
+                            self.p(-1.0, 0.0), self.p(0.5, 0.0)))
+
+        topCirc = mergeSubPolys([topCirc]).difference(
+            mergeSubPolys([clipPoly]))
+
+        shift = (self.weight() / self.capHeight()) * 2.0
+
+        mainLine = Line(self.p(0.5, 0.5 + shift),
+                        self.p(0.5, circY * 2 + 0.15), self.weight())
+
+        return [circ, mainLine, topCirc]
+
 @glyph('/')
 class fwSlashGlyph(Glyph):
     def __init__(self, x, y, capHeight):
