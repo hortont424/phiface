@@ -73,7 +73,7 @@ class Context(object):
             if glyph.slanted:
                 self.ctx.set_matrix(cairo.Matrix(xy = -0.1, x0 = glyph.y * 0.1))
 
-            poly = mergeSubPolys(glyphs)
+            poly = mergeSubPolys([glyph])
 
             if type(poly) is MultiPolygon:
                 for subPoly in poly.geoms:
