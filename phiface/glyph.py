@@ -536,6 +536,50 @@ class RGlyph(Glyph):
 
         return [threePoly, topLine, leftLine, midLine, downLine]
 
+@glyph('S')
+class SGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(SGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(SGlyph, self).setupDrawing()
+
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.5
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        bottomYY += shift / 2.0
+        bottomY += shift / 4.0
+        topYY -= shift / 2.0
+        topY -= shift / 4.0
+
+        circa = Circle(self.p(0.45, bottomY),
+                       self.p(0.45, bottomYY),
+                       self.weight())
+        circb = Circle(self.p(0.55, topY),
+                       self.p(0.55, topYY),
+                       self.weight())
+
+        bclipPoly = Polygon((self.p(0.5, topY), self.p(1.0, 0.9),
+                            self.p(1.0, -1.0), self.p(0.5, -1.0)))
+
+        circb = mergeSubPolys([circb]).difference(
+            mergeSubPolys([bclipPoly]))
+
+        aclipPoly = Polygon((self.p(0.5, bottomY), self.p(-1.0, -0.25),
+                            self.p(-1.0, 1.0), self.p(0.5, 1.0)))
+
+        circa = mergeSubPolys([circa]).difference(
+            mergeSubPolys([aclipPoly]))
+
+        return [circa, circb]
 
 @glyph('T')
 class TGlyph(Glyph):
@@ -1128,6 +1172,55 @@ class rGlyph(Glyph):
 
         return [circ, mainLine]
 
+@glyph('s')
+class sGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(sGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(sGlyph, self).setupDrawing()
+
+        shift = ((self.weight() / 2.0) / self.xHeight()) * 4
+        bottomHeight = 0.5
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        bottomYY += shift / 2.0
+        bottomY += shift / 4.0
+        topYY -= shift / 2.0
+        topY -= shift / 4.0
+
+        circa = Circle(self.p(0.48, bottomY, xHeight=True),
+                       self.p(0.48, bottomYY, xHeight=True),
+                       self.weight())
+        circb = Circle(self.p(0.52, topY, xHeight=True),
+                       self.p(0.52, topYY, xHeight=True),
+                       self.weight())
+
+        bclipPoly = Polygon((self.p(0.5, topY, xHeight=True),
+                             self.p(1.0, 0.8, xHeight=True),
+                             self.p(1.0, -1.0, xHeight=True),
+                             self.p(0.5, -1.0, xHeight=True)))
+
+        circb = mergeSubPolys([circb]).difference(
+            mergeSubPolys([bclipPoly]))
+
+        aclipPoly = Polygon((self.p(0.5, bottomY, xHeight=True),
+                             self.p(-1.0, -0.2, xHeight=True),
+                             self.p(-1.0, 1.0, xHeight=True),
+                             self.p(0.5, 1.0, xHeight=True)))
+
+        circa = mergeSubPolys([circa]).difference(
+            mergeSubPolys([aclipPoly]))
+
+        return [circa, circb]
+
 @glyph('t')
 class tGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -1302,17 +1395,13 @@ class zeroGlyph(Glyph):
     def getPolygon(self):
         super(zeroGlyph, self).setupDrawing()
 
-        #dotSize = (self.weight() / self.capHeight()) * 2.0
-        #dot = Circle(self.p(0.5, 0.5),
-        #              self.p(0.5, 0.5 + dotSize),
-        #              -1.0)
         circ = Circle(self.p(0.5, 0.5),
                       self.p(0.5, 1.0),
                       self.weight())
 
         crossLine = Line(self.p(0.5 + 0.25 * sqrt(2.0), 0.5 + 0.25 * sqrt(2.0)),
                          self.p(0.5 - 0.25 * sqrt(2.0), 0.5 - 0.25 * sqrt(2.0)),
-                         self.weight())
+                         self.weight() / PHI)
 
         return [circ, crossLine]
 
@@ -1431,7 +1520,7 @@ class eightGlyph(Glyph):
     def getPolygon(self):
         super(eightGlyph, self).setupDrawing()
 
-        shift = ((self.weight() / 2.0) / self.capHeight()) * 3
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
         bottomHeight = 0.55
         bottomY = bottomHeight / 2.0
         bottomYY = bottomY + (bottomHeight / 2.0)
