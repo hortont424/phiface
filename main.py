@@ -47,6 +47,9 @@ for weight in [0.5, 2, 4, 7]:
         if weight == 4:
             glyph.outlined = True
 
+        if weight == 7:
+            glyph.color = (1.0, 0.0, 0.0, 1.0)
+
         glyphBounds = phiface.mergeSubPolys([glyph]).bounds
         glyph.x = xloc
         glyph.y = yloc

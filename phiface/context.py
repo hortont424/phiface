@@ -48,13 +48,13 @@ class Context(object):
 
         self.ctx.close_path()
 
-    def _drawPolygon(self, poly, outline=False):
+    def _drawPolygon(self, poly, outline=False, color=(0,0,0,1)):
         self._drawCoords(poly.exterior.coords)
 
         for hole in poly.interiors:
             self._drawCoords(hole.coords)
 
-        self.ctx.set_source_rgba(0.0, 0.0, 0.0, 1.0)
+        self.ctx.set_source_rgba(*color)
 
         if outline:
             self.ctx.stroke()
@@ -83,9 +83,11 @@ class Context(object):
 
             if type(poly) is MultiPolygon:
                 for subPoly in poly.geoms:
-                    self._drawPolygon(subPoly, outline=glyph.outlined)
+                    self._drawPolygon(subPoly, outline=glyph.outlined,
+                                      color=glyph.color)
             else:
-                self._drawPolygon(poly, outline=glyph.outlined)
+                self._drawPolygon(poly, outline=glyph.outlined,
+                                  color=glyph.color)
 
     def write(self):
         if not PDFOutput:
