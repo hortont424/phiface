@@ -1437,6 +1437,64 @@ class oneGlyph(Glyph):
                         self.weight(), shift="down", noclip=2)
         return [mainLine, overLine]
 
+@glyph('2')
+class twoGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(twoGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(twoGlyph, self).setupDrawing()
+
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.47 - (0.1 * (self.weight() / 6.0))
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        bottomYY += shift
+        bottomY += shift / 2.0
+
+        circa = Circle(self.p(0.5, bottomY),
+                       self.p(0.5, bottomYY),
+                       self.weight())
+        circb = Circle(self.p(0.5, topY),
+                       self.p(0.5, topYY),
+                       self.weight())
+
+        circb = mergeSubPolys([circb]).difference(
+            mergeSubPolys([Polygon((
+                self.p(0.5, topY), self.p(0.0, topY),
+                self.p(0.0, 0.0), self.p(0.5, 0.0)
+            ))]))
+
+        circa = mergeSubPolys([circa]).difference(
+            mergeSubPolys([Polygon((
+                self.p(0.5, 0.0), self.p(0.5, 1.0),
+                self.p(1.5, 1.0), self.p(1.5, 0.0)
+            ))])).difference(
+            mergeSubPolys([Polygon((
+                self.p(0.5, bottomY), self.p(-1.0, bottomY),
+                self.p(-1.0, 0.0), self.p(0.5, 0.0)
+            ))]))
+
+        dshift = ((self.p(0.0, bottomY)[1] - self.p(0.0, bottomYY)[1]) /
+                  self.width())
+
+        downLine = Line(self.p(0.5 - dshift, bottomY),
+                        self.p(0.5 - dshift, 0.0),
+                        self.weight(), shift="right")
+
+        overLine = Line(self.p(0.5 - dshift, 0.0),
+                        self.p(1.0, 0.0),
+                        self.weight(), shift="up")
+
+        return [circa, circb, downLine, overLine]
+
 @glyph('3')
 class threeGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -1449,7 +1507,7 @@ class threeGlyph(Glyph):
         super(threeGlyph, self).setupDrawing()
 
         shift = ((self.weight() / 2.0) / self.capHeight()) * 4
-        bottomHeight = 0.5 #0.618
+        bottomHeight = 0.5
         bottomY = bottomHeight / 2.0
         bottomYY = bottomY + (bottomHeight / 2.0)
         topHeight = 1.0 - bottomHeight
@@ -1476,9 +1534,9 @@ class threeGlyph(Glyph):
             mergeSubPolys([clipPoly]))
 
         topLine = Line(self.p(0.5, 1.0), self.p(0.15, 1.0),
-                       self.weight(), shift="down")#, serif=1)
+                       self.weight(), shift="down")
         bottomLine = Line(self.p(0.5, 0.0), self.p(0.15, 0.0),
-                          self.weight(), shift="up")#, serif=1)
+                          self.weight(), shift="up")
 
         return [threePoly, topLine, bottomLine]
 
