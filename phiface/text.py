@@ -3,17 +3,31 @@ from context import mergeSubPolys
 from kerning import kernGlyphs
 
 class TextBox(object):
-    def __init__(self, x=0, y=0, text="Hello, World!", capHeight=100,
-                 tracking=0, weight=4, width=1200):
+    def __init__(self, box):
+        #, x=0, y=0, text="Hello, World!", capHeight=100, tracking=0, weight=4, width=1200):
         super(TextBox, self).__init__()
-        self.x = x
-        self.y = y
-        self.text = text
-        self.tracking = tracking
-        self.capHeight = capHeight
+
+        self.x = 0.0
+        self.y = 0.0
+        self.text = "Hello, World!"
+        self.tracking = 0
+        self.capHeight = 100
+        self.weight = 4
+        self.width = 1200
+
+        # Pull in integer properties
+        for prop in ["x", "y", "width"]:
+            if prop in box.attrib:
+                setattr(self, prop, int(box.attrib[prop]))
+
+        # Pull in float properties
+        for prop in ["tracking", "capHeight", "leading", "weight"]:
+            if prop in box.attrib:
+                setattr(self, prop, float(box.attrib[prop]))
+
+        self.text = box.text
+
         self.leading = self.capHeight / 2.0
-        self.weight = weight
-        self.width = width
 
     def layoutGlyphs(self):
         allGlyphs = []

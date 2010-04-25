@@ -21,11 +21,11 @@ def flatten(l, ltypes=(list, tuple)):
     return ltype(l)
 
 class Context(object):
-    def __init__(self):
+    def __init__(self, width, height):
         super(Context, self).__init__()
 
-        self.width = 1200
-        self.height = 800
+        self.width = width
+        self.height = height
 
         if PDFOutput:
             self.surface = cairo.PDFSurface("output.pdf",

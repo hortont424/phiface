@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import phiface
+from xml.etree import ElementTree as ET
 
-sc = phiface.Context()
-
-demoStr = [a for a in sorted(phiface.glyphs.keys())]
+#demoStr = [a for a in sorted(phiface.glyphs.keys())]
 
 #demoStr = "HALF WENT VIM AT HIT AVE AWW LET LIE LEM LIVE"
 #demoStr = "abdlojk"
@@ -14,9 +13,24 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "Dolor"
 #demoStr = "http://www.hortont.com/phiface"
 #demoStr = "a; bcd. ef, ij!"
-demoStr = "New York City"
+#demoStr = "New York City"
 #demoStr = "defghi"
 
-sc.draw(phiface.TextBox(x=20.0, y=20.0, text=demoStr).layoutGlyphs())
+src = """
+<document width='1200' height='600'>
+    <textbox x='30' y='30'>New York City</textbox>
+    <textbox x='30' y='180'>Woohoo!</textbox>
+</document>"""
+
+document = ET.XML(src)
+
+sc = phiface.Context(int(document.attrib["width"]),
+                     int(document.attrib["height"]))
+
+for box in document:
+    tb = phiface.TextBox(box)
+    sc.draw(tb.layoutGlyphs())
+
+#
 
 sc.write()
