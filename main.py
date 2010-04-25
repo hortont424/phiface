@@ -21,7 +21,7 @@ demoStr = "".join([a for a in sorted(phiface.glyphs.keys())])
 
 src = """<?xml version='1.0' encoding='UTF-8'?>
 <document width='1200' height='600'>
-<textbox x='30' y='30' size='10'>
+<textbox x='30' y='30' size='20'>
 <color r='.969' g='0.0' b='.122' a='1.0'>
 <h><color r='0.0' g='0.0' b='0.0' a='1.0'>R</color>ensselaer</h><br/>
 <h><color r='0.0' g='0.0' b='0.0' a='1.0'>P</color>olytechnic</h><br/>

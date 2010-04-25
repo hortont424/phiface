@@ -21,11 +21,11 @@ class Circle(object):
         (x1, y1), (x2, y2) = self.a, self.b
         ax = ay = bx = by = 0
         width = sqrt((x2-x1)**2 + (y2-y1)**2)
-        circ = Point(x1, y1).buffer(width, quadsegs=64)
+        circ = Point(x1, y1).buffer(width, quadsegs=256)
 
         if self.weight > 0:
             innerCirc = Point(x1, y1).buffer(width - (self.weight * 2),
-                                             quadsegs=64)
+                                             quadsegs=256)
             circ = circ.difference(innerCirc)
 
         if self.semiA and self.semiB:

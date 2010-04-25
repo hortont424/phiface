@@ -17,28 +17,6 @@ kerningOverrides = {
         "d": -5,
         "q": -5
     },
-    "n": {
-        "s": 5
-    },
-    "t": {
-        "e": 7
-    },
-    "x": {
-        "t": -5
-    },
-    "y": {
-        "t": -5
-    },
-    "F": {
-        "G": 5
-    },
-    "I": {
-        "n": -5
-    },
-    "R": {
-        "e": 5,
-        "S": 10
-    },
     "4": {
         "5": 7
     }
@@ -55,9 +33,10 @@ def autoKern(a, b, weight, capHeight, metrics):
     if not aGlyph.autoKern:
         aGlyph = glyphs["l"](x=0, y=0, capHeight=capHeight)
 
-    aGlyph.w = (weight * (capHeight / 100.0))
+    aGlyph.w = weight
     aBounds = mergeSubPolys([aGlyph]).bounds
-    i = direction = 0
+    direction = 0
+    i = 0
     wantType = MultiPolygon
     startX = aBounds[2]
 
@@ -66,7 +45,8 @@ def autoKern(a, b, weight, capHeight, metrics):
     if not bGlyph.autoKern:
         bGlyph = glyphs["l"](x=startX, y=0, capHeight=capHeight)
 
-    bGlyph.w = (weight * (capHeight / 100.0))
+    bGlyph.x = startX + i
+    bGlyph.w = weight
     bBounds = mergeSubPolys([bGlyph]).bounds
 
     if mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])):
