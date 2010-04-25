@@ -15,6 +15,9 @@ kerningOverrides = {
     },
     "x": {
         "t": -5
+    },
+    "R": {
+        "S": 10
     }
 }
 
@@ -25,6 +28,10 @@ def autoKern(a, b, weight, capHeight, metrics):
         return metrics.em() / 1.618
 
     aGlyph = glyphs[a](x=0, y=0, capHeight=capHeight)
+
+    if not aGlyph.autoKern:
+        aGlyph = glyphs["l"](x=0, y=0, capHeight=capHeight)
+
     aGlyph.w = (weight * (capHeight / 100.0))
     aBounds = mergeSubPolys([aGlyph]).bounds
     i = direction = 0
@@ -32,7 +39,12 @@ def autoKern(a, b, weight, capHeight, metrics):
     startX = aBounds[2]
 
     bGlyph = glyphs[b](x=startX, y=0, capHeight=capHeight)
+
+    if not bGlyph.autoKern:
+        bGlyph = glyphs["l"](x=0, y=0, capHeight=capHeight)
+
     bGlyph.w = (weight * (capHeight / 100.0))
+    bBounds = mergeSubPolys([bGlyph]).bounds
 
     if mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])):
         direction = capHeight / 10.0
@@ -48,7 +60,7 @@ def autoKern(a, b, weight, capHeight, metrics):
 
         if (mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])) ==
             wantType):
-            if abs(direction) < 0.01:
+            if abs(direction) < 0.1:
                 return i + aBounds[0]
             else:
                 minRange = -minRange * 2.0

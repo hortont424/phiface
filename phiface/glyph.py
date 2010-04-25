@@ -31,6 +31,7 @@ class Glyph(object):
         self.outlined = False
         self.color = (0.0, 0.0, 0.0, 1.0)
         self.serifed = True
+        self.autoKern = True
 
     def capHeight(self):
         return self.pointSize
@@ -1576,6 +1577,7 @@ class nineGlyph(Glyph):
 class periodGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(periodGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
 
     def width(self):
         return self.em() / PHI
@@ -1596,6 +1598,7 @@ class periodGlyph(Glyph):
 class commaGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(commaGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
 
     def width(self):
         return self.em() / PHI
@@ -1610,6 +1613,7 @@ class commaGlyph(Glyph):
 class semicolonGlyph(commaGlyph):
     def __init__(self, x, y, capHeight):
         super(semicolonGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
 
     def getPolygon(self):
         super(semicolonGlyph, self).setupDrawing()
@@ -1629,6 +1633,7 @@ class semicolonGlyph(commaGlyph):
 class colonGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(colonGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
 
     def width(self):
         return self.em() / PHI
