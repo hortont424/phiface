@@ -52,6 +52,8 @@ class TextBox(object):
                 newItalic = True
             elif el.tag == "size":
                 newCapHeight = int(el.attrib["px"])
+            elif el.tag == "br":
+                self.addTextChunk("\n", capHeight=capHeight, stripNewline=False)
 
             self.addXMLChunk(el, weight=newWeight, italic=newItalic,
                              capHeight=newCapHeight)
@@ -59,7 +61,8 @@ class TextBox(object):
                 self.addTextChunk(el.tail, weight=weight, italic=italic,
                                   capHeight=capHeight)
 
-    def addTextChunk(self, text, weight=None, italic=False, capHeight=None):
+    def addTextChunk(self, text, weight=None, italic=False, capHeight=None,
+                     stripNewline=True):
         for i in range(len(text)):
             a = text[i]
 
@@ -74,7 +77,8 @@ class TextBox(object):
                 continue
 
             if a == "\n":
-                self.glyphs += ["\n"]
+                if not stripNewline:
+                    self.glyphs += ["\n"]
                 continue
 
             glyph = glyphs[a](x=0, y=0, capHeight=capHeight)
