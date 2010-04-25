@@ -12,6 +12,7 @@ class TextBox(object):
         self.size = 100
         self.weight = 3.0
         self.width = 1200
+        self.serif = True
 
         # Pull in integer properties
         for prop in ["x", "y", "width"]:
@@ -30,15 +31,18 @@ class TextBox(object):
         self.addXMLChunk(box)
 
     def addXMLChunk(self, chunk, weight=None, italic=False, capHeight=None,
-                    color=None):
+                    color=None, serif=None, tracking=None):
         if chunk.text:
             self.addTextChunk(chunk.text, weight=weight, italic=italic,
-                              capHeight=capHeight, color=color)
+                              capHeight=capHeight, color=color, serif=serif,
+                              tracking=tracking)
         for el in chunk:
             newWeight = weight
             newItalic = italic
             newCapHeight = capHeight
             newColor = color
+            newSerif = serif
+            newTracking = tracking
 
             if el.tag == "u":
                 newWeight = 0.5
@@ -61,15 +65,21 @@ class TextBox(object):
                             float(el.attrib["g"]),
                             float(el.attrib["b"]),
                             float(el.attrib["a"]))
+            elif el.tag == "sans":
+                newSerif = False
+            elif el.tag == "serif":
+                newSerif = True
 
             self.addXMLChunk(el, weight=newWeight, italic=newItalic,
-                             capHeight=newCapHeight, color=newColor)
+                             capHeight=newCapHeight, color=newColor,
+                             serif=newSerif, tracking=newTracking)
             if el.tail:
                 self.addTextChunk(el.tail, weight=weight, italic=italic,
-                                  capHeight=capHeight, color=color)
+                                  capHeight=capHeight, color=color,
+                                  serif=serif, tracking=tracking)
 
     def addTextChunk(self, text, weight=None, italic=False, capHeight=None,
-                     stripNewline=True, color=None):
+                     stripNewline=True, color=None, serif=None, tracking=None):
         for i in range(len(text)):
             a = text[i]
 
@@ -81,6 +91,12 @@ class TextBox(object):
 
             if color == None:
                 color = (0.0, 0.0, 0.0, 1.0)
+
+            if serif == None:
+                serif = self.serif
+
+            if tracking == None:
+                tracking = self.tracking
 
             if a == " ":
                 self.glyphs += [" "]
@@ -95,6 +111,8 @@ class TextBox(object):
             glyph.w = (weight * (glyph.capHeight() / 100.0))
             glyph.slanted = italic
             glyph.color = color
+            glyph.serifed = serif
+            glyph.tracking = tracking
 
             self.glyphs += [glyph]
 
@@ -130,7 +148,7 @@ class TextBox(object):
 
             if isinstance(b, Glyph):
                 xShift += (kernGlyphs(a.char, b.char, a.weight(),
-                                      capHeight=a.capHeight()) + self.tracking)
+                                      capHeight=a.capHeight()) + a.tracking)
 
                 if a.outlined:
                     xShift += (a.capHeight() / 15.0)
