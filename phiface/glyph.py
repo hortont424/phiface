@@ -1504,6 +1504,61 @@ class fourGlyph(Glyph):
                         self.weight(), shift="up")
         return [mainLine, overLine, backLine]
 
+@glyph('5')
+class fiveGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(fiveGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(fiveGlyph, self).setupDrawing()
+
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.5
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+
+        bottomYY += shift
+        bottomY += shift / 2.0
+
+        shift = 0.18
+
+        circa = Circle(self.p(0.5, bottomY),
+                       self.p(0.5, bottomYY),
+                       self.weight())
+
+        clipPoly = Polygon((self.p(0.5, bottomY), self.p(0.0, bottomYY),
+                            self.p(-1.0, -0.5)))
+
+        circa = mergeSubPolys([circa]).difference(
+            mergeSubPolys([clipPoly]))
+
+        clipPoly = Polygon((self.p(shift, 1.0), self.p(shift, bottomY),
+                            self.p(0.0, bottomY), self.p(0.0, 1.0)))
+
+        circa = mergeSubPolys([circa]).difference(
+            mergeSubPolys([clipPoly]))
+
+        upLine = Line(self.p(shift, bottomY),
+                      self.p(shift, 1.0),
+                      self.weight(), shift="right")
+
+        clipUpLine = Circle(self.p(0.5, bottomY),
+                       self.p(0.5, bottomYY),
+                       -1.0)
+
+        upLine = mergeSubPolys([upLine]).difference(
+            mergeSubPolys([clipUpLine]))
+
+        overLine = Line(self.p(shift, 1.0),
+                        self.p(0.9, 1.0),
+                        self.weight(), shift="leftdown")
+
+        return [circa, upLine, overLine]
+
 @glyph('7')
 class sevenGlyph(Glyph):
     def __init__(self, x, y, capHeight):

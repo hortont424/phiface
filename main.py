@@ -17,6 +17,8 @@ demoStr = "".join([a for a in sorted(phiface.glyphs.keys())])
 #demoStr = ".|      |."
 #demoStr = "./"
 
+demoStr = "13457890"
+
 src = "<?xml version='1.0' encoding='UTF-8'?><document width='1200' height='600'><textbox x='30' y='30' size='40'><l>" + demoStr + "</l><br/><br/><r>" + demoStr + "</r><br/><br/><h>" + demoStr + "</h></textbox></document>"
 
 #src = """<?xml version='1.0' encoding='UTF-8'?>
