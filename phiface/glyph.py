@@ -251,16 +251,29 @@ class GGlyph(Glyph):
     def getPolygon(self):
         super(GGlyph, self).setupDrawing()
 
-        leftShift = self.weight() / self.capHeight() / 2
+        leftShift = self.weight() / self.capHeight()
 
         circ = Circle(self.p(0.5, 0.5),
                       self.p(0.5, 1.0),
-                      self.weight(),
-                      semiA=self.p(1.0, 0.8),
-                      semiB=self.p(1.0, 0.5))
+                      self.weight())
 
-        midLine = Line(self.p(1.0 - leftShift, 0.5), self.p(0.5, 0.5),
-                       self.weight(), shift="down")
+        clipPoly = Polygon((self.p(0.5, 0.5), self.p(1.0, 0.8),
+                            self.p(1.0, 0.5, xHeight=True),
+                            self.p(0.5, 0.5, xHeight=True)))
+
+        circ = mergeSubPolys([circ]).difference(
+            mergeSubPolys([clipPoly]))
+
+        midLine = Line(self.p(1.0, 0.5, xHeight=True),
+                       self.p(0.5, 0.5, xHeight=True),
+                       self.weight())
+
+        lineClip = Circle(self.p(0.5, 0.5),
+                         self.p(0.5, 1.0),
+                         -1.0)
+
+        midLine = mergeSubPolys([midLine]).intersection(
+            mergeSubPolys([lineClip]))
 
         return [circ, midLine]
 

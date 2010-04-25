@@ -14,7 +14,8 @@ demoStr = "".join([a for a in sorted(phiface.glyphs.keys())])
 #demoStr = "http://www.hortont.com/phiface"
 #demoStr = "a; bcd. ef, ij!"
 #demoStr = "New York City"
-demoStr = "QRSTUVqrstuv"
+#demoStr = "QRSTUVqrstuv"
+demoStr = "CDEFGHI"
 
 src = "<?xml version='1.0' encoding='UTF-8'?><document width='1200' height='600'><textbox x='30' y='30' size='40'><l>" + demoStr + "</l><br/><br/><r>" + demoStr + "</r><br/><br/><b>" + demoStr + "</b></textbox></document>"
 

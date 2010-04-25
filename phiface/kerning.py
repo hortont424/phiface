@@ -48,7 +48,7 @@ def autoKern(a, b, weight, capHeight, metrics):
 
         if (mergeSubPolys([aGlyph]).intersects(mergeSubPolys([bGlyph])) ==
             wantType):
-            if abs(direction) < 0.1:
+            if abs(direction) < 0.01:
                 return i + aBounds[0]
             else:
                 minRange = -minRange * 2.0
