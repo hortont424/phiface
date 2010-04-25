@@ -14,16 +14,16 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 #demoStr = "Dolor"
 #demoStr = "http://www.hortont.com/phiface"
 #demoStr = "a; bcd. ef, ij!"
-demoStr = "New York"
-#demoStr = "Phiface"
+demoStr = "New York City"
 #demoStr = "defghi"
 tracking = 0
-capHeight = 20
+capHeight = 120
+leading = capHeight / 2.0
+xloc, yloc = initialX, initialY = 20.0, 20.0
 
-xloc = yloc = 20
 metrics = phiface.Glyph(0, 0, capHeight=capHeight)
 
-for weight in [0.5, 2, 4, 7]:
+for weight in [2, 4, 7]:
     for i in range(len(demoStr)):
         a = demoStr[i]
         print a
@@ -56,12 +56,17 @@ for weight in [0.5, 2, 4, 7]:
         xShift = glyphBounds[2] - glyphBounds[0]
 
         if b is not " ":
-            xShift += (phiface.kernGlyphs(a, b, weight, capHeight=capHeight) +
-                       tracking)
+            t = (phiface.kernGlyphs(a, b, weight, capHeight=capHeight) +
+                 tracking)
+
+            if glyph.outlined:
+                t = t + (capHeight / 15.0)
+
+            xShift += t
 
         if xloc + xShift > sc.width:
-            xloc = 20
-            yloc += metrics.capHeight() + 50
+            xloc = initialX
+            yloc += metrics.capHeight() + leading
             glyph.x = xloc
             glyph.y = yloc
             xloc += xShift
@@ -69,7 +74,7 @@ for weight in [0.5, 2, 4, 7]:
             xloc += xShift
 
         sc.draw([glyph])
-    xloc = 20
-    yloc += metrics.capHeight() + 50
+    xloc = initialX
+    yloc += metrics.capHeight() + leading
 
 sc.write()
