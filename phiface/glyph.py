@@ -1578,8 +1578,6 @@ class sixGlyph(Glyph):
                       self.weight())
         clipPoly = Polygon((self.p(0.0, height),
                             self.p(0.5, height),
-                            #self.p(0.618, height),
-                            #self.p(0.618, 1.0),
                             self.p(1.0, 1.0),
                             self.p(1.0, 0.0),
                             self.p(0.0, 0.0)))
@@ -1599,8 +1597,6 @@ class sixGlyph(Glyph):
         bottomY += shift / 2.0
 
         hshift = self.weight() / self.width()
-        #hshift = (bottomYY - bottomY)
-        #hshift -= (self.weight() / self.width()) * 4.0
 
         circa = Circle(self.p(0.398 + hshift, bottomY),
                        self.p(0.398 + hshift, bottomYY),
