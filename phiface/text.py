@@ -4,12 +4,10 @@ from kerning import kernGlyphs
 
 class TextBox(object):
     def __init__(self, box):
-        #, x=0, y=0, text="Hello, World!", capHeight=100, tracking=0, weight=4, width=1200):
         super(TextBox, self).__init__()
 
         self.x = 0.0
         self.y = 0.0
-        self.text = "Hello, World!"
         self.tracking = 0
         self.capHeight = 100
         self.weight = 4
@@ -25,9 +23,38 @@ class TextBox(object):
             if prop in box.attrib:
                 setattr(self, prop, float(box.attrib[prop]))
 
-        self.text = box.text
-
         self.leading = self.capHeight / 2.0
+
+        self.glyphs = []
+
+        self.addXMLChunk(box)
+
+    def addXMLChunk(self, chunk, weight=0, italic=0):
+        self.addTextChunk(chunk.text, weight=weight, italic=italic)
+        for el in chunk:
+            newWeight = weight
+            newItalic = italic
+
+            if el.tag == "b":
+                newWeight = weight + 2
+            elif el.tag == "i":
+                newItalic = 1
+            self.addXMLChunk(el, weight=newWeight, italic=newItalic)
+            self.addTextChunk(el.tail, weight=weight, italic=italic)
+
+    def addTextChunk(self, text, weight=0, italic=0):
+        for i in range(len(text)):
+            a = text[i]
+
+            if a == " ":
+                self.glyphs += [None]
+                continue
+
+            glyph = glyphs[a](x=0, y=0, capHeight=self.capHeight)
+            glyph.w = ((self.weight + weight) * (self.capHeight / 100.0))
+            glyph.slanted = italic
+
+            self.glyphs += [glyph]
 
     def layoutGlyphs(self):
         allGlyphs = []
@@ -37,44 +64,40 @@ class TextBox(object):
 
         metrics = Glyph(0, 0, capHeight=self.capHeight)
 
-        for i in range(len(self.text)):
-            a = self.text[i]
-            print a
+        for i in range(len(self.glyphs)):
+            a = self.glyphs[i]
 
-            if a == " ":
+            if a == None:
                 xloc += metrics.em() + self.tracking
                 continue
 
-            if i + 1 < len(self.text):
-                b = self.text[i + 1]
+            if i + 1 < len(self.glyphs):
+                b = self.glyphs[i + 1]
             else:
                 b = None
 
-            glyph = glyphs[a](x=0, y=0, capHeight=self.capHeight)
-            glyph.w = (self.weight * (self.capHeight / 100.0))
-
-            glyphBounds = mergeSubPolys([glyph]).bounds
-            glyph.x = xloc
-            glyph.y = yloc
+            glyphBounds = mergeSubPolys([a]).bounds
+            a.x = xloc
+            a.y = yloc
             xShift = glyphBounds[2] - glyphBounds[0]
 
-            if b is not " ":
-                xShift += (kernGlyphs(a, b, self.weight,
+            if b is not None:
+                xShift += (kernGlyphs(a.char, b.char, self.weight,
                                       capHeight=self.capHeight) + self.tracking)
 
-                if glyph.outlined:
+                if a.outlined:
                     xShift += (self.capHeight / 15.0)
 
             if xloc + xShift > self.width:
                 xloc = self.x
                 yloc += metrics.capHeight() + self.leading
-                glyph.x = xloc
-                glyph.y = yloc
+                a.x = xloc
+                a.y = yloc
                 xloc += xShift
             else:
                 xloc += xShift
 
-            allGlyphs += [glyph]
+            allGlyphs += [a]
 
         xloc = self.x
         yloc += metrics.capHeight() + self.leading

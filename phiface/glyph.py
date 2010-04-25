@@ -14,6 +14,7 @@ glyphs = {}
 def glyph(g):
     def wrap(cls):
         glyphs[g] = cls
+        cls.char = g
         return cls
     return wrap
 
