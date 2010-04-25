@@ -10,7 +10,7 @@ class TextBox(object):
         self.y = 0.0
         self.tracking = 0
         self.capHeight = 100
-        self.weight = 4
+        self.weight = 3.0
         self.width = 1200
 
         # Pull in integer properties
@@ -29,33 +29,43 @@ class TextBox(object):
 
         self.addXMLChunk(box)
 
-    def addXMLChunk(self, chunk, weight=0, italic=False):
+    def addXMLChunk(self, chunk, weight=None, italic=False):
         if chunk.text:
             self.addTextChunk(chunk.text, weight=weight, italic=italic)
         for el in chunk:
             newWeight = weight
             newItalic = italic
 
-            if el.tag == "b":
-                newWeight = weight + 2
-            elif el.tag == "t":
-                newWeight = weight - 2
+            if el.tag == "u":
+                newWeight = 0.5
+            elif el.tag == "l":
+                newWeight = 2.0
+            elif el.tag == "m":
+                newWeight = 3.0
+            elif el.tag == "b":
+                newWeight = 5.0
+            elif el.tag == "h":
+                newWeight = 7.0
             elif el.tag == "i":
                 newItalic = True
             self.addXMLChunk(el, weight=newWeight, italic=newItalic)
             if el.tail:
                 self.addTextChunk(el.tail, weight=weight, italic=italic)
 
-    def addTextChunk(self, text, weight=0, italic=False):
+    def addTextChunk(self, text, weight=None, italic=False):
         for i in range(len(text)):
             a = text[i]
+
+            if weight == None:
+                weight = self.weight
+            print weight
 
             if a == " ":
                 self.glyphs += [None]
                 continue
 
             glyph = glyphs[a](x=0, y=0, capHeight=self.capHeight)
-            glyph.w = ((self.weight + weight) * (self.capHeight / 100.0))
+            glyph.w = (weight * (self.capHeight / 100.0))
             glyph.slanted = italic
 
             self.glyphs += [glyph]
@@ -86,11 +96,11 @@ class TextBox(object):
             xShift = glyphBounds[2] - glyphBounds[0]
 
             if b is not None:
-                xShift += (kernGlyphs(a.char, b.char, self.weight,
-                                      capHeight=self.capHeight) + self.tracking)
+                xShift += (kernGlyphs(a.char, b.char, a.weight(),
+                                      capHeight=a.capHeight()) + self.tracking)
 
                 if a.outlined:
-                    xShift += (self.capHeight / 15.0)
+                    xShift += (a.capHeight() / 15.0)
 
             if xloc + xShift > self.width:
                 xloc = self.x
