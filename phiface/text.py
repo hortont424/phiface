@@ -2,58 +2,67 @@ from glyph import Glyph, glyphs
 from context import mergeSubPolys
 from kerning import kernGlyphs
 
-def layoutText(text):
-    allGlyphs = []
+class TextBox(object):
+    def __init__(self, x=0, y=0, text="Hello, World!", capHeight=100,
+                 tracking=0, weight=4, width=1200):
+        super(TextBox, self).__init__()
+        self.x = x
+        self.y = y
+        self.text = text
+        self.tracking = tracking
+        self.capHeight = capHeight
+        self.leading = self.capHeight / 2.0
+        self.weight = weight
+        self.width = width
 
-    tracking = 0
-    capHeight = 120
-    leading = capHeight / 2.0
-    xloc = initialX = 20.0
-    yloc = initialY = 20.0
-    weight = 4
-    width = 1200
+    def layoutGlyphs(self):
+        allGlyphs = []
 
-    metrics = Glyph(0, 0, capHeight=capHeight)
+        xloc = self.x
+        yloc = self.y
 
-    for i in range(len(text)):
-        a = text[i]
-        print a
+        metrics = Glyph(0, 0, capHeight=self.capHeight)
 
-        if a == " ":
-            xloc += metrics.em() + tracking
-            continue
+        for i in range(len(self.text)):
+            a = self.text[i]
+            print a
 
-        if i + 1 < len(text):
-            b = text[i + 1]
-        else:
-            b = None
+            if a == " ":
+                xloc += metrics.em() + self.tracking
+                continue
 
-        glyph = glyphs[a](x=0, y=0, capHeight=capHeight)
-        glyph.w = (weight * (capHeight / 100.0))
+            if i + 1 < len(self.text):
+                b = self.text[i + 1]
+            else:
+                b = None
 
-        glyphBounds = mergeSubPolys([glyph]).bounds
-        glyph.x = xloc
-        glyph.y = yloc
-        xShift = glyphBounds[2] - glyphBounds[0]
+            glyph = glyphs[a](x=0, y=0, capHeight=self.capHeight)
+            glyph.w = (self.weight * (self.capHeight / 100.0))
 
-        if b is not " ":
-            xShift += (kernGlyphs(a, b, weight, capHeight=capHeight) + tracking)
-
-            if glyph.outlined:
-                xShift += (capHeight / 15.0)
-
-        if xloc + xShift > width:
-            xloc = initialX
-            yloc += metrics.capHeight() + leading
+            glyphBounds = mergeSubPolys([glyph]).bounds
             glyph.x = xloc
             glyph.y = yloc
-            xloc += xShift
-        else:
-            xloc += xShift
+            xShift = glyphBounds[2] - glyphBounds[0]
 
-        allGlyphs += [glyph]
+            if b is not " ":
+                xShift += (kernGlyphs(a, b, self.weight,
+                                      capHeight=self.capHeight) + self.tracking)
 
-    xloc = initialX
-    yloc += metrics.capHeight() + leading
+                if glyph.outlined:
+                    xShift += (self.capHeight / 15.0)
 
-    return allGlyphs
+            if xloc + xShift > self.width:
+                xloc = self.x
+                yloc += metrics.capHeight() + self.leading
+                glyph.x = xloc
+                glyph.y = yloc
+                xloc += xShift
+            else:
+                xloc += xShift
+
+            allGlyphs += [glyph]
+
+        xloc = self.x
+        yloc += metrics.capHeight() + self.leading
+
+        return allGlyphs

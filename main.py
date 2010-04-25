@@ -17,6 +17,6 @@ demoStr = [a for a in sorted(phiface.glyphs.keys())]
 demoStr = "New York City"
 #demoStr = "defghi"
 
-sc.draw(phiface.text.layoutText("New York City"))
+sc.draw(phiface.TextBox(x=20.0, y=20.0, text=demoStr).layoutGlyphs())
 
 sc.write()
