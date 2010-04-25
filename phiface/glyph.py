@@ -1559,6 +1559,62 @@ class fiveGlyph(Glyph):
 
         return [circa, upLine, overLine]
 
+@glyph('6')
+class sixGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(sixGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(sixGlyph, self).setupDrawing()
+
+        height = 0.691
+        mainLine = Line(self.p(0.0, height), self.p(0.0, 0.25),
+                        self.weight(), shift="right")
+        circ = Circle(self.p(0.5, height),
+                      self.p(0.5, 1.0),
+                      self.weight())
+        clipPoly = Polygon((self.p(0.0, height),
+                            self.p(0.5, height),
+                            #self.p(0.618, height),
+                            #self.p(0.618, 1.0),
+                            self.p(1.0, 1.0),
+                            self.p(1.0, 0.0),
+                            self.p(0.0, 0.0)))
+
+        circ = mergeSubPolys([circ]).difference(
+            mergeSubPolys([clipPoly]))
+
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.5
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        bottomYY += shift
+        bottomY += shift / 2.0
+
+        hshift = self.weight() / self.width()
+        #hshift = (bottomYY - bottomY)
+        #hshift -= (self.weight() / self.width()) * 4.0
+
+        circa = Circle(self.p(0.398 + hshift, bottomY),
+                       self.p(0.398 + hshift, bottomYY),
+                       self.weight())
+
+        mainLineClip = Circle(self.p(0.398 + hshift, bottomY),
+                              self.p(0.398 + hshift, bottomYY),
+                              -1)
+
+        mainLine = mergeSubPolys([mainLine]).difference(
+            mergeSubPolys([mainLineClip]))
+
+        return [circ, mainLine, circa]
+
 @glyph('7')
 class sevenGlyph(Glyph):
     def __init__(self, x, y, capHeight):
