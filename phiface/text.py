@@ -29,14 +29,16 @@ class TextBox(object):
 
         self.addXMLChunk(box)
 
-    def addXMLChunk(self, chunk, weight=None, italic=False, capHeight=None):
+    def addXMLChunk(self, chunk, weight=None, italic=False, capHeight=None,
+                    color=None):
         if chunk.text:
             self.addTextChunk(chunk.text, weight=weight, italic=italic,
-                              capHeight=capHeight)
+                              capHeight=capHeight, color=color)
         for el in chunk:
             newWeight = weight
             newItalic = italic
             newCapHeight = capHeight
+            newColor = color
 
             if el.tag == "u":
                 newWeight = 0.5
@@ -54,15 +56,20 @@ class TextBox(object):
                 newCapHeight = int(el.attrib["px"])
             elif el.tag == "br":
                 self.addTextChunk("\n", capHeight=capHeight, stripNewline=False)
+            elif el.tag == "color":
+                newColor = (float(el.attrib["r"]),
+                            float(el.attrib["g"]),
+                            float(el.attrib["b"]),
+                            float(el.attrib["a"]))
 
             self.addXMLChunk(el, weight=newWeight, italic=newItalic,
-                             capHeight=newCapHeight)
+                             capHeight=newCapHeight, color=newColor)
             if el.tail:
                 self.addTextChunk(el.tail, weight=weight, italic=italic,
-                                  capHeight=capHeight)
+                                  capHeight=capHeight, color=color)
 
     def addTextChunk(self, text, weight=None, italic=False, capHeight=None,
-                     stripNewline=True):
+                     stripNewline=True, color=None):
         for i in range(len(text)):
             a = text[i]
 
@@ -71,6 +78,9 @@ class TextBox(object):
 
             if capHeight == None:
                 capHeight = self.size
+
+            if color == None:
+                color = (0.0, 0.0, 0.0, 1.0)
 
             if a == " ":
                 self.glyphs += [" "]
@@ -84,6 +94,7 @@ class TextBox(object):
             glyph = glyphs[a](x=0, y=0, capHeight=capHeight)
             glyph.w = (weight * (glyph.capHeight() / 100.0))
             glyph.slanted = italic
+            glyph.color = color
 
             self.glyphs += [glyph]
 
