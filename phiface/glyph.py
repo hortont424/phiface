@@ -7,6 +7,8 @@ from circle import Circle
 from context import mergeSubPolys
 from shapely.geometry import *
 
+from math import *
+
 PHI = 1.618
 
 glyphs = {}
@@ -1300,15 +1302,19 @@ class zeroGlyph(Glyph):
     def getPolygon(self):
         super(zeroGlyph, self).setupDrawing()
 
-        dotSize = (self.weight() / self.capHeight()) * 2.0
-        dot = Circle(self.p(0.5, 0.5),
-                      self.p(0.5, 0.5 + dotSize),
-                      -1.0)
+        #dotSize = (self.weight() / self.capHeight()) * 2.0
+        #dot = Circle(self.p(0.5, 0.5),
+        #              self.p(0.5, 0.5 + dotSize),
+        #              -1.0)
         circ = Circle(self.p(0.5, 0.5),
                       self.p(0.5, 1.0),
                       self.weight())
 
-        return [circ, dot]
+        crossLine = Line(self.p(0.5 + 0.25 * sqrt(2.0), 0.5 + 0.25 * sqrt(2.0)),
+                         self.p(0.5 - 0.25 * sqrt(2.0), 0.5 - 0.25 * sqrt(2.0)),
+                         self.weight())
+
+        return [circ, crossLine]
 
 @glyph('1')
 class oneGlyph(Glyph):

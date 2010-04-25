@@ -70,7 +70,11 @@ class TextBox(object):
                 capHeight = self.size
 
             if a == " ":
-                self.glyphs += [None]
+                self.glyphs += [" "]
+                continue
+
+            if a == "\n":
+                self.glyphs += ["\n"]
                 continue
 
             glyph = glyphs[a](x=0, y=0, capHeight=capHeight)
@@ -90,8 +94,13 @@ class TextBox(object):
         for i in range(len(self.glyphs)):
             a = self.glyphs[i]
 
-            if a == None:
+            if a == " ":
                 xloc += metrics.em() + self.tracking
+                continue
+
+            if a == "\n":
+                xloc = self.x
+                yloc += metrics.capHeight() + self.leading
                 continue
 
             if i + 1 < len(self.glyphs):
@@ -104,7 +113,7 @@ class TextBox(object):
             a.y = yloc
             xShift = glyphBounds[2] - glyphBounds[0]
 
-            if b is not None:
+            if isinstance(b, Glyph):
                 xShift += (kernGlyphs(a.char, b.char, a.weight(),
                                       capHeight=a.capHeight()) + self.tracking)
 
@@ -121,8 +130,5 @@ class TextBox(object):
                 xloc += xShift
 
             allGlyphs += [a]
-
-        xloc = self.x
-        yloc += metrics.capHeight() + self.leading
 
         return allGlyphs
