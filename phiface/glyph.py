@@ -27,6 +27,7 @@ class Glyph(object):
         self.slanted = False
         self.outlined = False
         self.color = (0.0, 0.0, 0.0, 1.0)
+        self.serifed = True
 
     def capHeight(self):
         return self.pointSize
@@ -56,6 +57,7 @@ class Glyph(object):
 
     def setupDrawing(self):
         circle.capHeight = line.capHeight = self.capHeight()
+        circle.drawSerifs = line.drawSerifs = self.serifed
 
 @glyph('A')
 class AGlyph(Glyph):

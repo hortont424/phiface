@@ -36,6 +36,7 @@ class Context(object):
 
         self.ctx = cairo.Context(self.surface)
 
+        self.ctx.set_line_width(1.0)
         self.ctx.set_source_rgba(1.0, 1.0, 1.0, 1.0)
         self.ctx.rectangle(0, 0, self.width, self.height)
         self.ctx.fill()
@@ -48,25 +49,18 @@ class Context(object):
 
         self.ctx.close_path()
 
-    def _drawPolygon(self, poly, outline=False, color=(0,0,0,1)):
+    def _drawPolygon(self, poly, glyph):
         self._drawCoords(poly.exterior.coords)
 
         for hole in poly.interiors:
             self._drawCoords(hole.coords)
 
-        self.ctx.set_source_rgba(*color)
+        self.ctx.set_source_rgba(*glyph.color)
 
-        if outline:
+        if glyph.outlined:
             self.ctx.stroke()
         else:
             self.ctx.fill()
-
-        #(bx1, by1, bx2, by2) = poly.exterior.bounds
-        #
-        #self._drawCoords([(bx1, by1), (bx1, by2), (bx2, by2), (bx2, by1)])
-        #self.ctx.set_source_rgba(1.0, 0.0, 0.0, 0.5)
-        #self.ctx.set_line_width(1.0)
-        #self.ctx.stroke()
 
     def draw(self, glyphs):
         from glyph import Glyph
@@ -83,11 +77,9 @@ class Context(object):
 
             if type(poly) is MultiPolygon:
                 for subPoly in poly.geoms:
-                    self._drawPolygon(subPoly, outline=glyph.outlined,
-                                      color=glyph.color)
+                    self._drawPolygon(subPoly, glyph)
             else:
-                self._drawPolygon(poly, outline=glyph.outlined,
-                                  color=glyph.color)
+                self._drawPolygon(poly, glyph)
 
     def write(self):
         if not PDFOutput:

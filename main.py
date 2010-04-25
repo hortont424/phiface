@@ -18,8 +18,7 @@ demoStr = "New York"
 #demoStr = "Phiface"
 #demoStr = "defghi"
 tracking = 0
-capHeight = 100
-phiface.line.drawSerifs = phiface.circle.drawSerifs = True
+capHeight = 20
 
 xloc = yloc = 20
 metrics = phiface.Glyph(0, 0, capHeight=capHeight)
@@ -46,6 +45,7 @@ for weight in [0.5, 2, 4, 7]:
 
         if weight == 4:
             glyph.outlined = True
+            glyph.serifed = False
 
         if weight == 7:
             glyph.color = (1.0, 0.0, 0.0, 1.0)
