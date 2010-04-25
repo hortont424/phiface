@@ -1628,21 +1628,6 @@ class sixGlyph(Glyph):
     def getPolygon(self):
         super(sixGlyph, self).setupDrawing()
 
-        height = 0.691
-        mainLine = Line(self.p(0.0, height), self.p(0.0, 0.25),
-                        self.weight(), shift="right")
-        circ = Circle(self.p(0.5, height),
-                      self.p(0.5, 1.0),
-                      self.weight())
-        clipPoly = Polygon((self.p(0.0, height),
-                            self.p(0.5, height),
-                            self.p(1.0, 1.0),
-                            self.p(1.0, 0.0),
-                            self.p(0.0, 0.0)))
-
-        circ = mergeSubPolys([circ]).difference(
-            mergeSubPolys([clipPoly]))
-
         shift = ((self.weight() / 2.0) / self.capHeight()) * 4
         bottomHeight = 0.5
         bottomY = bottomHeight / 2.0
@@ -1655,6 +1640,21 @@ class sixGlyph(Glyph):
         bottomY += shift / 2.0
 
         hshift = self.weight() / self.width()
+
+        height = 0.691
+        mainLine = Line(self.p(0.00, height + 0.01), self.p(-0.005, bottomY),
+                        self.weight(), shift="right")
+        circ = Circle(self.p(0.5, height),
+                      self.p(0.5, 1.0),
+                      self.weight())
+        clipPoly = Polygon((self.p(0.0, height),
+                            self.p(0.5, height),
+                            self.p(1.0, 1.3),
+                            self.p(1.0, 0.0),
+                            self.p(0.0, 0.0)))
+
+        circ = mergeSubPolys([circ]).difference(
+            mergeSubPolys([clipPoly]))
 
         circa = Circle(self.p(0.398 + hshift, bottomY),
                        self.p(0.398 + hshift, bottomYY),
@@ -1724,19 +1724,52 @@ class nineGlyph(Glyph):
         super(nineGlyph, self).__init__(x, y, capHeight)
 
     def width(self):
-        return self.em()
+        return self.em() / PHI
 
     def getPolygon(self):
         super(nineGlyph, self).setupDrawing()
 
-        circX = 0.5
-        mainLine = Line(self.p(1.0, 1.0),
-                        self.p(1.0, 0.0),
-                        self.weight(), shift="down")
-        circ = Circle(self.p(0.618, 0.75),
-                      self.p(0.618, 1.0),
+        shift = ((self.weight() / 2.0) / self.capHeight()) * 4
+        bottomHeight = 0.4
+        bottomY = bottomHeight / 2.0
+        bottomYY = bottomY + (bottomHeight / 2.0)
+        topHeight = 1.0 - bottomHeight
+        topY = bottomYY + (topHeight / 2.0)
+        topYY = bottomYY
+
+        #bottomYY += shift
+        #bottomY += shift / 2.0
+
+        hshift = self.weight() / self.width()
+
+        height = 0.309
+        circCenter = .398 + hshift
+
+        mainLine = Line(self.p(1.185, topY - topYY), self.p(1.185, topY),
+                        self.weight())
+        circ = Circle(self.p(circCenter, topY - topYY),
+                      self.p(circCenter, 0.0),
                       self.weight())
-        return [circ, mainLine]
+        clipPoly = Polygon((self.p(circCenter, topY - topYY),
+                            self.p(1.5, topY - topYY),
+                            self.p(1.5, 0.0),
+                            self.p(circCenter - 0.4, 0.0)))
+
+        circ = mergeSubPolys([circ]).intersection(
+            mergeSubPolys([clipPoly]))
+
+        circa = Circle(self.p(0.398 + hshift, topY),
+                       self.p(0.398 + hshift, topYY),
+                       self.weight())
+
+        mainLineClip = Circle(self.p(0.398 + hshift, topY),
+                              self.p(0.398 + hshift, topYY),
+                              -1)
+
+        mainLine = mergeSubPolys([mainLine]).difference(
+            mergeSubPolys([mainLineClip]))
+
+        return [circa, mainLine, circ]
 
 @glyph('.')
 class periodGlyph(Glyph):
