@@ -9,7 +9,7 @@ class TextBox(object):
         self.x = 0.0
         self.y = 0.0
         self.tracking = 0
-        self.capHeight = 100
+        self.size = 100
         self.weight = 3.0
         self.width = 1200
 
@@ -19,22 +19,24 @@ class TextBox(object):
                 setattr(self, prop, int(box.attrib[prop]))
 
         # Pull in float properties
-        for prop in ["tracking", "capHeight", "leading", "weight"]:
+        for prop in ["tracking", "size", "leading", "weight"]:
             if prop in box.attrib:
                 setattr(self, prop, float(box.attrib[prop]))
 
-        self.leading = self.capHeight / 2.0
+        self.leading = self.size / 2.0
 
         self.glyphs = []
 
         self.addXMLChunk(box)
 
-    def addXMLChunk(self, chunk, weight=None, italic=False):
+    def addXMLChunk(self, chunk, weight=None, italic=False, capHeight=None):
         if chunk.text:
-            self.addTextChunk(chunk.text, weight=weight, italic=italic)
+            self.addTextChunk(chunk.text, weight=weight, italic=italic,
+                              capHeight=capHeight)
         for el in chunk:
             newWeight = weight
             newItalic = italic
+            newCapHeight = capHeight
 
             if el.tag == "u":
                 newWeight = 0.5
@@ -48,24 +50,31 @@ class TextBox(object):
                 newWeight = 7.0
             elif el.tag == "i":
                 newItalic = True
-            self.addXMLChunk(el, weight=newWeight, italic=newItalic)
-            if el.tail:
-                self.addTextChunk(el.tail, weight=weight, italic=italic)
+            elif el.tag == "size":
+                newCapHeight = int(el.attrib["px"])
 
-    def addTextChunk(self, text, weight=None, italic=False):
+            self.addXMLChunk(el, weight=newWeight, italic=newItalic,
+                             capHeight=newCapHeight)
+            if el.tail:
+                self.addTextChunk(el.tail, weight=weight, italic=italic,
+                                  capHeight=capHeight)
+
+    def addTextChunk(self, text, weight=None, italic=False, capHeight=None):
         for i in range(len(text)):
             a = text[i]
 
             if weight == None:
                 weight = self.weight
-            print weight
+
+            if capHeight == None:
+                capHeight = self.size
 
             if a == " ":
                 self.glyphs += [None]
                 continue
 
-            glyph = glyphs[a](x=0, y=0, capHeight=self.capHeight)
-            glyph.w = (weight * (self.capHeight / 100.0))
+            glyph = glyphs[a](x=0, y=0, capHeight=capHeight)
+            glyph.w = (weight * (glyph.capHeight() / 100.0))
             glyph.slanted = italic
 
             self.glyphs += [glyph]
@@ -76,7 +85,7 @@ class TextBox(object):
         xloc = self.x
         yloc = self.y
 
-        metrics = Glyph(0, 0, capHeight=self.capHeight)
+        metrics = Glyph(0, 0, capHeight=self.size)
 
         for i in range(len(self.glyphs)):
             a = self.glyphs[i]
