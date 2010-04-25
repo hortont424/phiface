@@ -56,13 +56,11 @@ for weight in [2, 4, 7]:
         xShift = glyphBounds[2] - glyphBounds[0]
 
         if b is not " ":
-            t = (phiface.kernGlyphs(a, b, weight, capHeight=capHeight) +
-                 tracking)
+            xShift += (phiface.kernGlyphs(a, b, weight, capHeight=capHeight) +
+                       tracking)
 
             if glyph.outlined:
-                t = t + (capHeight / 15.0)
-
-            xShift += t
+                xShift += (capHeight / 15.0)
 
         if xloc + xShift > sc.width:
             xloc = initialX
