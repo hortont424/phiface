@@ -760,7 +760,7 @@ class aGlyph(Glyph):
 
         circX = 0.5
         mainLine = Line(self.p(1.0, 0.0), self.p(1.0, 1.0, xHeight=True),
-                        self.weight(), shift="down")
+                        self.weight(), shift="leftdown")
         circ = Circle(self.p(circX, 0.5, xHeight=True),
                       self.p(circX, 1.0, xHeight=True),
                       self.weight())

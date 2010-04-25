@@ -9,17 +9,34 @@ kerningOverrides = {
         "d": -5,
         "q": -5
     },
+    "e": {
+        "c": -5,
+        "l": 5
+    },
     "p": {
         "d": -5,
         "q": -5
     },
+    "n": {
+        "s": 5
+    },
+    "t": {
+        "e": 7
+    },
     "x": {
+        "t": -5
+    },
+    "y": {
         "t": -5
     },
     "F": {
         "G": 5
     },
+    "I": {
+        "n": -5
+    },
     "R": {
+        "e": 5,
         "S": 10
     },
     "4": {
@@ -47,7 +64,7 @@ def autoKern(a, b, weight, capHeight, metrics):
     bGlyph = glyphs[b](x=startX, y=0, capHeight=capHeight)
 
     if not bGlyph.autoKern:
-        bGlyph = glyphs["l"](x=0, y=0, capHeight=capHeight)
+        bGlyph = glyphs["l"](x=startX, y=0, capHeight=capHeight)
 
     bGlyph.w = (weight * (capHeight / 100.0))
     bBounds = mergeSubPolys([bGlyph]).bounds

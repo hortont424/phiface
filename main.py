@@ -16,16 +16,19 @@ demoStr = "".join([a for a in sorted(phiface.glyphs.keys())])
 #demoStr = "New <i>York</i> City"
 #demoStr = ".|      |."
 #demoStr = "./"
-demoStr = "013456789"
 
-src = "<?xml version='1.0' encoding='UTF-8'?><document width='1200' height='600'><textbox x='30' y='30' size='40'><l>" + demoStr + "</l><br/><br/><r>" + demoStr + "</r><br/><br/><h>" + demoStr + "</h></textbox></document>"
+#src = "<?xml version='1.0' encoding='UTF-8'?><document width='1200' height='600'><textbox x='30' y='30' size='40'><l>" + demoStr + "</l><br/><br/><r>" + demoStr + "</r><br/><br/><h>" + demoStr + "</h></textbox></document>"
 
-#src = """<?xml version='1.0' encoding='UTF-8'?>
-#<document width='1200' height='600'>
-#<textbox x='100' y='100' size='130'>
-#<color r='.969' g='0.0' b='.122' a='1.0'><h>Rensselaer</h></color>
-#</textbox>
-#</document>"""
+src = """<?xml version='1.0' encoding='UTF-8'?>
+<document width='1200' height='600'>
+<textbox x='30' y='30' size='10'>
+<color r='.969' g='0.0' b='.122' a='1.0'>
+<h><color r='0.0' g='0.0' b='0.0' a='1.0'>R</color>ensselaer</h><br/>
+<h><color r='0.0' g='0.0' b='0.0' a='1.0'>P</color>olytechnic</h><br/>
+<h><color r='0.0' g='0.0' b='0.0' a='1.0'>I</color>nstitute</h><br/>
+</color>
+</textbox>
+</document>"""
 
 document = ET.XML(src.encode('utf8'))
 
