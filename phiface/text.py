@@ -29,7 +29,7 @@ class TextBox(object):
 
         self.addXMLChunk(box)
 
-    def addXMLChunk(self, chunk, weight=0, italic=0):
+    def addXMLChunk(self, chunk, weight=0, italic=False):
         if chunk.text:
             self.addTextChunk(chunk.text, weight=weight, italic=italic)
         for el in chunk:
@@ -38,13 +38,15 @@ class TextBox(object):
 
             if el.tag == "b":
                 newWeight = weight + 2
+            elif el.tag == "t":
+                newWeight = weight - 2
             elif el.tag == "i":
-                newItalic = 1
+                newItalic = True
             self.addXMLChunk(el, weight=newWeight, italic=newItalic)
             if el.tail:
                 self.addTextChunk(el.tail, weight=weight, italic=italic)
 
-    def addTextChunk(self, text, weight=0, italic=0):
+    def addTextChunk(self, text, weight=0, italic=False):
         for i in range(len(text)):
             a = text[i]
 

@@ -18,7 +18,7 @@ from xml.etree import ElementTree as ET
 
 src = """
 <document width='1200' height='600'>
-    <textbox x='30' y='30'>New <i>Y<b>or</b>k</i> <b>Ci<b>ty</b></b></textbox>
+    <textbox x='30' y='30'><t>New</t> <i>Y<b>or</b>k</i> <b>Ci<b>ty</b></b></textbox>
     <textbox x='30' y='180'>Woohoo!</textbox>
 </document>"""
 
