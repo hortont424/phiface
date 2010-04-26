@@ -1396,6 +1396,7 @@ class zGlyph(Glyph):
         bottomLine = Line(self.p(0.0, 0.0, xHeight=True),
                           self.p(1.0, 0.0, xHeight=True),
                           self.weight(), shift="up", serif=1)
+
         return [topLine, slashLine, bottomLine]
 
 @glyph(u'—')
@@ -1411,6 +1412,7 @@ class emDashGlyph(Glyph):
 
         mainLine = Line(self.p(0.0, 0.5), self.p(1.0, 0.5),
                         self.weight())
+
         return [mainLine]
 
 @glyph('-')
@@ -1426,7 +1428,44 @@ class hyphenGlyph(Glyph):
 
         mainLine = Line(self.p(0.25, 0.5), self.p(0.75, 0.5),
                         self.weight() / PHI)
+
         return [mainLine]
+
+@glyph('=')
+class equalsGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(equalsGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(equalsGlyph, self).setupDrawing()
+
+        topLine = Line(self.p(0.2, 0.57), self.p(0.8, 0.57),
+                       self.weight() / PHI)
+        bottomLine = Line(self.p(0.2, 0.43), self.p(0.8, 0.43),
+                          self.weight() / PHI)
+
+        return [topLine, bottomLine]
+
+@glyph('+')
+class plusGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(plusGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.capHeight()
+
+    def getPolygon(self):
+        super(plusGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(0.25, 0.5), self.p(0.75, 0.5),
+                        self.weight() / PHI)
+        downLine = Line(self.p(0.5, 0.25), self.p(0.5, 0.75),
+                        self.weight() / PHI)
+
+        return [mainLine, downLine]
 
 @glyph('0')
 class zeroGlyph(Glyph):
@@ -1498,8 +1537,8 @@ class twoGlyph(Glyph):
 
         circb = mergeSubPolys([circb]).difference(
             mergeSubPolys([Polygon((
-                self.p(0.5, topY), self.p(0.0, topY),
-                self.p(0.0, 0.0), self.p(0.5, 0.0)
+                self.p(0.5, topY), self.p(-1.0, topY),
+                self.p(-1.0, 0.0), self.p(0.5, 0.0)
             ))]))
 
         circa = mergeSubPolys([circa]).difference(
@@ -1801,6 +1840,27 @@ class nineGlyph(Glyph):
 
         return [circa, mainLine, circ]
 
+@glyph(u'·')
+class midDotGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(midDotGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(midDotGlyph, self).setupDrawing()
+
+        circSize = 0.5 + ((0.6 * (self.weight() / 7)) /
+                            (self.capHeight() / 40.0))
+
+        circY = 0.5
+        circ = Circle(self.p(0.5, circY),
+                      self.p(circSize, circY),
+                      -1.0)
+        return [circ]
+
 @glyph('.')
 class periodGlyph(Glyph):
     def __init__(self, x, y, capHeight):
@@ -2086,11 +2146,11 @@ class pipeGlyph(Glyph):
     def getPolygon(self):
         super(pipeGlyph, self).setupDrawing()
 
-        bottomLine = Line(self.p(0.0, 0.0),
-                        self.p(0.0, 0.45), self.weight())
+        bottomLine = Line(self.p(0.5, 0.0),
+                        self.p(0.5, 0.45), self.weight())
 
-        topLine = Line(self.p(0.0, 0.55),
-                        self.p(0.0, 1.0), self.weight())
+        topLine = Line(self.p(0.5, 0.55),
+                        self.p(0.5, 1.0), self.weight())
 
         return [topLine, bottomLine]
 
@@ -2187,3 +2247,45 @@ class closeParenGlyph(Glyph):
             mergeSubPolys([clipPoly]))
 
         return [circ]
+
+@glyph('<')
+class lessThanGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(lessThanGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.capHeight()
+
+    def getPolygon(self):
+        super(lessThanGlyph, self).setupDrawing()
+
+        bottomLine = Line(self.p(0.0, 0.5),
+                          self.p(0.5, 0.0), self.weight(),
+                          noclip=True, shift="up")
+
+        topLine = Line(self.p(0.0, 0.5),
+                       self.p(0.5, 1.0), self.weight(),
+                       noclip=True)
+
+        return [bottomLine, topLine]
+
+@glyph('>')
+class greaterThanGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(greaterThanGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.capHeight()
+
+    def getPolygon(self):
+        super(greaterThanGlyph, self).setupDrawing()
+
+        bottomLine = Line(self.p(0.5, 0.5),
+                          self.p(0.0, 0.0), self.weight(),
+                          noclip=True, shift="up")
+
+        topLine = Line(self.p(0.5, 0.5),
+                       self.p(0.0, 1.0), self.weight(),
+                       noclip=True)
+
+        return [bottomLine, topLine]

@@ -35,6 +35,7 @@ def autoKern(a, b, weight, capHeight, metrics):
 
     if not aGlyph.autoKern:
         aGlyph = glyphs["l"](x=0, y=0, capHeight=capHeight)
+        aGlyph.serifed = False
 
     aGlyph.w = weight
     aBounds = mergeSubPolys([aGlyph]).bounds
@@ -47,6 +48,7 @@ def autoKern(a, b, weight, capHeight, metrics):
 
     if not bGlyph.autoKern:
         bGlyph = glyphs["l"](x=startX, y=0, capHeight=capHeight)
+        bGlyph.serifed = False
 
     bGlyph.x = startX + i
     bGlyph.w = weight
