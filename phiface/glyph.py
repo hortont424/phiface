@@ -1885,6 +1885,40 @@ class doubleQuoteGlyph(Glyph):
                           self.p(0.35 + shift, 0.85), self.weight())
         return [mainLine, secondLine]
 
+@glyph('`')
+class backQuoteGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(backQuoteGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(backQuoteGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(0.35, 1.1), self.p(0.5, 0.85), self.weight())
+        return [mainLine]
+
+@glyph(u'“')
+class doubleBackQuoteGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(doubleBackQuoteGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(doubleBackQuoteGlyph, self).setupDrawing()
+
+        shift = 0.2 + (self.weight() / self.width()) * 2.0
+
+        mainLine = Line(self.p(0.35, 1.1), self.p(0.5, 0.85), self.weight())
+        secondLine = Line(self.p(0.35 + shift, 1.1),
+                          self.p(0.5 + shift, 0.85), self.weight())
+        return [mainLine, secondLine]
+
 @glyph('!')
 class exclamationGlyph(Glyph):
     def __init__(self, x, y, capHeight):
