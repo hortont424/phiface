@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from glyph import Glyph, glyphs
 from context import mergeSubPolys
 from kerning import kernGlyphs

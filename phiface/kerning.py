@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from math import *
 from glyph import *
 from context import *

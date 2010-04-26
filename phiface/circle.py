@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from shapely.geometry import *
 from shapely.ops import *
 from math import *
