@@ -1804,7 +1804,7 @@ class commaGlyph(Glyph):
     def getPolygon(self):
         super(commaGlyph, self).setupDrawing()
 
-        mainLine = Line(self.p(0.5, 0.1), self.p(0.4, -0.1), self.weight())
+        mainLine = Line(self.p(0.5, 0.1), self.p(0.35, -0.15), self.weight())
         return [mainLine]
 
 @glyph(';')
@@ -1821,8 +1821,8 @@ class semicolonGlyph(commaGlyph):
                             (self.capHeight() / 40.0))
 
         circY = (circSize - 0.5) / 3.0
-        circ = Circle(self.p(0.5, 0.8 - circY),
-                      self.p(circSize, 0.8 - circY),
+        circ = Circle(self.p(0.5, 1.0 - circY, xHeight=True),
+                      self.p(circSize, 1.0 - circY, xHeight=True),
                       -1.0)
 
         return [parentPoly, circ]
@@ -1846,8 +1846,8 @@ class colonGlyph(Glyph):
         circ = Circle(self.p(0.5, circY),
                       self.p(circSize, circY),
                       -1.0)
-        topcirc = Circle(self.p(0.5, 0.8 - circY),
-                         self.p(circSize, 0.8 - circY),
+        topcirc = Circle(self.p(0.5, 1.0 - circY, xHeight=True),
+                         self.p(circSize, 1.0 - circY, xHeight=True),
                          -1.0)
         return [circ, topcirc]
 

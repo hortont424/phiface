@@ -62,6 +62,13 @@ class Context(object):
         else:
             self.ctx.fill()
 
+        #(bx1, by1, bx2, by2) = poly.exterior.bounds
+        #
+        #self._drawCoords([(bx1, by1), (bx1, by2), (bx2, by2), (bx2, by1)])
+        #self.ctx.set_source_rgba(1.0, 0.0, 0.0, 0.5)
+        #self.ctx.set_line_width(0.1)
+        #self.ctx.stroke()
+
     def draw(self, glyphs):
         from glyph import Glyph
         for glyph in glyphs:

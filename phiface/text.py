@@ -118,6 +118,7 @@ class TextBox(object):
 
     def layoutGlyphs(self):
         allGlyphs = []
+        wordGlyphs = []
 
         xloc = self.x
         yloc = self.y
@@ -127,19 +128,32 @@ class TextBox(object):
         for i in range(len(self.glyphs)):
             a = self.glyphs[i]
 
+            if i + 1 < len(self.glyphs):
+                b = self.glyphs[i + 1]
+            else:
+                b = None
+
             if a == " ":
-                xloc += metrics.em() + self.tracking
+                if len(wordGlyphs):
+                    wordBounds = mergeSubPolys(wordGlyphs).bounds
+                    xloc = ((metrics.em() / 1.618) + self.tracking +
+                            wordBounds[2])
+
+                    if xloc > self.width:
+                        xloc = self.x
+                        yloc += metrics.capHeight() + self.leading
+
+                    allGlyphs += wordGlyphs
+                    wordGlyphs = []
                 continue
 
             if a == "\n":
                 xloc = self.x
                 yloc += metrics.capHeight() + self.leading
-                continue
 
-            if i + 1 < len(self.glyphs):
-                b = self.glyphs[i + 1]
-            else:
-                b = None
+                allGlyphs += wordGlyphs
+                wordGlyphs = []
+                continue
 
             glyphBounds = mergeSubPolys([a]).bounds
             a.x = xloc
@@ -153,15 +167,10 @@ class TextBox(object):
                 if a.outlined:
                     xShift += (a.capHeight() / 15.0)
 
-            if xloc + xShift > self.width:
-                xloc = self.x
-                yloc += metrics.capHeight() + self.leading
-                a.x = xloc
-                a.y = yloc
-                xloc += xShift
-            else:
-                xloc += xShift
+            xloc += xShift
 
-            allGlyphs += [a]
+            wordGlyphs += [a]
+
+        allGlyphs += wordGlyphs
 
         return allGlyphs
