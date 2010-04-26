@@ -2,6 +2,7 @@ from shapely.geometry import *
 from shapely.ops import *
 from math import *
 from line import Line
+from context import mergeSubPolys
 
 capHeight = 100
 
@@ -68,4 +69,4 @@ class Circle(object):
                                      ss - self.weight / 2.0),
                                 serifWeight)]
 
-        return [circ, serifPolys]
+        return mergeSubPolys([circ, serifPolys])

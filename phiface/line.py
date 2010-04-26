@@ -1,6 +1,7 @@
 from shapely.geometry import *
 from shapely.ops import *
 from math import *
+from context import mergeSubPolys
 
 drawSerifs = True
 capHeight = 100 # TODO: completely retarded
@@ -183,4 +184,4 @@ class Line(object):
                                     (x1 - serifWeight - ss - angleShift,
                                      y1 + serifWeight),
                                     serifWeight)]
-        return [linePoly, serifPolys]
+        return mergeSubPolys([linePoly, serifPolys])
