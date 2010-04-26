@@ -20,7 +20,7 @@ class TextBox(object):
         self.size = 100
         self.weight = 3.0
         self.width = 1200
-        self.serif = True
+        self.serif = False
         self.leading = None
 
         # Pull in integer properties
@@ -135,7 +135,7 @@ class TextBox(object):
             glyph.w = (weight * (glyph.capHeight() / 100.0))
             glyph.slanted = italic
             glyph.color = color
-            glyph.serifed = serif
+            glyph.willBeSerifed = serif
             glyph.tracking = tracking
 
             self.glyphs += [glyph]
@@ -198,5 +198,8 @@ class TextBox(object):
             wordGlyphs += [a]
 
         allGlyphs += wordGlyphs
+
+        for g in allGlyphs:
+            g.serifed = g.willBeSerifed
 
         return allGlyphs

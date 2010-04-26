@@ -31,6 +31,7 @@ class Glyph(object):
         self.outlined = False
         self.color = (0.0, 0.0, 0.0, 1.0)
         self.serifed = True
+        self.willBeSerifed = True
         self.autoKern = True
 
     def capHeight(self):
