@@ -19,6 +19,7 @@ class TextBox(object):
         self.weight = 3.0
         self.width = 1200
         self.serif = True
+        self.leading = None
 
         # Pull in integer properties
         for prop in ["x", "y", "width"]:
@@ -30,7 +31,8 @@ class TextBox(object):
             if prop in box.attrib:
                 setattr(self, prop, float(box.attrib[prop]))
 
-        self.leading = self.size / 3.0
+        if self.leading == None:
+            self.leading = self.size / 3.0
 
         self.glyphs = []
 
@@ -64,9 +66,11 @@ class TextBox(object):
             elif el.tag == "i":
                 newItalic = True
             elif el.tag == "leading":
-                newLeading = int(el.attrib["px"])
+                newLeading = float(el.attrib["px"])
+            elif el.tag == "tracking":
+                newTracking = float(el.attrib["px"])
             elif el.tag == "size":
-                newCapHeight = int(el.attrib["px"])
+                newCapHeight = float(el.attrib["px"])
                 if newLeading == None:
                     newLeading = newCapHeight / 3.0
             elif el.tag == "br":

@@ -1491,7 +1491,7 @@ class twoGlyph(Glyph):
 
         overLine = Line(self.p(0.5 - dshift, 0.0),
                         self.p(1.0, 0.0),
-                        self.weight(), shift="up")
+                        self.weight(), shift="up", serif=2)
 
         return [circa, circb, downLine, overLine]
 
@@ -1613,7 +1613,7 @@ class fiveGlyph(Glyph):
 
         overLine = Line(self.p(shift, 1.0),
                         self.p(0.9, 1.0),
-                        self.weight(), shift="leftdown")
+                        self.weight(), shift="leftdown", serif=1)
 
         return [circa, upLine, overLine]
 
