@@ -1398,6 +1398,36 @@ class zGlyph(Glyph):
                           self.weight(), shift="up", serif=1)
         return [topLine, slashLine, bottomLine]
 
+@glyph(u'—')
+class emDashGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(emDashGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(emDashGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(0.0, 0.5), self.p(1.0, 0.5),
+                        self.weight())
+        return [mainLine]
+
+@glyph('-')
+class hyphenGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(hyphenGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em()
+
+    def getPolygon(self):
+        super(hyphenGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(0.25, 0.5), self.p(0.75, 0.5),
+                        self.weight() / PHI)
+        return [mainLine]
+
 @glyph('0')
 class zeroGlyph(Glyph):
     def __init__(self, x, y, capHeight):
