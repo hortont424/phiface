@@ -3,6 +3,9 @@ from glyph import *
 from context import *
 from shapely.geometry import *
 
+import pickle
+
+cacheData = {"totalHits": 0, "cacheHits": 0}
 defaultKerning = 10
 kerningOverrides = {
     "b": {
@@ -13,12 +16,13 @@ kerningOverrides = {
         "d": -5,
         "q": -5
     },
+    "t": {
+        "t": -5
+    },
     "4": {
         "5": 7
     }
 }
-
-kerningPairs = {}
 
 def autoKern(a, b, weight, capHeight, metrics):
     if not (a in glyphs and b in glyphs):
@@ -73,6 +77,9 @@ def autoKern(a, b, weight, capHeight, metrics):
         i += direction
 
 def kernGlyphs(a, b, weight, capHeight):
+    if not hasattr(kernGlyphs, "kerningPairs"):
+        kernGlyphs.kerningPairs = {}
+
     metrics = Glyph(0, 0, capHeight=capHeight)
 
     if b:
@@ -80,8 +87,11 @@ def kernGlyphs(a, b, weight, capHeight):
     else:
         memoString = a + "~" + str(weight) + "~" + str(capHeight)
 
-    if (memoString in kerningPairs):
-        return kerningPairs[memoString]
+    cacheData["totalHits"] += 1
+
+    if (memoString in kernGlyphs.kerningPairs):
+        cacheData["cacheHits"] += 1
+        return kernGlyphs.kerningPairs[memoString]
 
     kerning = autoKern(a, b, weight, capHeight, metrics)
 
@@ -94,6 +104,24 @@ def kernGlyphs(a, b, weight, capHeight):
     if b and (a in kerningOverrides) and (b in kerningOverrides[a]):
         kerning += kerningOverrides[a][b] * (metrics.capHeight() / 100.0)
 
-    kerningPairs[memoString] = kerning
+    kernGlyphs.kerningPairs[memoString] = kerning
 
     return kerning
+
+def saveKerningData():
+    kfile = open("kerning.dat", "w")
+    pickle.dump(kernGlyphs.kerningPairs, kfile)
+    kfile.close()
+    print "{0}/{1} in cache.".format(cacheData["cacheHits"],
+                                     cacheData["totalHits"])
+    print "Saved {0} kerning entries.".format(len(kernGlyphs.kerningPairs))
+
+def loadKerningData():
+    try:
+        kfile = open("kerning.dat", "r")
+        kernGlyphs.kerningPairs = pickle.load(kfile)
+        kfile.close()
+        print "Loaded {0} kerning entries.".format(len(kernGlyphs.kerningPairs))
+    except:
+        print "No kerning data to load."
+        kernGlyphs.kerningPairs = {}
