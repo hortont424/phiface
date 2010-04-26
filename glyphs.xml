@@ -3,6 +3,6 @@
 <textbox x='30' y='30' size='50' leading='40'>
 <tracking px='3.7'>ABCDEFGHIJKLMNOPQRSTUVWXYZ</tracking><br/>
 abcedfghijklmnopqrstuvwxyz0123456789<br/>
-<tracking px='16.4'>!?‽   ()[]   \|/   `“"'   .,;:·   —-   &lt;&gt;   +=</tracking>
+<tracking px='18'>!?‽ ()[] \|/ `“"' .,;:· —- &lt;&gt; +=</tracking>
 </textbox>
 </document>

@@ -19,6 +19,7 @@ kerningOverrides = {
         "q": -5
     },
     "r": {
+        "t": -5,
         "y": -5
     },
     "t": {
