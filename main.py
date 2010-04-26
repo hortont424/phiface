@@ -18,9 +18,9 @@ demoStr = "".join([a for a in sorted(phiface.glyphs.keys())])
 #demoStr = ".|      |."
 #demoStr = "./"
 
-demoStr = "Once I got back to RPI (in late January), I asked Carol (and Nate) if I could steal her for a day at the end of March. She managed to get a day off from work, and we got tickets to the concert and various forms of transportation. Getting concert tickets was a bit of a pain; the internet has made it very easy for scalpers to immediately consume the entire supply of tickets, especially to very small shows like this; but we eventually got it all sorted out.<br/><br/>As March drew to a close, it became clear that the 29th was going to be a disgustingly rainy day, both in NYC and Troy. Oh, well, we said as we boarded a Megabus nearby the local Amtrak station; we were determined to make something awesome of the day, regardless of the weather."
+# make space a special character using pipe kerning + 1 em or something?
 
-src = "<?xml version='1.0' encoding='UTF-8'?><document width='1200' height='600'><textbox x='30' y='30' size='12' width='1100'><l>" + demoStr + "</l><br/><br/><r>" + demoStr + "</r><br/><br/><h>" + demoStr + "</h></textbox></document>"
+src = "<?xml version='1.0' encoding='UTF-8'?><document width='1200' height='600'><textbox x='30' y='30' size='20' width='650'><l>" + demoStr + "</l><br/><br/><r>" + demoStr + "</r><br/><br/><h>" + demoStr + "</h></textbox></document>"
 
 #src = """<?xml version='1.0' encoding='UTF-8'?>
 #<document width='1200' height='600'>

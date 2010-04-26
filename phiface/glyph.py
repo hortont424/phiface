@@ -1851,6 +1851,40 @@ class colonGlyph(Glyph):
                          -1.0)
         return [circ, topcirc]
 
+@glyph('\'')
+class quoteGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(quoteGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(quoteGlyph, self).setupDrawing()
+
+        mainLine = Line(self.p(0.5, 1.1), self.p(0.35, 0.85), self.weight())
+        return [mainLine]
+
+@glyph('"')
+class doubleQuoteGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(doubleQuoteGlyph, self).__init__(x, y, capHeight)
+        self.autoKern = False
+
+    def width(self):
+        return self.em() / PHI
+
+    def getPolygon(self):
+        super(doubleQuoteGlyph, self).setupDrawing()
+
+        shift = 0.2 + (self.weight() / self.width()) * 2.0
+
+        mainLine = Line(self.p(0.5, 1.1), self.p(0.35, 0.85), self.weight())
+        secondLine = Line(self.p(0.5 + shift, 1.1),
+                          self.p(0.35 + shift, 0.85), self.weight())
+        return [mainLine, secondLine]
+
 @glyph('!')
 class exclamationGlyph(Glyph):
     def __init__(self, x, y, capHeight):
