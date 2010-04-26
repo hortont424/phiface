@@ -63,3 +63,19 @@ class Glyph(object):
     def setupDrawing(self):
         circle.capHeight = line.capHeight = self.capHeight()
         circle.drawSerifs = line.drawSerifs = self.serifed
+
+@glyph(' ')
+class spaceGlyph(Glyph):
+    def __init__(self, x, y, capHeight):
+        super(spaceGlyph, self).__init__(x, y, capHeight)
+
+    def width(self):
+        return self.em() / PHI / PHI
+
+    def getPolygon(self):
+        super(spaceGlyph, self).setupDrawing()
+
+        rect = Polygon((self.p(0.0, 0.0), self.p(1.0, 0.0),
+                        self.p(1.0, 1.0), self.p(0.0, 1.0)))
+
+        return [rect]

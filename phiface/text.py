@@ -3,6 +3,7 @@
 from glyph import Glyph, glyphs
 from context import mergeSubPolys
 from kerning import kernGlyphs
+from punctuation import spaceGlyph
 
 class LineBreak(object):
     def __init__(self, leading):
@@ -11,7 +12,7 @@ class LineBreak(object):
         self.leading = leading
 
 class TextBox(object):
-    def __init__(self, box):
+    def __init__(self, box, parent):
         super(TextBox, self).__init__()
 
         self.x = 0.0
@@ -19,7 +20,7 @@ class TextBox(object):
         self.tracking = 0
         self.size = 100
         self.weight = 3.0
-        self.width = 1200
+        self.width = int(parent.attrib["width"])
         self.serif = True
         self.leading = None
 
@@ -34,7 +35,7 @@ class TextBox(object):
                 setattr(self, prop, float(box.attrib[prop]))
 
         if self.leading == None:
-            self.leading = self.size / 3.0
+            self.leading = self.size / 2.0
 
         self.glyphs = []
 
@@ -74,7 +75,7 @@ class TextBox(object):
             elif el.tag == "size":
                 newCapHeight = float(el.attrib["px"])
                 if newLeading == None:
-                    newLeading = newCapHeight / 3.0
+                    newLeading = newCapHeight / 2.0
             elif el.tag == "br":
                 self.addTextChunk("\n", capHeight=capHeight, leading=newLeading,
                                   stripNewline=False)
@@ -122,9 +123,9 @@ class TextBox(object):
             if leading == None:
                 leading = self.leading
 
-            if a == " ":
-                self.glyphs += [" "]
-                continue
+            #if a == " ":
+            #    self.glyphs += [" "]
+            #    continue
 
             if a == "\n":
                 if not stripNewline:
@@ -157,22 +158,6 @@ class TextBox(object):
             else:
                 b = None
 
-            if a == " ":
-                if len(wordGlyphs):
-                    wordBounds = mergeSubPolys(wordGlyphs).bounds
-                    xloc = ((metrics.em() / 1.618) + self.tracking +
-                            wordBounds[2])
-
-                    if xloc > self.width:
-                        xloc = self.x
-                        yloc += metrics.capHeight() + self.leading
-
-                    allGlyphs += wordGlyphs
-                    wordGlyphs = []
-                else:
-                    xloc += metrics.em() / 1.618 + self.tracking
-                continue
-
             if isinstance(a, LineBreak):
                 xloc = self.x
                 yloc += metrics.capHeight() + a.leading
@@ -195,7 +180,16 @@ class TextBox(object):
 
             xloc += xShift
 
-            wordGlyphs += [a]
+            if isinstance(a, spaceGlyph):
+                if len(wordGlyphs):
+                    if xloc > self.width:
+                        xloc = self.x
+                        yloc += metrics.capHeight() + self.leading
+
+                    allGlyphs += wordGlyphs
+                    wordGlyphs = []
+            else:
+                wordGlyphs += [a]
 
         allGlyphs += wordGlyphs
 

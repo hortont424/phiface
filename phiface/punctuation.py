@@ -95,7 +95,7 @@ class midDotGlyph(Glyph):
 class periodGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(periodGlyph, self).__init__(x, y, capHeight)
-        self.autoKern = False
+        #self.autoKern = False
 
     def width(self):
         return self.em() / PHI
@@ -116,7 +116,7 @@ class periodGlyph(Glyph):
 class commaGlyph(Glyph):
     def __init__(self, x, y, capHeight):
         super(commaGlyph, self).__init__(x, y, capHeight)
-        self.autoKern = False
+        #self.autoKern = False
 
     def width(self):
         return self.em() / PHI

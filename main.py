@@ -24,7 +24,7 @@ def render(filename):
                          outputFilename)
 
     for box in document:
-        tb = phiface.TextBox(box)
+        tb = phiface.TextBox(box, document)
         sc.draw(tb.layoutGlyphs())
 
     phiface.saveKerningData()
