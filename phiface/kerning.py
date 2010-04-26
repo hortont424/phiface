@@ -3,7 +3,7 @@ from glyph import *
 from context import *
 from shapely.geometry import *
 
-import pickle
+import cPickle
 
 cacheData = {"totalHits": 0, "cacheHits": 0}
 defaultKerning = 10
@@ -80,12 +80,12 @@ def kernGlyphs(a, b, weight, capHeight):
     if not hasattr(kernGlyphs, "kerningPairs"):
         kernGlyphs.kerningPairs = {}
 
-    metrics = Glyph(0, 0, capHeight=capHeight)
-
     if b:
         memoString = a + "~" + b + "~" + str(weight) + "~" + str(capHeight)
     else:
         memoString = a + "~" + str(weight) + "~" + str(capHeight)
+
+    metrics = Glyph(0, 0, capHeight=capHeight)
 
     cacheData["totalHits"] += 1
 
@@ -110,7 +110,7 @@ def kernGlyphs(a, b, weight, capHeight):
 
 def saveKerningData():
     kfile = open("kerning.dat", "w")
-    pickle.dump(kernGlyphs.kerningPairs, kfile)
+    cPickle.dump(kernGlyphs.kerningPairs, kfile)
     kfile.close()
     print "{0}/{1} in cache.".format(cacheData["cacheHits"],
                                      cacheData["totalHits"])
@@ -119,7 +119,7 @@ def saveKerningData():
 def loadKerningData():
     try:
         kfile = open("kerning.dat", "r")
-        kernGlyphs.kerningPairs = pickle.load(kfile)
+        kernGlyphs.kerningPairs = cPickle.load(kfile)
         kfile.close()
         print "Loaded {0} kerning entries.".format(len(kernGlyphs.kerningPairs))
     except:
