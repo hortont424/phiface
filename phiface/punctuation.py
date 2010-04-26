@@ -13,7 +13,8 @@ class emDashGlyph(Glyph):
     def getPolygon(self):
         super(emDashGlyph, self).setupDrawing()
 
-        mainLine = Line(self.p(0.0, 0.5), self.p(1.0, 0.5),
+        mainLine = Line(self.p(0.0, 0.5, xHeight=True),
+                        self.p(1.0, 0.5, xHeight=True),
                         self.weight())
 
         return [mainLine]
@@ -29,7 +30,8 @@ class hyphenGlyph(Glyph):
     def getPolygon(self):
         super(hyphenGlyph, self).setupDrawing()
 
-        mainLine = Line(self.p(0.25, 0.5), self.p(0.75, 0.5),
+        mainLine = Line(self.p(0.25, 0.5, xHeight=True),
+                        self.p(0.75, 0.5, xHeight=True),
                         self.weight() / PHI)
 
         return [mainLine]
@@ -200,9 +202,10 @@ class doubleQuoteGlyph(Glyph):
 
         shift = 0.2 + (self.weight() / self.width()) * 2.0
 
-        mainLine = Line(self.p(0.5, 1.1), self.p(0.35, 0.85), self.weight())
-        secondLine = Line(self.p(0.5 + shift, 1.1),
-                          self.p(0.35 + shift, 0.85), self.weight())
+        mainLine = Line(self.p(0.5 - (shift / 2.0), 1.1),
+                        self.p(0.35 - (shift / 2.0), 0.85), self.weight())
+        secondLine = Line(self.p(0.5 + (shift / 2.0), 1.1),
+                          self.p(0.35 + (shift / 2.0), 0.85), self.weight())
         return [mainLine, secondLine]
 
 @glyph('`')
@@ -234,9 +237,10 @@ class doubleBackQuoteGlyph(Glyph):
 
         shift = 0.2 + (self.weight() / self.width()) * 2.0
 
-        mainLine = Line(self.p(0.35, 1.1), self.p(0.5, 0.85), self.weight())
-        secondLine = Line(self.p(0.35 + shift, 1.1),
-                          self.p(0.5 + shift, 0.85), self.weight())
+        mainLine = Line(self.p(0.35 - (shift / 2.0), 1.1),
+                        self.p(0.5 - (shift / 2.0), 0.85), self.weight())
+        secondLine = Line(self.p(0.35 + (shift / 2.0), 1.1),
+                          self.p(0.5 + (shift / 2.0), 0.85), self.weight())
         return [mainLine, secondLine]
 
 @glyph('!')
