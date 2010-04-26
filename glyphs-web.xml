@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<document width='600' height='600'>
+<textbox x='10' y='10' size='50' leading='40'>
+<tracking px='3.3'>ABCDEFGHIJKLMN</tracking><br/>
+<tracking px='6'>OPQRSTUVWXYZ</tracking><br/>
+<tracking px='0.4'>abcedfghijklmnopqr</tracking><br/>
+stuvwxyz0123456789<br/>
+<tracking px='0.4'>!?‽ ()[] \|/ `“"'.,;:· —- &lt;&gt; +=</tracking>
+</textbox>
+</document>

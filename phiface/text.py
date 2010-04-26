@@ -20,7 +20,7 @@ class TextBox(object):
         self.size = 100
         self.weight = 3.0
         self.width = 1200
-        self.serif = False
+        self.serif = True
         self.leading = None
 
         # Pull in integer properties
