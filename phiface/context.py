@@ -1,8 +1,6 @@
 import cairo
 from shapely.geometry import *
 
-PDFOutput = True
-
 # flatten from:
 # http://rightfootin.blogspot.com/2006/09/more-on-python-flatten.html
 def flatten(l, ltypes=(list, tuple)):
@@ -21,18 +19,13 @@ def flatten(l, ltypes=(list, tuple)):
     return ltype(l)
 
 class Context(object):
-    def __init__(self, width, height):
+    def __init__(self, width, height, filename):
         super(Context, self).__init__()
 
         self.width = width
         self.height = height
 
-        if PDFOutput:
-            self.surface = cairo.PDFSurface("output.pdf",
-                                            self.width, self.height)
-        else:
-            self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                                              self.width, self.height)
+        self.surface = cairo.PDFSurface(filename, self.width, self.height)
 
         self.ctx = cairo.Context(self.surface)
 
@@ -87,10 +80,6 @@ class Context(object):
                     self._drawPolygon(subPoly, glyph)
             else:
                 self._drawPolygon(poly, glyph)
-
-    def write(self):
-        if not PDFOutput:
-            self.surface.write_to_png("output.png")
 
 def mergeSubPolys(polygons):
     def _flattenPolys(polys):
