@@ -2,6 +2,12 @@ from glyph import Glyph, glyphs
 from context import mergeSubPolys
 from kerning import kernGlyphs
 
+class LineBreak(object):
+    def __init__(self, leading):
+        super(LineBreak, self).__init__()
+
+        self.leading = leading
+
 class TextBox(object):
     def __init__(self, box):
         super(TextBox, self).__init__()
@@ -24,18 +30,18 @@ class TextBox(object):
             if prop in box.attrib:
                 setattr(self, prop, float(box.attrib[prop]))
 
-        self.leading = self.size / 2.0
+        self.leading = self.size / 3.0
 
         self.glyphs = []
 
         self.addXMLChunk(box)
 
     def addXMLChunk(self, chunk, weight=None, italic=False, capHeight=None,
-                    color=None, serif=None, tracking=None):
+                    color=None, serif=None, tracking=None, leading=None):
         if chunk.text:
             self.addTextChunk(chunk.text, weight=weight, italic=italic,
                               capHeight=capHeight, color=color, serif=serif,
-                              tracking=tracking)
+                              tracking=tracking, leading=leading)
         for el in chunk:
             newWeight = weight
             newItalic = italic
@@ -43,6 +49,7 @@ class TextBox(object):
             newColor = color
             newSerif = serif
             newTracking = tracking
+            newLeading = leading
 
             if el.tag == "u":
                 newWeight = 0.5
@@ -56,10 +63,15 @@ class TextBox(object):
                 newWeight = 7.0
             elif el.tag == "i":
                 newItalic = True
+            elif el.tag == "leading":
+                newLeading = int(el.attrib["px"])
             elif el.tag == "size":
                 newCapHeight = int(el.attrib["px"])
+                if newLeading == None:
+                    newLeading = newCapHeight / 3.0
             elif el.tag == "br":
-                self.addTextChunk("\n", capHeight=capHeight, stripNewline=False)
+                self.addTextChunk("\n", capHeight=capHeight, leading=newLeading,
+                                  stripNewline=False)
             elif el.tag == "color":
                 newColor = (float(el.attrib["r"]),
                             float(el.attrib["g"]),
@@ -72,14 +84,17 @@ class TextBox(object):
 
             self.addXMLChunk(el, weight=newWeight, italic=newItalic,
                              capHeight=newCapHeight, color=newColor,
-                             serif=newSerif, tracking=newTracking)
+                             serif=newSerif, tracking=newTracking,
+                             leading=newLeading)
             if el.tail:
                 self.addTextChunk(el.tail, weight=weight, italic=italic,
                                   capHeight=capHeight, color=color,
-                                  serif=serif, tracking=tracking)
+                                  serif=serif, tracking=tracking,
+                                  leading=leading)
 
     def addTextChunk(self, text, weight=None, italic=False, capHeight=None,
-                     stripNewline=True, color=None, serif=None, tracking=None):
+                     stripNewline=True, color=None, serif=None, tracking=None,
+                     leading=None):
         for i in range(len(text)):
             a = text[i]
 
@@ -98,13 +113,16 @@ class TextBox(object):
             if tracking == None:
                 tracking = self.tracking
 
+            if leading == None:
+                leading = self.leading
+
             if a == " ":
                 self.glyphs += [" "]
                 continue
 
             if a == "\n":
                 if not stripNewline:
-                    self.glyphs += ["\n"]
+                    self.glyphs += [LineBreak(leading)]
                 continue
 
             glyph = glyphs[a](x=0, y=0, capHeight=capHeight)
@@ -145,11 +163,13 @@ class TextBox(object):
 
                     allGlyphs += wordGlyphs
                     wordGlyphs = []
+                else:
+                    xloc += metrics.em() / 1.618 + self.tracking
                 continue
 
-            if a == "\n":
+            if isinstance(a, LineBreak):
                 xloc = self.x
-                yloc += metrics.capHeight() + self.leading
+                yloc += metrics.capHeight() + a.leading
 
                 allGlyphs += wordGlyphs
                 wordGlyphs = []
