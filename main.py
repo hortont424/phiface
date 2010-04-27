@@ -6,10 +6,6 @@ import os
 import phiface
 from xml.etree import ElementTree as ET
 
-#demoStr = "".join([a for a in sorted(phiface.glyphs.keys())])
-
-# make space a special character using pipe kerning + 1 em or something?
-
 def render(filename):
     phiface.loadKerningData()
 
