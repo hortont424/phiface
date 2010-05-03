@@ -164,9 +164,10 @@ class TextBox(object):
                     bGlyphBounds = mergeSubPolys([b]).bounds
                     b.x = self.x
                     xloc = b.x - bGlyphBounds[0]
-                    yloc += metrics.capHeight() + a.leading
                 else:
                     xloc = self.x
+
+                yloc += metrics.capHeight() + a.leading
 
                 allGlyphs += wordGlyphs
                 wordGlyphs = []

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <document width='600' height='600'>
-<textbox x='10' y='10' size='24' width='1100'>
+<textbox x='10' y='10' size='24' width='1000'>
 Horton Slab is a simple slab-serif typeface designed with large point sizes in mind. It is <i>heavily</i> based off of the golden ratio, which is used for many of the proportions throughout the font, such as the ratio of capital height to x-height, or the ratio of serif thickness to glyph thickness. In addition, all glyphs are formed solely from line and circle primitives: there are no arbitrary curves allowed, providing for an extremely consistent geometric feel.<br/><br/>
 The font is implemented in a procedural way, where each glyph is actually described by a fragment of Python code; this provides the ability for each glyph to adjust its shape based on the requested weight and point size, allowing for very straightforward generation of multiple weights — I decided to name five specific weights: ultralight, light, regular, bold, and heavy, though it is possible to generate additional weights in between these if necessary. The procedural format of the font also enables simple generation of italic and sans-serif variants.<br/><br/>
 Horton Slab includes eighty-eight glyphs, covering almost all of the characters required to write English prose, in addition to various punctuation and arithmetic marks.
