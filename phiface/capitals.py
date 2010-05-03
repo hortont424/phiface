@@ -513,6 +513,19 @@ class SGlyph(Glyph):
         topYY -= shift / 2.0
         topY -= shift / 4.0
 
+        rw = self.weight() / self.capHeight() * 100
+
+        if rw >= 7.0:
+            topYY -= (self.weight() / self.capHeight()) * 0.0725
+        elif rw >= 5.0:
+            topYY -= (self.weight() / self.capHeight()) * 0.09
+        elif rw >= 3.0:
+            topYY -= (self.weight() / self.capHeight()) * 0.14
+        elif rw >= 2.0:
+            topYY -= (self.weight() / self.capHeight()) * 0.205
+        elif rw >= 0.5:
+            topYY -= (self.weight() / self.capHeight()) * 0.81
+
         circa = Circle(self.p(0.45, bottomY),
                        self.p(0.45, bottomYY),
                        self.weight())
@@ -520,7 +533,7 @@ class SGlyph(Glyph):
                        self.p(0.55, topYY),
                        self.weight())
 
-        bclipPoly = Polygon((self.p(0.5, topY), self.p(1.0, 0.9),
+        bclipPoly = Polygon((self.p(0.5, topY), self.p(1.2, 1.1),
                             self.p(1.0, -1.0), self.p(0.5, -1.0)))
 
         circb = mergeSubPolys([circb]).difference(
