@@ -160,10 +160,13 @@ class TextBox(object):
                 b = None
 
             if isinstance(a, LineBreak):
-                bGlyphBounds = mergeSubPolys([b]).bounds
-                b.x = self.x
-                xloc = b.x - bGlyphBounds[0]
-                yloc += metrics.capHeight() + a.leading
+                if not isinstance(b, LineBreak):
+                    bGlyphBounds = mergeSubPolys([b]).bounds
+                    b.x = self.x
+                    xloc = b.x - bGlyphBounds[0]
+                    yloc += metrics.capHeight() + a.leading
+                else:
+                    xloc = self.x
 
                 allGlyphs += wordGlyphs
                 wordGlyphs = []
