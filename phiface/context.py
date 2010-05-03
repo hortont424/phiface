@@ -66,6 +66,11 @@ class Context(object):
 
     def draw(self, glyphs):
         from glyph import Glyph
+
+        allMerged = mergeSubPolys(glyphs)
+        self.surface.set_size(allMerged.bounds[0] + allMerged.bounds[2],
+                              allMerged.bounds[1] + allMerged.bounds[3])
+
         for glyph in glyphs:
             if not isinstance(glyph, Glyph):
                 print "draw() should be given a list of Glyphs"
