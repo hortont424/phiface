@@ -149,7 +149,6 @@ class TextBox(object):
         yloc = self.y
 
         metrics = Glyph(0, 0, capHeight=self.size)
-        firstCharacterOnLine = True
 
         for i in range(len(self.glyphs)):
             a = self.glyphs[i]
@@ -160,7 +159,7 @@ class TextBox(object):
                 b = None
 
             if isinstance(a, LineBreak):
-                if not isinstance(b, LineBreak):
+                if b and not isinstance(b, LineBreak):
                     bGlyphBounds = mergeSubPolys([b]).bounds
                     b.x = self.x
                     xloc = b.x - bGlyphBounds[0]
@@ -171,7 +170,6 @@ class TextBox(object):
 
                 allGlyphs += wordGlyphs
                 wordGlyphs = []
-                firstCharacterOnLine = True
                 continue
 
             glyphBounds = mergeSubPolys([a]).bounds
@@ -188,14 +186,11 @@ class TextBox(object):
 
             xloc += xShift
 
-            firstCharacterOnLine = False
-
             if isinstance(a, spaceGlyph):
                 if len(wordGlyphs):
                     if xloc > self.width:
                         xloc = self.x
                         yloc += metrics.capHeight() + self.leading
-                        firstCharacterOnLine = True
 
                     allGlyphs += wordGlyphs
                     wordGlyphs = []
