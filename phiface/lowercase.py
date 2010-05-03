@@ -465,6 +465,19 @@ class sGlyph(Glyph):
         topYY -= shift / 2.0
         topY -= shift / 4.0
 
+        rw = self.weight() / self.capHeight() * 100
+
+        if rw >= 7.0:
+            topYY -= (self.weight() / self.xHeight()) * 0.0275
+        elif rw >= 5.0:
+            topYY -= (self.weight() / self.xHeight()) * 0.03
+        elif rw >= 3.0:
+            topYY -= (self.weight() / self.xHeight()) * 0.04
+        elif rw >= 2.0:
+            topYY -= (self.weight() / self.xHeight()) * 0.06
+        elif rw >= 0.5:
+            topYY -= (self.weight() / self.xHeight()) * 0.22
+
         circa = Circle(self.p(0.48, bottomY, xHeight=True),
                        self.p(0.48, bottomYY, xHeight=True),
                        self.weight())
