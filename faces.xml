@@ -3,13 +3,11 @@
 <textbox x='30' y='30' size='50'>
 <r>Horton Slab</r><br/>
 <size px='32'>
-<leading px='0'>
 <u>  Ultralight <i>Italic</i></u><br/>
 <l>  Light <i>Italic</i></l><br/>
 <r>  Regular <i>Italic</i></r><br/>
 <b>  Bold <i>Italic</i></b><br/>
 <h>  Heavy <i>Italic</i></h>
-</leading>
 </size>
 </textbox>
 </document>
