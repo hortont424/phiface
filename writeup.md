@@ -93,11 +93,11 @@ Weights
 
 Technically, you can generate glyphs of whatever weight you want, because it's all procedurally generated. However, I blessed a few weights so that I didn't have to look at/tweak more than a few weights:
 
-Ultralight = 0.5
-Light = 2.0
-Regular = 3.0
-Bold = 5.0
-Heavy = 7.0
+    Ultralight = 0.5
+    Light = 2.0
+    Regular = 3.0
+    Bold = 5.0
+    Heavy = 7.0
 
 Kerning
 -------
@@ -126,13 +126,13 @@ The main program takes an XML file with a very simple format. For example, you c
 
 There are only a few tags defined:
 
-u, l, r, b, h = Weight (ultralight, light, regular, bold, heavy)
-i = Slanted/Italic
-br = Newline
-textbox (attributes x, y, size, width, height) = A reflowing text container
-leading, tracking, size (attribute px) = Obvious text properties
-color (attributes r, g, b, a) = Obvious color properties
-sans, serif = Turn on/off serifs
+    u, l, r, b, h = Weight (ultralight, light, regular, bold, heavy)
+    i = Slanted/Italic
+    br = Newline
+    textbox (attributes x, y, size, width, height) = A reflowing text container
+    leading, tracking, size (attribute px) = Obvious text properties
+    color (attributes r, g, b, a) = Obvious color properties
+    sans, serif = Turn on/off serifs
 
 More Stuff
 ----------
